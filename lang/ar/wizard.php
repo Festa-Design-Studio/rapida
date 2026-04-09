@@ -125,4 +125,12 @@ return [
     'landmark_picker_label' => 'أو اختر معلماً معروفاً:',
     // Map
     'map_aria_label' => 'الخريطة — اضغط لتحديد الموقع',
+    // Photo guidance drawer
+    'photo_guide_title' => 'كيف تلتقط صورة مفيدة',
+    'photo_guide_front' => 'قف أمام واجهة المبنى',
+    'photo_guide_whole' => 'التقط المبنى بالكامل في الإطار',
+    'photo_guide_closeup' => 'التقط صورة قريبة لأكثر منطقة متضررة',
+    'photo_guide_no_faces' => 'لا تصور الأشخاص أو الوجوه',
+    'photo_guide_gps' => 'يتم تسجيل GPS من موقعك — قف أمام المبنى',
+    'photo_guide_perimeter' => 'التقط من مسافة آمنة — لا تقترب',
 ];

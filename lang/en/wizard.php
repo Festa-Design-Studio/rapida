@@ -125,4 +125,12 @@ return [
     'landmark_picker_label' => 'Or select a known landmark:',
     // Map
     'map_aria_label' => 'Map — tap to select location',
+    // Photo guidance drawer
+    'photo_guide_title' => 'How to take a useful photo',
+    'photo_guide_front' => 'Stand facing the FRONT of the building',
+    'photo_guide_whole' => 'Capture the whole building in the frame',
+    'photo_guide_closeup' => 'Take a close-up of the most damaged area',
+    'photo_guide_no_faces' => 'Do not photograph people or faces',
+    'photo_guide_gps' => 'GPS is captured from where you stand — stand at the front',
+    'photo_guide_perimeter' => 'Photograph from a safe distance — do not approach',
 ];
