@@ -29,6 +29,9 @@ Route::middleware('auth:undp')->group(function () {
     Route::patch('/dashboard/reports/{report}/verify', [VerificationController::class, 'verify'])->name('reports.verify');
     Route::get('/dashboard/export/csv', [ExportController::class, 'csv'])->name('export.csv');
     Route::get('/dashboard/export/geojson', [ExportController::class, 'geojson'])->name('export.geojson');
+    Route::get('/dashboard/export/kml', [ExportController::class, 'kml'])->name('export.kml');
+    Route::get('/dashboard/export/shapefile', [ExportController::class, 'shapefile'])->name('export.shapefile');
+    Route::get('/dashboard/export/pdf', [ExportController::class, 'pdf'])->name('export.pdf');
 });
 
 // Operator Admin Panel

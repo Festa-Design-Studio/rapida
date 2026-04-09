@@ -39,6 +39,8 @@ class ExportReportsGeoJson implements ShouldQueue
                 'infrastructure_type' => $r->infrastructure_type,
                 'submitted_at' => $r->submitted_at?->toIso8601String(),
                 'completeness_score' => $r->completeness_score,
+                'ai_confidence' => $r->ai_confidence,
+                'ai_suggested_level' => $r->ai_suggested_level instanceof DamageLevel ? $r->ai_suggested_level->value : $r->ai_suggested_level,
             ],
         ]);
 

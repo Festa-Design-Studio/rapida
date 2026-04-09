@@ -84,6 +84,20 @@
                 <span class="text-slate-500">{{ __('rapida.submitted') }}</span>
                 <time datetime="{{ $report->submitted_at?->toIso8601String() }}" class="text-slate-900">{{ $report->submitted_at?->format('M d, Y H:i') ?? '' }}</time>
             </div>
+            @if($report->ai_confidence !== null)
+                @php
+                    $confidencePercent = round($report->ai_confidence * 100);
+                    $confidenceTier = $report->ai_confidence > 0.85 ? 'high' : ($report->ai_confidence >= 0.60 ? 'medium' : 'low');
+                    $confidenceBadgeVariant = 'confidence-' . $confidenceTier;
+                @endphp
+                <div class="py-3 flex justify-between text-body-sm">
+                    <span class="text-slate-500">{{ __('rapida.ai_confidence_label') }}</span>
+                    <span class="flex items-center gap-2">
+                        <x-atoms.badge :variant="$confidenceBadgeVariant">{{ $confidencePercent }}%</x-atoms.badge>
+                        <span class="text-slate-600">{{ __('rapida.ai_confidence_' . $confidenceTier) }}</span>
+                    </span>
+                </div>
+            @endif
         </div>
 
         {{-- Location map — zoomed to street level, single pin --}}

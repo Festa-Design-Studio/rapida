@@ -38,11 +38,13 @@ class ExportReportsCsv implements ShouldQueue
 
         $reports = $query->orderByDesc('submitted_at')->get();
 
-        $csv = "report_id,damage_level,infrastructure_type,crisis_type,latitude,longitude,submitted_at,completeness_score,submitted_via\n";
+        $csv = "report_id,damage_level,infrastructure_type,crisis_type,latitude,longitude,submitted_at,completeness_score,submitted_via,ai_confidence,ai_suggested_level\n";
 
         foreach ($reports as $r) {
             $damageLevel = $r->damage_level instanceof DamageLevel ? $r->damage_level->value : $r->damage_level;
             $submittedVia = $r->submitted_via instanceof SubmissionChannel ? $r->submitted_via->value : $r->submitted_via;
+
+            $aiSuggestedLevel = $r->ai_suggested_level instanceof DamageLevel ? $r->ai_suggested_level->value : $r->ai_suggested_level;
 
             $csv .= implode(',', [
                 $r->id,
@@ -54,6 +56,8 @@ class ExportReportsCsv implements ShouldQueue
                 $r->submitted_at,
                 $r->completeness_score,
                 $submittedVia,
+                $r->ai_confidence,
+                $aiSuggestedLevel,
             ])."\n";
         }
 

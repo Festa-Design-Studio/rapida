@@ -108,6 +108,13 @@ return [
     'damage_partial' => 'جزئي',
     'damage_complete' => 'كامل',
 
+    // واجهة — ثقة الذكاء الاصطناعي
+    'ai_confidence_label' => 'ثقة الذكاء الاصطناعي',
+    'ai_confidence_high' => 'ثقة عالية',
+    'ai_confidence_medium' => 'ثقة متوسطة',
+    'ai_confidence_low' => 'ثقة منخفضة',
+    'ai_suggestion_with_confidence' => 'نعتقد أن هذا :level (ثقة :percent). هل يبدو صحيحًا؟',
+
     // واجهة — حالة المزامنة
     'sync_synced' => 'متزامن',
     'sync_pending' => 'في انتظار المزامنة',

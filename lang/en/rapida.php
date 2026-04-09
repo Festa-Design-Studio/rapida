@@ -108,6 +108,13 @@ return [
     'damage_partial' => 'Partial',
     'damage_complete' => 'Complete',
 
+    // UI — AI confidence
+    'ai_confidence_label' => 'AI Confidence',
+    'ai_confidence_high' => 'High confidence',
+    'ai_confidence_medium' => 'Medium confidence',
+    'ai_confidence_low' => 'Low confidence',
+    'ai_suggestion_with_confidence' => 'We think this is :level (:percent confident). Does that look right?',
+
     // UI — Sync status
     'sync_synced' => 'Synced',
     'sync_pending' => 'Pending sync',

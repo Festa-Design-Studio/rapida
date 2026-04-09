@@ -52,6 +52,8 @@ new class extends Component {
     /** Step 3: AI suggestion */
     public ?string $aiSuggestedLevel = null;
 
+    public ?float $aiConfidence = null;
+
     /** Step 7: Confirmation */
     public ?string $reportId = null;
 
@@ -358,9 +360,22 @@ new class extends Component {
                     <div class="rounded-lg bg-rapida-blue-50 border border-rapida-blue-100 p-4 flex items-start gap-3">
                         <x-atoms.icon name="info" size="md" class="text-rapida-blue-700 shrink-0 mt-0.5" />
                         <div>
-                            <p class="text-body-sm font-medium text-rapida-blue-900">
-                                {{ __('rapida.ai_suggestion_prompt', ['level' => ucfirst($aiSuggestedLevel)]) }}
-                            </p>
+                            @if($aiConfidence !== null)
+                                @php
+                                    $wizardConfidencePercent = round($aiConfidence * 100);
+                                    $wizardConfidenceTier = $aiConfidence > 0.85 ? 'high' : ($aiConfidence >= 0.60 ? 'medium' : 'low');
+                                @endphp
+                                <p class="text-body-sm font-medium text-rapida-blue-900">
+                                    {{ __('rapida.ai_suggestion_with_confidence', ['level' => ucfirst($aiSuggestedLevel), 'percent' => $wizardConfidencePercent . '%']) }}
+                                </p>
+                                <div class="mt-1.5">
+                                    <x-atoms.badge :variant="'confidence-' . $wizardConfidenceTier">{{ __('rapida.ai_confidence_' . $wizardConfidenceTier) }}</x-atoms.badge>
+                                </div>
+                            @else
+                                <p class="text-body-sm font-medium text-rapida-blue-900">
+                                    {{ __('rapida.ai_suggestion_prompt', ['level' => ucfirst($aiSuggestedLevel)]) }}
+                                </p>
+                            @endif
                         </div>
                     </div>
                 @elseif(! $damageLevel && $photo)

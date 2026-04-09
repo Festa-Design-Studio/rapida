@@ -16,6 +16,9 @@
         'verified'  => 'bg-rapida-blue-700 text-white border-transparent',
         'info'      => 'bg-rapida-blue-50 text-rapida-blue-900 border-rapida-blue-100',
         'language'  => 'bg-slate-100 text-slate-700 border-slate-200',
+        'confidence-high'   => 'bg-ground-green-50 text-ground-green-900 border-ground-green-200',
+        'confidence-medium' => 'bg-alert-amber-50 text-alert-amber-900 border-alert-amber-100',
+        'confidence-low'    => 'bg-crisis-rose-50 text-crisis-rose-900 border-crisis-rose-100',
         default     => 'bg-slate-100 text-slate-700 border-slate-200',
     };
 

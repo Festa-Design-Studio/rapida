@@ -20,9 +20,13 @@ new class extends Component
             'end_date' => $this->endDate,
         ]);
 
-        $route = $this->format === 'geojson'
-            ? route('export.geojson', $params)
-            : route('export.csv', $params);
+        $route = match ($this->format) {
+            'geojson' => route('export.geojson', $params),
+            'kml' => route('export.kml', $params),
+            'shapefile' => route('export.shapefile', $params),
+            'pdf' => route('export.pdf', $params),
+            default => route('export.csv', $params),
+        };
 
         return $this->redirect($route);
     }
@@ -37,6 +41,9 @@ new class extends Component
         <x-atoms.select name="format" label="Format" wire:model="format">
             <option value="csv">CSV</option>
             <option value="geojson">GeoJSON</option>
+            <option value="kml">KML</option>
+            <option value="shapefile">Shapefile (ZIP)</option>
+            <option value="pdf">PDF Summary</option>
         </x-atoms.select>
 
         {{-- Damage level filter --}}

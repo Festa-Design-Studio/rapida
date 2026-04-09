@@ -69,6 +69,7 @@ new class extends Component
                 <tr>
                     <th class="px-4 py-3 font-medium">ID</th>
                     <th class="px-4 py-3 font-medium">Damage</th>
+                    <th class="px-4 py-3 font-medium">{{ __('rapida.ai_confidence_label') }}</th>
                     <th class="px-4 py-3 font-medium">Infrastructure</th>
                     <th class="px-4 py-3 font-medium">Status</th>
                     <th class="px-4 py-3 font-medium">Submitted</th>
@@ -83,6 +84,17 @@ new class extends Component
                             <x-atoms.badge :variant="$report->damage_level?->value ?? 'default'">
                                 {{ $report->damage_level?->value ?? 'Unknown' }}
                             </x-atoms.badge>
+                        </td>
+                        <td class="px-4 py-3">
+                            @if($report->ai_confidence !== null)
+                                @php
+                                    $confidencePercent = round($report->ai_confidence * 100);
+                                    $confidenceTier = $report->ai_confidence > 0.85 ? 'high' : ($report->ai_confidence >= 0.60 ? 'medium' : 'low');
+                                @endphp
+                                <x-atoms.badge :variant="'confidence-' . $confidenceTier">{{ $confidencePercent }}%</x-atoms.badge>
+                            @else
+                                <span class="text-slate-400 text-caption">&mdash;</span>
+                            @endif
                         </td>
                         <td class="px-4 py-3 text-slate-600 capitalize">{{ str_replace('_', ' ', $report->infrastructure_type) }}</td>
                         <td class="px-4 py-3">
@@ -109,7 +121,7 @@ new class extends Component
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-8 text-center text-slate-400">No reports pending verification.</td>
+                        <td colspan="7" class="px-4 py-8 text-center text-slate-400">No reports pending verification.</td>
                     </tr>
                 @endforelse
             </tbody>
