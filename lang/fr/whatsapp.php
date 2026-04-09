@@ -12,7 +12,9 @@ return [
     'report_submitted' => "Merci. Rapport #:report_id soumis!\n\nVotre contribution aide le PNUD a coordonner l'aide.",
     'session_restarted' => 'Session reinitialisee. Envoyez une photo pour recommencer.',
     'session_cancelled' => 'Signalement annule. Tapez RAPIDA pour recommencer.',
-    'max_retries_exceeded' => 'Trop de tentatives. Tapez RAPIDA pour recommencer.',
+    'max_retries_exceeded' => "Ca n'a pas fonctionne plusieurs fois. Tapez RAPIDA et on recommence.",
     'confirm_or_restart' => 'Tapez CONFIRMER pour soumettre ou RECOMMENCER.',
-    'unknown_state' => 'Desole, une erreur. Tapez RAPIDA pour recommencer.',
+    'unknown_state' => 'Votre session a expire apres 30 minutes. Tapez RAPIDA quand vous etes pret.',
+    'whatsapp_disabled' => "Cette crise utilise le mode anonyme uniquement. Veuillez utiliser l'application web.",
+    'location_conflict_mode' => 'Decrivez ou se trouve le dommage — un nom de rue, un point de repere ou un code a trois mots.',
 ];

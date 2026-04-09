@@ -14,6 +14,10 @@ class WhatsAppBotService
 
     private const MAX_RETRIES = 3;
 
+    public function __construct(
+        private readonly CompletenessScoreService $scoreService,
+    ) {}
+
     /**
      * @param  array{From?: string, Body?: string, MediaUrl0?: string, Latitude?: string, Longitude?: string}  $payload
      * @return array{message: string}
@@ -63,11 +67,17 @@ class WhatsAppBotService
     private function stepStart(string $key, string $body, string $lang): array
     {
         $crisisSlug = $this->extractCrisisSlug($body);
+        $crisis = Crisis::where('slug', $crisisSlug)->first();
+
+        if ($crisis && ! $crisis->whatsapp_enabled) {
+            return ['message' => __('whatsapp.whatsapp_disabled', [], $lang)];
+        }
 
         $session = [
             'step' => 1,
             'language' => $lang,
             'crisis_slug' => $crisisSlug,
+            'conflict_context' => $crisis?->conflict_context ?? false,
             'idempotency_key' => Str::uuid()->toString(),
             'retry_count' => 0,
         ];
@@ -99,7 +109,11 @@ class WhatsAppBotService
         $session['retry_count'] = 0;
         $this->setSession($key, $session);
 
-        return ['message' => __('whatsapp.photo_received_send_location', [], $lang)];
+        $locationPrompt = ($session['conflict_context'] ?? false)
+            ? __('whatsapp.location_conflict_mode', [], $lang)
+            : __('whatsapp.photo_received_send_location', [], $lang);
+
+        return ['message' => $locationPrompt];
     }
 
     /**
@@ -218,9 +232,12 @@ class WhatsAppBotService
             $crisis = Crisis::where('status', 'active')->first();
         }
 
+        $isConflict = $crisis->conflict_context ?? false;
+
         $report = DamageReport::create([
             'crisis_id' => $crisis->id,
             'building_footprint_id' => $session['building_footprint_id'] ?? null,
+            'device_fingerprint_id' => $isConflict ? null : ($session['device_fingerprint_id'] ?? null),
             'photo_url' => $session['photo_url'] ?? 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg',
             'photo_hash' => $session['photo_hash'] ?? hash('sha256', 'placeholder'),
             'damage_level' => $session['damage_level'],
@@ -234,11 +251,12 @@ class WhatsAppBotService
             'landmark_text' => $session['landmark_text'] ?? null,
             'location_method' => $session['location_method'] ?? 'coordinate_only',
             'submitted_via' => 'whatsapp',
+            'reporter_tier' => $isConflict ? 'anonymous' : 'anonymous',
             'idempotency_key' => $session['idempotency_key'],
             'submitted_at' => now(),
             'synced_at' => now(),
             'is_flagged' => false,
-            'completeness_score' => $this->calculateScore($session),
+            'completeness_score' => $this->scoreService->scoreFromArray($session),
         ]);
 
         ReportSubmitted::dispatch($report);
@@ -317,21 +335,5 @@ class WhatsAppBotService
     private function isCancel(string $body): bool
     {
         return in_array(strtolower(trim($body)), ['stop', 'cancel', 'annuler', 'cancelar', "\u{53D6}\u{6D88}"]);
-    }
-
-    /**
-     * @param  array<string, mixed>  $session
-     */
-    private function calculateScore(array $session): int
-    {
-        $score = 0;
-        if (! empty($session['photo_url'])) {
-            $score += 2;
-        }
-        if (! empty($session['damage_level']) && ! empty($session['infrastructure_type']) && ! empty($session['crisis_type'])) {
-            $score += 3;
-        }
-
-        return $score;
     }
 }

@@ -7,9 +7,9 @@
 
 @php
     $colors = match($type) {
-        'success' => 'bg-green-50 border-green-200 text-green-800',
-        'warning' => 'bg-amber-50 border-amber-200 text-amber-800',
-        'error'   => 'bg-red-50 border-red-200 text-red-800',
+        'success' => 'bg-ground-green-50 border-ground-green-200 text-ground-green-900',
+        'warning' => 'bg-alert-amber-50 border-alert-amber-100 text-alert-amber-900',
+        'error'   => 'bg-crisis-rose-50 border-crisis-rose-100 text-crisis-rose-900',
         default   => 'bg-rapida-blue-50 border-rapida-blue-100 text-rapida-blue-900',
     };
 

@@ -23,13 +23,13 @@
 
 <div
     {{ $attributes->class([
-        'w-full rounded-xl bg-green-50 border border-green-200 p-8 flex flex-col items-center text-center gap-4',
+        'w-full rounded-xl bg-ground-green-50 border border-ground-green-200 p-8 flex flex-col items-center text-center gap-4',
     ]) }}
     role="status"
     aria-live="polite"
     aria-label="Report submitted successfully"
 >
-    <x-atoms.icon name="check-circle" size="xl" class="text-green-600" />
+    <x-atoms.icon name="check-circle" size="xl" class="text-ground-green-700" />
 
     <div class="space-y-2">
         <h2 class="text-h3 font-heading font-semibold text-slate-900">Report Submitted</h2>

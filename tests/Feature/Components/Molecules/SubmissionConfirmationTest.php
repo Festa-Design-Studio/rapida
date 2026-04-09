@@ -16,7 +16,7 @@ it('renders confirmation message', function () {
 it('composes icon atom for check circle', function () {
     $view = $this->blade('<x-molecules.submission-confirmation />');
 
-    $view->assertSee('text-green-600', false);
+    $view->assertSee('text-ground-green-700', false);
 });
 
 it('composes badge atom for damage level', function () {

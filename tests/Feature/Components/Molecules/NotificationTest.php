@@ -12,21 +12,21 @@ it('renders success notification', function () {
     $view = $this->blade('<x-molecules.notification type="success" message="Report submitted." />');
 
     $view->assertSee('Report submitted.');
-    $view->assertSee('bg-green-50', false);
+    $view->assertSee('bg-ground-green-50', false);
 });
 
 it('renders warning notification', function () {
     $view = $this->blade('<x-molecules.notification type="warning" message="Low battery." />');
 
     $view->assertSee('Low battery.');
-    $view->assertSee('bg-amber-50', false);
+    $view->assertSee('bg-alert-amber-50', false);
 });
 
 it('renders error notification', function () {
     $view = $this->blade('<x-molecules.notification type="error" message="Upload failed." />');
 
     $view->assertSee('Upload failed.');
-    $view->assertSee('bg-red-50', false);
+    $view->assertSee('bg-crisis-rose-50', false);
 });
 
 it('uses alert role for errors and warnings', function () {
