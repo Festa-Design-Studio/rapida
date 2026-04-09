@@ -41,6 +41,17 @@
             @endforeach
 
             @auth('undp')
+                <a
+                    href="{{ route('dashboard') }}"
+                    class="px-4 py-2 rounded-lg text-body-sm font-medium transition-colors duration-150 min-h-[48px] flex items-center
+                           {{ $currentRoute === 'dashboard'
+                               ? 'bg-rapida-blue-100 text-rapida-blue-900'
+                               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}"
+                    @if($currentRoute === 'dashboard') aria-current="page" @endif
+                >
+                    Dashboard
+                </a>
+
                 @if(in_array(auth('undp')->user()->role->value, ['operator', 'superadmin']))
                     <a
                         href="{{ route('admin.index') }}"
@@ -93,6 +104,16 @@
                 ]"
                 variant="dropdown"
             />
+
+            {{-- Logout (UNDP authenticated users) --}}
+            @auth('undp')
+                <form method="POST" action="{{ route('undp.logout') }}" class="inline">
+                    @csrf
+                    <x-atoms.button type="submit" variant="ghost" size="sm">
+                        Logout
+                    </x-atoms.button>
+                </form>
+            @endauth
 
             {{-- Safe Exit --}}
             <x-atoms.button

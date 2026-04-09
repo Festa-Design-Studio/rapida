@@ -63,18 +63,27 @@ new class extends Component
     </div>
 
     {{-- Map area --}}
-    <div class="flex-1 relative min-h-[400px]"
-         x-data="{ ready: true }"
-         x-init="$nextTick(() => ready = true)">
-        <div class="absolute inset-0 flex items-center justify-center bg-surface-page text-slate-600">
-            <div class="text-center">
-                <svg class="mx-auto mb-3 h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                          d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                </svg>
-                <p class="text-body-sm font-medium">Field Map</p>
-                <p class="text-caption text-slate-400 mt-1">Crisis: {{ $crisisSlug ?: 'No active crisis' }}</p>
+    <div class="flex-1 relative min-h-[400px]">
+        @if($crisisSlug)
+            <x-organisms.map-organism
+                height="h-[500px]"
+                :crisisSlug="$crisisSlug"
+                :centerLat="5.56"
+                :centerLng="-0.20"
+                :zoom="13"
+                mode="dashboard"
+            />
+        @else
+            <div class="absolute inset-0 flex items-center justify-center bg-surface-page text-slate-600">
+                <div class="text-center">
+                    <svg class="mx-auto mb-3 h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                    </svg>
+                    <p class="text-body-sm font-medium">Field Map</p>
+                    <p class="text-caption text-slate-400 mt-1">No active crisis</p>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 </div>

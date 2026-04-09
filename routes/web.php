@@ -9,6 +9,7 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ReporterController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\EnsureCrisisIsActive;
+use App\Http\Middleware\EnsureIsOperator;
 use App\Http\Middleware\SetLocaleFromCrisis;
 use App\Models\Crisis;
 use App\Models\DamageReport;
@@ -35,7 +36,7 @@ Route::middleware('auth:undp')->group(function () {
 });
 
 // Operator Admin Panel
-Route::middleware('auth:undp')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth:undp', EnsureIsOperator::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', fn () => redirect()->route('admin.crises.index'))->name('index');
     Route::get('/crises', fn () => view('admin.crises'))->name('crises.index');
     Route::get('/landmarks', fn () => view('admin.landmarks'))->name('landmarks.index');
@@ -89,7 +90,14 @@ Route::middleware(SetLocaleFromCrisis::class)->group(function () {
     })->name('report-detail');
 });
 
-Route::get('/dashboard', fn () => redirect()->route('dashboard.analyst'))->name('dashboard');
+Route::get('/dashboard', function () {
+    $user = auth('undp')->user();
+
+    return match ($user?->role?->value) {
+        'field_coordinator' => redirect()->route('dashboard.field'),
+        default => redirect()->route('dashboard.analyst'),
+    };
+})->middleware('auth:undp')->name('dashboard');
 Route::get('/export', fn () => redirect()->route('dashboard.analyst'))->name('export');
 
 // Reporter Account (optional — post-submission)
