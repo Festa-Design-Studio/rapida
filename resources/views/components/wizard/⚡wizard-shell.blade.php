@@ -140,14 +140,19 @@ new class extends Component {
         ]);
 
         // Save modular question responses
+        $moduleKeyMap = [
+            'electricity_condition' => ['electricity', 'condition'],
+            'health_functioning' => ['health', 'functioning'],
+            'pressing_needs_needs' => ['pressing_needs', 'needs'],
+        ];
         foreach ($this->moduleResponses as $key => $value) {
             if ($value === null || $value === '' || $value === []) {
                 continue;
             }
-            if (! str_contains($key, '.')) {
+            if (! isset($moduleKeyMap[$key])) {
                 continue;
             }
-            [$moduleKey, $fieldKey] = explode('.', $key, 2);
+            [$moduleKey, $fieldKey] = $moduleKeyMap[$key];
             \App\Models\ReportModule::create([
                 'report_id' => $report->id,
                 'module_key' => $moduleKey,
@@ -507,9 +512,9 @@ new class extends Component {
                                     'unknown' => 'module_option_unknown',
                                 ] as $optValue => $optKey)
                                     <label class="flex items-center gap-3 h-12 px-4 rounded-lg border cursor-pointer transition-colors duration-150
-                                                {{ ($moduleResponses['electricity.condition'] ?? '') === $optValue ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
+                                                {{ ($moduleResponses['electricity_condition'] ?? '') === $optValue ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
                                         <input type="radio" name="electricity_condition" value="{{ $optValue }}"
-                                               wire:model.live="moduleResponses.electricity.condition"
+                                               wire:model.live="moduleResponses.electricity_condition"
                                                class="h-5 w-5 accent-rapida-blue-700" />
                                         <span class="text-body text-slate-900">{{ __("wizard.{$optKey}") }}</span>
                                     </label>
@@ -528,9 +533,9 @@ new class extends Component {
                                     'unknown' => 'module_option_unknown',
                                 ] as $optValue => $optKey)
                                     <label class="flex items-center gap-3 h-12 px-4 rounded-lg border cursor-pointer transition-colors duration-150
-                                                {{ ($moduleResponses['health.functioning'] ?? '') === $optValue ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
+                                                {{ ($moduleResponses['health_functioning'] ?? '') === $optValue ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
                                         <input type="radio" name="health_functioning" value="{{ $optValue }}"
-                                               wire:model.live="moduleResponses.health.functioning"
+                                               wire:model.live="moduleResponses.health_functioning"
                                                class="h-5 w-5 accent-rapida-blue-700" />
                                         <span class="text-body text-slate-900">{{ __("wizard.{$optKey}") }}</span>
                                     </label>
@@ -554,9 +559,9 @@ new class extends Component {
                                     'other' => 'needs_other',
                                 ] as $optValue => $optKey)
                                     <label class="flex items-start gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-colors duration-150
-                                                {{ in_array($optValue, $moduleResponses['pressing_needs.needs'] ?? []) ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
+                                                {{ in_array($optValue, $moduleResponses['pressing_needs_needs'] ?? []) ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500' }}">
                                         <input type="checkbox" value="{{ $optValue }}"
-                                               wire:model.live="moduleResponses.pressing_needs.needs"
+                                               wire:model.live="moduleResponses.pressing_needs_needs"
                                                class="mt-0.5 h-5 w-5 rounded accent-rapida-blue-700" />
                                         <span class="text-body text-slate-900">{{ __("wizard.{$optKey}") }}</span>
                                     </label>
