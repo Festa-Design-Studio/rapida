@@ -30,7 +30,7 @@
 
         {{-- What is this? --}}
         <p class="text-body text-text-secondary">
-            {{ __('onboarding.what_is_rapida', ['default' => 'You are using RAPIDA — a damage reporting tool made for UNDP to help communities after a crisis.']) }}
+            {{ __('onboarding.what_is_rapida') }}
         </p>
 
         {{-- Data use explanation --}}

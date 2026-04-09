@@ -41,7 +41,7 @@
     {{-- Photo zone --}}
     <div class="relative {{ $photoHeight }} bg-slate-100">
         @if($photo)
-            <img src="{{ $photo }}" alt="Damage photo at {{ $location }}" class="w-full h-full object-cover" />
+            <img src="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}" alt="Damage photo at {{ $location }}" class="w-full h-full object-cover" />
         @else
             <div class="w-full h-full flex items-center justify-center text-slate-400">
                 <x-atoms.icon name="photo" size="lg" />

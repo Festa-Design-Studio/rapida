@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'what_is_rapida' => 'Vous utilisez RAPIDA — un outil de signalement des degats concu pour le PNUD afin d\'aider les communautes apres une crise.',
     'headline' => 'Signalez les dégâts dans votre communauté',
     'subtext' => 'Aidez les secours à atteindre ceux qui en ont besoin. Choisissez votre langue.',
     'choose_language' => 'Choisissez votre langue',

@@ -11,9 +11,20 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1a3a4a">
 
-    {{-- Fonts self-hosted in public/fonts/ — no CDN dependency for offline PWA (Gap C5) --}}
+    {{-- Self-hosted fonts — declared here (not in CSS) to avoid Vite dev server URL rewriting --}}
     <link rel="preload" href="/fonts/inter/Inter-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/noto-sans/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        @font-face { font-family: 'Inter'; src: url('/fonts/inter/Inter-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Inter'; src: url('/fonts/inter/Inter-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'Inter'; src: url('/fonts/inter/Inter-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+        @font-face { font-family: 'Inter'; src: url('/fonts/inter/Inter-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Noto Sans'; src: url('/fonts/noto-sans/NotoSans-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Noto Sans'; src: url('/fonts/noto-sans/NotoSans-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+        @font-face { font-family: 'Noto Sans'; src: url('/fonts/noto-sans/NotoSans-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Noto Sans Arabic'; src: url('/fonts/noto-sans-arabic/NotoSansArabic-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Noto Sans Arabic'; src: url('/fonts/noto-sans-arabic/NotoSansArabic-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+    </style>
 
     {{-- Vite assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

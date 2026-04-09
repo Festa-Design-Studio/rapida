@@ -78,7 +78,7 @@ it('renders standard variant with description', function () {
 });
 
 it('renders photo when provided', function () {
-    $view = $this->blade('<x-molecules.damage-report-card photo="/images/photo.jpg" location="Test" />');
+    $view = $this->blade('<x-molecules.damage-report-card photo="https://example.com/photo.jpg" location="Test" />');
 
-    $view->assertSee('src="/images/photo.jpg"', false);
+    $view->assertSee('src="https://example.com/photo.jpg"', false);
 });

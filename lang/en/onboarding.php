@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'what_is_rapida' => 'You are using RAPIDA — a damage reporting tool made for UNDP to help communities after a crisis.',
     'headline' => 'Report damage in your community',
     'subtext' => 'Help responders reach those in need. Select your language to begin.',
     'choose_language' => 'Choose your language',

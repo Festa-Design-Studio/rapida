@@ -41,7 +41,7 @@
         {{-- Photo --}}
         <div class="w-full h-64 rounded-xl bg-slate-200 flex items-center justify-center border border-slate-200 overflow-hidden">
             @if($report->photo_url)
-                <img src="{{ $report->photo_url }}" alt="Damage photo" class="w-full h-full object-cover" />
+                <img src="{{ str_starts_with($report->photo_url, 'http') ? $report->photo_url : Storage::url($report->photo_url) }}" alt="Damage photo" class="w-full h-full object-cover" />
             @else
                 <div class="text-center space-y-2">
                     <x-atoms.icon name="camera" size="xl" class="text-slate-400 mx-auto" />
