@@ -4,12 +4,27 @@
 ])
 
 <div
+    x-data="{
+        switchLang(code) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('onboarding.language') }}';
+            const token = document.createElement('input');
+            token.type = 'hidden'; token.name = '_token'; token.value = '{{ csrf_token() }}';
+            const lang = document.createElement('input');
+            lang.type = 'hidden'; lang.name = 'language'; lang.value = code;
+            form.appendChild(token);
+            form.appendChild(lang);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }"
     {{ $attributes->class(['flex flex-wrap gap-2']) }}
     role="radiogroup"
     aria-label="Language selection"
 >
     @foreach($languages as $code => $name)
-        <label class="cursor-pointer">
+        <label class="cursor-pointer" @click.prevent="switchLang('{{ $code }}')">
             <input
                 type="radio"
                 name="language"

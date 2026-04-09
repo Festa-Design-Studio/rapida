@@ -27,18 +27,18 @@
     {{-- Content --}}
     <main class="flex-1 px-4 md:px-6 py-8 max-w-3xl mx-auto w-full">
         <header class="mb-6">
-            <h1 class="text-h1 font-heading font-bold text-slate-900">My Reports</h1>
-            <p class="text-body text-slate-600 mt-1">Your submitted damage reports. Your data is always yours.</p>
+            <h1 class="text-h1 font-heading font-bold text-slate-900">{{ __('rapida.my_reports') }}</h1>
+            <p class="text-body text-slate-600 mt-1">{{ __('rapida.my_reports_desc') }}</p>
         </header>
 
         {{-- Sync summary --}}
         @if($reports->isNotEmpty())
             <div class="flex flex-wrap gap-2 mb-6">
                 @if($syncedCount > 0)
-                    <x-atoms.badge variant="synced">{{ $syncedCount }} Synced</x-atoms.badge>
+                    <x-atoms.badge variant="synced">{{ $syncedCount }} {{ __('rapida.synced') }}</x-atoms.badge>
                 @endif
                 @if($pendingCount > 0)
-                    <x-atoms.badge variant="pending">{{ $pendingCount }} Pending</x-atoms.badge>
+                    <x-atoms.badge variant="pending">{{ $pendingCount }} {{ __('rapida.pending') }}</x-atoms.badge>
                 @endif
             </div>
         @endif
@@ -46,14 +46,14 @@
         {{-- Report feed --}}
         <x-organisms.community-report-feed
             :reports="$reportCards"
-            emptyMessage="You haven't submitted any reports yet."
+            :emptyMessage="__('rapida.no_reports_yet')"
         />
 
         {{-- CTA --}}
         <div class="mt-8 text-center">
             <a href="{{ route('submit') }}">
                 <x-atoms.button variant="primary" size="lg">
-                    Submit New Report
+                    {{ __('rapida.submit_new_report') }}
                 </x-atoms.button>
             </a>
         </div>

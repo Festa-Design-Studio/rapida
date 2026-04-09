@@ -20,25 +20,25 @@
     {{-- Header --}}
     <div class="text-center space-y-2">
         <x-atoms.icon name="community" size="xl" class="text-rapida-blue-700 mx-auto" />
-        <h2 class="text-h3 font-heading font-semibold text-slate-900">Community Contributions</h2>
-        <p class="text-body text-slate-600">Every report helps responders reach those in need faster.</p>
+        <h2 class="text-h3 font-heading font-semibold text-slate-900">{{ __('rapida.community_contributions') }}</h2>
+        <p class="text-body text-slate-600">{{ __('rapida.community_contributions_desc') }}</p>
     </div>
 
     {{-- Community stats --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="rounded-lg bg-rapida-blue-50 border border-rapida-blue-100 p-4 text-center">
             <p class="text-display font-heading font-bold text-rapida-blue-900">{{ $communityCount }}</p>
-            <p class="text-body-sm text-rapida-blue-700">Community members have submitted reports</p>
+            <p class="text-body-sm text-rapida-blue-700">{{ __('rapida.community_count_label') }}</p>
         </div>
         <div class="rounded-lg bg-slate-50 border border-slate-200 p-4 text-center">
             <p class="text-display font-heading font-bold text-slate-900">{{ $userReportCount }}</p>
-            <p class="text-body-sm text-slate-600">Reports you have submitted</p>
+            <p class="text-body-sm text-slate-600">{{ __('rapida.user_count_label') }}</p>
         </div>
     </div>
 
     {{-- Earned badges --}}
     <div>
-        <h3 class="text-h4 font-heading font-semibold text-slate-900 mb-3">Achievements</h3>
+        <h3 class="text-h4 font-heading font-semibold text-slate-900 mb-3">{{ __('rapida.achievements') }}</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             @foreach($defaultBadges as $badge)
                 <div class="flex items-center gap-3 rounded-lg border p-4
@@ -53,9 +53,9 @@
                             {{ $badge['name'] }}
                         </p>
                         @if($badge['earned'])
-                            <x-atoms.badge variant="verified" size="default">Earned</x-atoms.badge>
+                            <x-atoms.badge variant="verified" size="default">{{ __('rapida.earned') }}</x-atoms.badge>
                         @else
-                            <x-atoms.badge variant="draft" size="default">Locked</x-atoms.badge>
+                            <x-atoms.badge variant="draft" size="default">{{ __('rapida.locked') }}</x-atoms.badge>
                         @endif
                     </div>
                 </div>

@@ -40,7 +40,7 @@
             <a href="{{ $crisis ? route('crisis.show', $crisis->slug) : route('onboarding') }}">
                 <x-atoms.button variant="primary" size="lg" class="shadow-lg rounded-full px-8 gap-3">
                     <x-atoms.icon name="camera" size="sm" />
-                    <span>Report Damage</span>
+                    <span>{{ __('rapida.report_damage') }}</span>
                 </x-atoms.button>
             </a>
         </div>
@@ -55,7 +55,7 @@
         aria-label="Toggle report feed"
     >
         <span class="text-h4 font-heading font-semibold text-slate-900">
-            Recent Reports
+            {{ __('rapida.recent_reports') }}
             @if($reports->isNotEmpty())
                 <span class="text-body-sm font-normal text-slate-500">({{ $reports->count() }})</span>
             @endif
@@ -79,8 +79,8 @@
         @if($reports->isEmpty())
             <div class="text-center py-8">
                 <x-atoms.icon name="pin" size="lg" class="text-slate-300 mx-auto mb-2" />
-                <p class="text-body text-slate-500">No reports submitted yet.</p>
-                <p class="text-body-sm text-slate-400 mt-1">Be the first to help your community.</p>
+                <p class="text-body text-slate-500">{{ __('rapida.no_reports_community') }}</p>
+                <p class="text-body-sm text-slate-400 mt-1">{{ __('rapida.be_first') }}</p>
             </div>
         @else
             <div class="space-y-3 pt-2">

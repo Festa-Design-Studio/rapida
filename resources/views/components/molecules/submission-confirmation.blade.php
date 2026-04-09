@@ -7,16 +7,16 @@
 
 @php
     $damageLevelLabel = match($damageLevel) {
-        'minimal'  => 'Minimal',
-        'partial'  => 'Partial',
-        'complete' => 'Complete',
+        'minimal'  => __('rapida.damage_minimal'),
+        'partial'  => __('rapida.damage_partial'),
+        'complete' => __('rapida.damage_complete'),
         default    => ucfirst($damageLevel),
     };
 
     $syncLabel = match($syncStatus) {
-        'synced'  => 'Synced',
-        'pending' => 'Pending sync',
-        'failed'  => 'Sync failed',
+        'synced'  => __('rapida.sync_synced'),
+        'pending' => __('rapida.sync_pending'),
+        'failed'  => __('rapida.sync_failed'),
         default   => ucfirst($syncStatus),
     };
 @endphp
@@ -32,8 +32,8 @@
     <x-atoms.icon name="check-circle" size="xl" class="text-ground-green-700" />
 
     <div class="space-y-2">
-        <h2 class="text-h3 font-heading font-semibold text-slate-900">Report Submitted</h2>
-        <p class="text-body text-slate-600">Your damage report has been recorded successfully.</p>
+        <h2 class="text-h3 font-heading font-semibold text-slate-900">{{ __('rapida.report_submitted') }}</h2>
+        <p class="text-body text-slate-600">{{ __('rapida.report_submitted_desc') }}</p>
     </div>
 
     <div class="flex flex-wrap items-center justify-center gap-2">
@@ -44,10 +44,10 @@
     @if($reportId || $submittedAt)
         <div class="text-caption text-slate-500 space-y-1">
             @if($reportId)
-                <p>Report ID: <span class="font-mono">{{ $reportId }}</span></p>
+                <p>{{ __('rapida.report_id_label') }} <span class="font-mono">{{ $reportId }}</span></p>
             @endif
             @if($submittedAt)
-                <p>Submitted: <time datetime="{{ $submittedAt }}">{{ $submittedAt }}</time></p>
+                <p>{{ __('rapida.submitted_label') }} <time datetime="{{ $submittedAt }}">{{ $submittedAt }}</time></p>
             @endif
         </div>
     @endif

@@ -36,11 +36,6 @@ class OnboardingController extends Controller
         session(['locale' => $lang]);
         app()->setLocale($lang);
 
-        $crisis = Crisis::where('status', 'active')->first();
-        if ($crisis) {
-            return redirect()->route('crisis.show', $crisis->slug);
-        }
-
-        return redirect()->route('map-home');
+        return redirect()->back();
     }
 }

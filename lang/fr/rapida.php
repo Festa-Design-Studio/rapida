@@ -53,4 +53,63 @@ return [
 
     // V2 Trusted device
     'trusted_contributor' => 'Contributeur de confiance',
+
+    // UI — Confirmation
+    'report_submitted' => 'Signalement soumis',
+    'report_submitted_desc' => 'Votre signalement de degats a ete enregistre avec succes.',
+    'report_id_label' => 'Numero de signalement :',
+    'submitted_label' => 'Soumis :',
+
+    // UI — Engagement
+    'community_contributions' => 'Contributions communautaires',
+    'community_contributions_desc' => 'Chaque signalement aide les equipes a atteindre ceux qui en ont besoin.',
+    'community_count_label' => 'Membres de la communaute ont soumis des signalements',
+    'user_count_label' => 'Signalements que vous avez soumis',
+    'achievements' => 'Realisations',
+    'earned' => 'Obtenu',
+    'locked' => 'Verrouille',
+
+    // UI — Navigation
+    'app_name' => 'RAPIDA',
+    'status_online' => 'En ligne',
+    'status_offline' => 'Hors ligne',
+    'status_syncing' => ':count en cours',
+    'safe_exit' => 'Sortie rapide',
+    'safe_exit_aria' => 'Sortie rapide — quitter cette page immediatement',
+
+    // UI — Report detail
+    'report_id' => 'Numero de signalement',
+    'infrastructure' => 'Infrastructure',
+    'crisis_type' => 'Type de crise',
+    'reported_by' => 'Signale par',
+    'community_reporter' => 'Membre de la communaute',
+    'submitted' => 'Soumis',
+    'location' => 'Emplacement',
+    'version_history' => 'Historique des versions',
+    'current_version' => 'Version actuelle',
+    'back_to_reports' => 'Retour a mes signalements',
+
+    // UI — My Reports
+    'my_reports' => 'Mes signalements',
+    'my_reports_desc' => 'Vos signalements de degats soumis. Vos donnees vous appartiennent.',
+    'synced' => 'Synchronise',
+    'pending' => 'En attente',
+    'no_reports_yet' => 'Vous n\'avez pas encore soumis de signalement.',
+    'submit_new_report' => 'Nouveau signalement',
+
+    // UI — Map home
+    'report_damage' => 'Signaler des degats',
+    'recent_reports' => 'Signalements recents',
+    'no_reports_community' => 'Aucun signalement soumis.',
+    'be_first' => 'Soyez le premier a aider votre communaute.',
+
+    // UI — Damage levels
+    'damage_minimal' => 'Minimal',
+    'damage_partial' => 'Partiel',
+    'damage_complete' => 'Complet',
+
+    // UI — Sync status
+    'sync_synced' => 'Synchronise',
+    'sync_pending' => 'En attente de synchronisation',
+    'sync_failed' => 'Echec de synchronisation',
 ];

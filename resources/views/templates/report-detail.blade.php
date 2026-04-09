@@ -6,9 +6,9 @@
 @php
     $damageLevel = $report->damage_level instanceof \App\Enums\DamageLevel ? $report->damage_level->value : ($report->damage_level ?? 'partial');
     $damageLevelLabel = match($damageLevel) {
-        'minimal'  => 'Minimal',
-        'partial'  => 'Partial',
-        'complete' => 'Complete',
+        'minimal'  => __('rapida.damage_minimal'),
+        'partial'  => __('rapida.damage_partial'),
+        'complete' => __('rapida.damage_complete'),
         default    => ucfirst($damageLevel),
     };
     $syncStatus = $report->synced_at ? 'synced' : 'pending';
@@ -65,23 +65,23 @@
         {{-- Metadata --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 divide-y divide-slate-100">
             <div class="py-3 flex justify-between text-body-sm">
-                <span class="text-slate-500">Report ID</span>
+                <span class="text-slate-500">{{ __('rapida.report_id') }}</span>
                 <span class="font-mono text-slate-900">{{ substr($report->id, 0, 8) }}</span>
             </div>
             <div class="py-3 flex justify-between text-body-sm">
-                <span class="text-slate-500">Infrastructure</span>
+                <span class="text-slate-500">{{ __('rapida.infrastructure') }}</span>
                 <span class="text-slate-900">{{ ucfirst($report->infrastructure_type ?? '') }}</span>
             </div>
             <div class="py-3 flex justify-between text-body-sm">
-                <span class="text-slate-500">Crisis Type</span>
+                <span class="text-slate-500">{{ __('rapida.crisis_type') }}</span>
                 <span class="text-slate-900">{{ ucfirst($report->crisis_type ?? '') }}</span>
             </div>
             <div class="py-3 flex justify-between text-body-sm">
-                <span class="text-slate-500">Reported by</span>
-                <span class="text-slate-900">Community Reporter</span>
+                <span class="text-slate-500">{{ __('rapida.reported_by') }}</span>
+                <span class="text-slate-900">{{ __('rapida.community_reporter') }}</span>
             </div>
             <div class="py-3 flex justify-between text-body-sm">
-                <span class="text-slate-500">Submitted</span>
+                <span class="text-slate-500">{{ __('rapida.submitted') }}</span>
                 <time datetime="{{ $report->submitted_at?->toIso8601String() }}" class="text-slate-900">{{ $report->submitted_at?->format('M d, Y H:i') ?? '' }}</time>
             </div>
         </div>
@@ -89,7 +89,7 @@
         {{-- Location map — zoomed to street level, single pin --}}
         @if($report->latitude && $report->longitude)
             <div>
-                <h2 class="text-h4 font-heading font-semibold text-slate-900 mb-3">Location</h2>
+                <h2 class="text-h4 font-heading font-semibold text-slate-900 mb-3">{{ __('rapida.location') }}</h2>
                 <x-organisms.map-report
                     :latitude="$report->latitude"
                     :longitude="$report->longitude"
@@ -108,7 +108,7 @@
         <div class="flex flex-wrap gap-3">
             <a href="{{ route('my-reports') }}">
                 <x-atoms.button variant="ghost" size="md">
-                    Back to My Reports
+                    {{ __('rapida.back_to_reports') }}
                 </x-atoms.button>
             </a>
         </div>

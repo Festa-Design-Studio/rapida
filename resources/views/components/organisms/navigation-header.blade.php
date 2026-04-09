@@ -14,7 +14,7 @@
         <div class="flex items-center gap-3">
             <a href="{{ route('map-home') }}" class="flex items-center gap-2 min-h-[48px] min-w-[48px]" aria-label="RAPIDA home">
                 <x-atoms.icon name="pin" size="md" class="text-rapida-blue-700" />
-                <span class="text-h4 font-heading font-bold text-rapida-blue-900 hidden sm:inline">RAPIDA</span>
+                <span class="text-h4 font-heading font-bold text-rapida-blue-900 hidden sm:inline">{{ __('rapida.app_name') }}</span>
             </a>
         </div>
 
@@ -63,7 +63,7 @@
                 <template x-if="$store.offlineQueue && !$store.offlineQueue.isOnline">
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-alert-amber-50 text-alert-amber-900 border border-alert-amber-100">
                         <x-atoms.icon name="cloud-offline" size="xs" />
-                        Offline
+                        {{ __('rapida.status_offline') }}
                     </span>
                 </template>
                 <template x-if="$store.offlineQueue && $store.offlineQueue.isOnline && $store.offlineQueue.pendingCount > 0">
@@ -75,7 +75,7 @@
                 <template x-if="$store.offlineQueue && $store.offlineQueue.isOnline && $store.offlineQueue.pendingCount === 0">
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-ground-green-50 text-ground-green-900 border border-ground-green-200">
                         <x-atoms.icon name="cloud-upload" size="xs" />
-                        Online
+                        {{ __('rapida.status_online') }}
                     </span>
                 </template>
             </div>
@@ -96,7 +96,7 @@
                 onclick="window.location.href='https://www.google.com'"
             >
                 <x-atoms.icon name="shield-exit" size="sm" />
-                Safe Exit
+                {{ __('rapida.safe_exit') }}
             </x-atoms.button>
         </div>
     </div>

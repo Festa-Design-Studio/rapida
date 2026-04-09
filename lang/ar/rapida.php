@@ -53,4 +53,63 @@ return [
 
     // مساهم موثوق
     'trusted_contributor' => 'مساهم موثوق',
+
+    // واجهة — التأكيد
+    'report_submitted' => 'تم تقديم التقرير',
+    'report_submitted_desc' => 'تم تسجيل تقرير الأضرار بنجاح.',
+    'report_id_label' => 'رقم التقرير:',
+    'submitted_label' => 'تاريخ التقديم:',
+
+    // واجهة — المشاركة المجتمعية
+    'community_contributions' => 'مساهمات المجتمع',
+    'community_contributions_desc' => 'كل تقرير يساعد فرق الاستجابة في الوصول للمحتاجين بشكل أسرع.',
+    'community_count_label' => 'أعضاء المجتمع قدموا تقارير',
+    'user_count_label' => 'تقارير قدمتها أنت',
+    'achievements' => 'الإنجازات',
+    'earned' => 'مُكتسب',
+    'locked' => 'مقفل',
+
+    // واجهة — التنقل
+    'app_name' => 'RAPIDA',
+    'status_online' => 'متصل',
+    'status_offline' => 'غير متصل',
+    'status_syncing' => ':count قيد المزامنة',
+    'safe_exit' => 'خروج آمن',
+    'safe_exit_aria' => 'خروج آمن — مغادرة هذه الصفحة فوراً',
+
+    // واجهة — تفاصيل التقرير
+    'report_id' => 'رقم التقرير',
+    'infrastructure' => 'البنية التحتية',
+    'crisis_type' => 'نوع الأزمة',
+    'reported_by' => 'أبلغ بواسطة',
+    'community_reporter' => 'عضو في المجتمع',
+    'submitted' => 'تم التقديم',
+    'location' => 'الموقع',
+    'version_history' => 'سجل الإصدارات',
+    'current_version' => 'الإصدار الحالي',
+    'back_to_reports' => 'العودة إلى تقاريري',
+
+    // واجهة — تقاريري
+    'my_reports' => 'تقاريري',
+    'my_reports_desc' => 'تقارير الأضرار التي قدمتها. بياناتك ملكك دائماً.',
+    'synced' => 'متزامن',
+    'pending' => 'قيد الانتظار',
+    'no_reports_yet' => 'لم تقدم أي تقارير بعد.',
+    'submit_new_report' => 'تقرير جديد',
+
+    // واجهة — الصفحة الرئيسية
+    'report_damage' => 'الإبلاغ عن أضرار',
+    'recent_reports' => 'التقارير الأخيرة',
+    'no_reports_community' => 'لا توجد تقارير بعد.',
+    'be_first' => 'كن أول من يساعد مجتمعك.',
+
+    // واجهة — مستويات الضرر
+    'damage_minimal' => 'طفيف',
+    'damage_partial' => 'جزئي',
+    'damage_complete' => 'كامل',
+
+    // واجهة — حالة المزامنة
+    'sync_synced' => 'متزامن',
+    'sync_pending' => 'في انتظار المزامنة',
+    'sync_failed' => 'فشل المزامنة',
 ];

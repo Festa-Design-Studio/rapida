@@ -53,4 +53,63 @@ return [
 
     // V2 Trusted device
     'trusted_contributor' => 'Trusted contributor',
+
+    // UI — Confirmation screen
+    'report_submitted' => 'Report Submitted',
+    'report_submitted_desc' => 'Your damage report has been recorded successfully.',
+    'report_id_label' => 'Report ID:',
+    'submitted_label' => 'Submitted:',
+
+    // UI — Engagement panel
+    'community_contributions' => 'Community Contributions',
+    'community_contributions_desc' => 'Every report helps responders reach those in need faster.',
+    'community_count_label' => 'Community members have submitted reports',
+    'user_count_label' => 'Reports you have submitted',
+    'achievements' => 'Achievements',
+    'earned' => 'Earned',
+    'locked' => 'Locked',
+
+    // UI — Navigation
+    'app_name' => 'RAPIDA',
+    'status_online' => 'Online',
+    'status_offline' => 'Offline',
+    'status_syncing' => ':count syncing',
+    'safe_exit' => 'Safe Exit',
+    'safe_exit_aria' => 'Safe exit — quickly leave this page',
+
+    // UI — Report detail
+    'report_id' => 'Report ID',
+    'infrastructure' => 'Infrastructure',
+    'crisis_type' => 'Crisis Type',
+    'reported_by' => 'Reported by',
+    'community_reporter' => 'Community Reporter',
+    'submitted' => 'Submitted',
+    'location' => 'Location',
+    'version_history' => 'Version History',
+    'current_version' => 'Current Version',
+    'back_to_reports' => 'Back to My Reports',
+
+    // UI — My Reports
+    'my_reports' => 'My Reports',
+    'my_reports_desc' => 'Your submitted damage reports. Your data is always yours.',
+    'synced' => 'Synced',
+    'pending' => 'Pending',
+    'no_reports_yet' => "You haven't submitted any reports yet.",
+    'submit_new_report' => 'Submit New Report',
+
+    // UI — Map home
+    'report_damage' => 'Report Damage',
+    'recent_reports' => 'Recent Reports',
+    'no_reports_community' => 'No reports submitted yet.',
+    'be_first' => 'Be the first to help your community.',
+
+    // UI — Damage levels
+    'damage_minimal' => 'Minimal',
+    'damage_partial' => 'Partial',
+    'damage_complete' => 'Complete',
+
+    // UI — Sync status
+    'sync_synced' => 'Synced',
+    'sync_pending' => 'Pending sync',
+    'sync_failed' => 'Sync failed',
 ];
