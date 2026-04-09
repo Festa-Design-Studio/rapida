@@ -39,49 +39,52 @@ Route::middleware('auth:undp')->prefix('admin')->name('admin.')->group(function 
     Route::get('/users', fn () => view('admin.users'))->name('users.index');
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('map-home');
+// All public routes use SetLocaleFromCrisis to respect session locale
+Route::middleware(SetLocaleFromCrisis::class)->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('map-home');
 
-Route::get('/crisis/{crisis:slug}', [ReporterController::class, 'show'])
-    ->middleware([EnsureCrisisIsActive::class, SetLocaleFromCrisis::class])
-    ->name('crisis.show');
+    Route::get('/crisis/{crisis:slug}', [ReporterController::class, 'show'])
+        ->middleware(EnsureCrisisIsActive::class)
+        ->name('crisis.show');
 
-Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
-Route::post('/onboarding/language', [OnboardingController::class, 'setLanguage'])->name('onboarding.language');
+    Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
+    Route::post('/onboarding/language', [OnboardingController::class, 'setLanguage'])->name('onboarding.language');
 
-Route::get('/submit', function () {
-    $crisis = Crisis::where('status', 'active')->first();
-    if ($crisis) {
-        return redirect()->route('crisis.show', $crisis->slug);
-    }
+    Route::get('/submit', function () {
+        $crisis = Crisis::where('status', 'active')->first();
+        if ($crisis) {
+            return redirect()->route('crisis.show', $crisis->slug);
+        }
 
-    return redirect()->route('onboarding');
-})->name('submit');
+        return redirect()->route('onboarding');
+    })->name('submit');
 
-Route::get('/confirmation', function (Request $request) {
-    $report = $request->query('report')
-        ? DamageReport::find($request->query('report'))
-        : null;
+    Route::get('/confirmation', function (Request $request) {
+        $report = $request->query('report')
+            ? DamageReport::find($request->query('report'))
+            : null;
 
-    return view('templates.submission-confirmation', ['report' => $report]);
-})->name('confirmation');
+        return view('templates.submission-confirmation', ['report' => $report]);
+    })->name('confirmation');
 
-Route::get('/my-reports', function () {
-    $crisis = Crisis::where('status', 'active')->first();
-    $reports = $crisis
-        ? DamageReport::where('crisis_id', $crisis->id)
-            ->latest('submitted_at')
-            ->limit(20)
-            ->get()
-        : collect();
+    Route::get('/my-reports', function () {
+        $crisis = Crisis::where('status', 'active')->first();
+        $reports = $crisis
+            ? DamageReport::where('crisis_id', $crisis->id)
+                ->latest('submitted_at')
+                ->limit(20)
+                ->get()
+            : collect();
 
-    return view('templates.my-reports', ['reports' => $reports, 'crisis' => $crisis]);
-})->name('my-reports');
+        return view('templates.my-reports', ['reports' => $reports, 'crisis' => $crisis]);
+    })->name('my-reports');
 
-Route::get('/report/{report}', function (DamageReport $report) {
-    $report->load(['building', 'verification', 'modules', 'crisis']);
+    Route::get('/report/{report}', function (DamageReport $report) {
+        $report->load(['building', 'verification', 'modules', 'crisis']);
 
-    return view('templates.report-detail', ['report' => $report]);
-})->name('report-detail');
+        return view('templates.report-detail', ['report' => $report]);
+    })->name('report-detail');
+});
 
 Route::get('/dashboard', fn () => redirect()->route('dashboard.analyst'))->name('dashboard');
 Route::get('/export', fn () => redirect()->route('dashboard.analyst'))->name('export');
