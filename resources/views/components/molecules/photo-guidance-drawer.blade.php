@@ -58,10 +58,7 @@
             @endforeach
         </ul>
 
-        <x-atoms.button
-            variant="primary"
-            class="w-full"
-            @click="dismiss()"
+        <div
             x-data="{
                 label: '{{ __("rapida.photo_guidance_cta_first") }}',
                 async init() {
@@ -71,9 +68,17 @@
                     } catch(e) {}
                 }
             }"
-            x-text="label"
         >
-            {{ __('rapida.photo_guidance_cta_first') }}
-        </x-atoms.button>
+            <button
+                type="button"
+                @click="dismiss()"
+                x-text="label"
+                class="inline-flex items-center justify-center gap-2 font-heading font-semibold rounded-lg
+                       text-btn h-touch min-w-touch px-6
+                       bg-rapida-blue-900 text-white hover:bg-rapida-blue-700
+                       focus:ring-2 focus:ring-offset-2 focus:ring-rapida-blue-700
+                       transition-colors duration-fast w-full"
+            ></button>
+        </div>
     </div>
 </div>

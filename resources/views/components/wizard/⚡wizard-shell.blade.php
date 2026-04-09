@@ -110,14 +110,18 @@ new class extends Component {
 
     public function submit(): void
     {
+        $isConflict = $this->crisis->conflict_context ?? false;
+
         $report = \App\Models\DamageReport::create([
             'crisis_id' => $this->crisis->id,
             'building_footprint_id' => $this->buildingFootprintId,
-            'account_id' => null,
-            'landmark_id' => null,
+            'account_id' => auth()->id(),
+            'device_fingerprint_id' => $isConflict ? null : request()->input('device_fingerprint_id'),
             'photo_url' => $this->photo ? $this->photo->store('photos', 'public') : 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg',
             'photo_hash' => $this->photo ? hash_file('sha256', $this->photo->getRealPath()) : hash('sha256', 'placeholder'),
+            'photo_guidance_shown' => true,
             'damage_level' => $this->damageLevel ?: 'partial',
+            'ai_suggested_level' => $this->aiSuggestedLevel,
             'infrastructure_type' => is_array($this->infrastructureTypes) ? ($this->infrastructureTypes[0] ?? 'other') : 'other',
             'crisis_type' => $this->crisisType ?: 'flood',
             'infrastructure_name' => $this->infrastructureName,
@@ -129,6 +133,7 @@ new class extends Component {
             'description' => $this->description,
             'completeness_score' => $this->calculateCompletenessScore(),
             'submitted_via' => 'web',
+            'reporter_tier' => $isConflict ? 'anonymous' : 'anonymous',
             'submitted_at' => now(),
             'synced_at' => now(),
             'is_flagged' => false,
@@ -157,23 +162,30 @@ new class extends Component {
 
     public function calculateCompletenessScore(): int
     {
-        $score = 0;
-        if ($this->photo) {
-            $score += 2;
-        }
-        if ($this->damageLevel && ! empty($this->infrastructureTypes) && $this->crisisType && $this->debrisRequired !== null) {
-            $score += 3;
-        }
-        if ($this->infrastructureName) {
-            $score += 1;
-        }
-
-        return $score;
+        return app(\App\Services\CompletenessScoreService::class)->scoreFromArray([
+            'photo_url' => $this->photo ? 'uploaded' : null,
+            'latitude' => $this->latitude,
+            'landmark_text' => $this->landmarkText,
+            'damage_level' => $this->damageLevel,
+            'infrastructure_type' => is_array($this->infrastructureTypes) ? ($this->infrastructureTypes[0] ?? null) : null,
+            'crisis_type' => $this->crisisType,
+            'infrastructure_name' => $this->infrastructureName,
+        ]);
     }
 };
 ?>
 
 <div class="flex flex-col min-h-screen bg-surface-page">
+    {{-- Transparency screen gate (shown once per device per crisis) --}}
+    <x-organisms.transparency-onboarding
+        :crisisSlug="$crisis->slug"
+        :crisisName="$crisis->name"
+        :conflictContext="$crisis->conflict_context ?? false"
+    />
+
+    {{-- Conflict mode banner (persistent when conflict_context = true) --}}
+    <x-molecules.conflict-mode-banner :show="$crisis->conflict_context ?? false" />
+
     {{-- Progress indicator --}}
     @if($currentStep <= $totalSteps)
         <div class="px-6 pt-6 pb-2">
@@ -189,6 +201,9 @@ new class extends Component {
 
         {{-- ========== STEP 1: PHOTO ========== --}}
         @if($currentStep === 1)
+            {{-- Photo guidance drawer (pre-screen, once per session) --}}
+            <x-molecules.photo-guidance-drawer :crisisType="$crisis->crisis_type_default ?? 'earthquake'" />
+
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-2">
                     <h1 class="text-h1 font-heading font-bold text-slate-900">{{ __('wizard.step_1_title') }}</h1>
@@ -250,11 +265,11 @@ new class extends Component {
                 </div>
 
                 @if($latitude && $longitude)
-                    <div class="rounded-lg bg-green-50 border border-green-200 p-4 flex items-center gap-3">
-                        <x-atoms.icon name="check-circle" size="md" class="text-green-600" />
+                    <div class="rounded-lg bg-ground-green-50 border border-ground-green-200 p-4 flex items-center gap-3">
+                        <x-atoms.icon name="check-circle" size="md" class="text-ground-green-700" />
                         <div>
-                            <p class="text-body-sm font-medium text-green-800">{{ __('wizard.step_2_location_selected') }}</p>
-                            <p class="text-caption text-green-600">{{ number_format($latitude, 5) }}, {{ number_format($longitude, 5) }}</p>
+                            <p class="text-body-sm font-medium text-ground-green-900">{{ __('wizard.step_2_location_selected') }}</p>
+                            <p class="text-caption text-ground-green-700">{{ number_format($latitude, 5) }}, {{ number_format($longitude, 5) }}</p>
                         </div>
                     </div>
                 @endif

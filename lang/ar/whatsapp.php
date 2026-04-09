@@ -12,7 +12,9 @@ return [
     'report_submitted' => "شكرًا. تقرير #:report_id تم إرساله!\n\nبياناتك تساعد الأمم المتحدة في تنسيق الاستجابة.",
     'session_restarted' => 'تم إعادة الجلسة. أرسل صورة للبدء.',
     'session_cancelled' => 'تم إلغاء التقرير. اكتب RAPIDA للبدء من جديد.',
-    'max_retries_exceeded' => 'محاولات كثيرة. اكتب RAPIDA للبدء.',
+    'max_retries_exceeded' => 'حدث خطأ عدة مرات. اكتب RAPIDA ونبدأ من جديد.',
     'confirm_or_restart' => 'اكتب نعم للإرسال أو إعادة للبدء.',
-    'unknown_state' => 'عذرًا، حدث خطأ. اكتب RAPIDA للبدء.',
+    'unknown_state' => 'انتهت جلستك بعد 30 دقيقة. اكتب RAPIDA عندما تكون مستعدًا.',
+    'whatsapp_disabled' => 'هذه الأزمة تستخدم الإبلاغ المجهول فقط. يرجى استخدام التطبيق.',
+    'location_conflict_mode' => 'صف مكان الضرر — اسم شارع أو معلم أو رمز من ثلاث كلمات.',
 ];

@@ -16,5 +16,14 @@ class UndpUserSeeder extends Seeder
             'role' => 'superadmin',
             'is_active' => true,
         ]);
+
+        // UNDP evaluator account for demo review
+        UndpUser::create([
+            'name' => 'UNDP Evaluator',
+            'email' => 'evaluator@undp.org',
+            'password' => 'rapida-demo-2026',
+            'role' => 'analyst',
+            'is_active' => true,
+        ]);
     }
 }
