@@ -119,6 +119,19 @@ return [
     'no_reports_community' => 'Aucun signalement soumis.',
     'be_first' => 'Soyez le premier a aider votre communaute.',
 
+    // UI — Verification / Redundancy
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redondance',
+    'redundancy_dismiss' => 'Rejeter',
+    'redundancy_keep' => 'Conserver',
+
+    // UI — Analytics panel
+    'reports_over_time' => 'Signalements dans le temps',
+    'top_buildings' => 'Batiments les plus signales',
+    'building_id' => 'Batiment',
+    'reports_count' => 'Signalements',
+    'last_updated' => 'Derniere mise a jour',
+
     // UI — Damage levels
     'damage_level_label' => 'Niveau de degats',
     'damage_minimal' => 'Minimal',

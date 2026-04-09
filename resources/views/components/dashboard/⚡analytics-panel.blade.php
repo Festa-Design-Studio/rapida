@@ -5,9 +5,23 @@ use Livewire\Component;
 
 new class extends Component
 {
+    public string $crisisId = '';
+
+    public function mount(): void
+    {
+        $crisis = \App\Models\Crisis::where('status', 'active')->first();
+        $this->crisisId = $crisis?->id ?? '';
+    }
+
     public function getTotalReportsProperty(): int
     {
-        return DamageReport::count();
+        $query = DamageReport::query();
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->count();
     }
 
     /**
@@ -15,10 +29,15 @@ new class extends Component
      */
     public function getReportsByDamageLevelProperty(): \Illuminate\Support\Collection
     {
-        return DamageReport::query()
+        $query = DamageReport::query()
             ->selectRaw('damage_level, count(*) as count')
-            ->groupBy('damage_level')
-            ->pluck('count', 'damage_level');
+            ->groupBy('damage_level');
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->pluck('count', 'damage_level');
     }
 
     /**
@@ -26,10 +45,46 @@ new class extends Component
      */
     public function getReportsByInfraTypeProperty(): \Illuminate\Support\Collection
     {
-        return DamageReport::query()
+        $query = DamageReport::query()
             ->selectRaw('infrastructure_type, count(*) as count')
-            ->groupBy('infrastructure_type')
-            ->pluck('count', 'infrastructure_type');
+            ->groupBy('infrastructure_type');
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->pluck('count', 'infrastructure_type');
+    }
+
+    public function getReportsByDayProperty(): \Illuminate\Support\Collection
+    {
+        $query = DamageReport::query()
+            ->selectRaw('DATE(submitted_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->limit(14);
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<int, \App\Models\Building>
+     */
+    public function getTopBuildingsProperty(): \Illuminate\Database\Eloquent\Collection
+    {
+        $query = \App\Models\Building::where('report_count', '>', 0)
+            ->orderByDesc('report_count')
+            ->limit(10);
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->get();
     }
 
     /**
@@ -37,10 +92,15 @@ new class extends Component
      */
     public function getRecentReportsProperty(): \Illuminate\Database\Eloquent\Collection
     {
-        return DamageReport::query()
+        $query = DamageReport::query()
             ->orderByDesc('submitted_at')
-            ->limit(10)
-            ->get();
+            ->limit(10);
+
+        if ($this->crisisId) {
+            $query->where('crisis_id', $this->crisisId);
+        }
+
+        return $query->get();
     }
 };
 ?>
@@ -82,6 +142,27 @@ new class extends Component
         </div>
     </div>
 
+    {{-- Reports over time --}}
+    @if($this->reportsByDay->count() > 0)
+    <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h3 class="text-h4 font-semibold font-heading text-slate-900 mb-4">{{ __('rapida.reports_over_time') }}</h3>
+        @php $maxCount = $this->reportsByDay->max('count') ?: 1; @endphp
+        <div class="flex items-end gap-1" style="height: 120px;">
+            @foreach($this->reportsByDay as $day)
+                <div class="flex-1 flex flex-col items-center gap-1">
+                    <span class="text-caption text-text-placeholder">{{ $day->count }}</span>
+                    <div class="w-full rounded-t bg-rapida-blue-500 hover:bg-rapida-blue-700 transition-colors"
+                         style="height: {{ max(4, ($day->count / $maxCount) * 100) }}px"
+                         title="{{ $day->date }}: {{ $day->count }} reports"></div>
+                    <span class="text-[9px] text-text-placeholder truncate w-full text-center">
+                        {{ \Carbon\Carbon::parse($day->date)->format('M d') }}
+                    </span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     {{-- Infrastructure type breakdown --}}
     <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <h3 class="text-h4 font-semibold font-heading text-slate-900 mb-4">By Infrastructure Type</h3>
@@ -96,6 +177,47 @@ new class extends Component
             @endforelse
         </ul>
     </div>
+
+    {{-- Top reported buildings --}}
+    @if($this->topBuildings->count() > 0)
+    <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-200">
+            <h3 class="text-h4 font-semibold font-heading text-slate-900">{{ __('rapida.top_buildings') }}</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-body-sm text-left">
+                <thead class="bg-surface-page text-slate-600">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">#</th>
+                        <th class="px-4 py-3 font-medium">{{ __('rapida.building_id') }}</th>
+                        <th class="px-4 py-3 font-medium">{{ __('rapida.reports_count') }}</th>
+                        <th class="px-4 py-3 font-medium">{{ __('rapida.damage_level_label') }}</th>
+                        <th class="px-4 py-3 font-medium">{{ __('rapida.last_updated') }}</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach($this->topBuildings as $index => $building)
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-slate-900">{{ $index + 1 }}</td>
+                            <td class="px-4 py-3 font-mono text-caption text-slate-600">{{ Str::limit($building->ms_building_id ?? $building->id, 16, '...') }}</td>
+                            <td class="px-4 py-3 font-semibold text-slate-900">{{ $building->report_count }}</td>
+                            <td class="px-4 py-3">
+                                @if($building->canonical_damage_level)
+                                    <x-atoms.badge :variant="$building->canonical_damage_level">
+                                        {{ ucfirst($building->canonical_damage_level) }}
+                                    </x-atoms.badge>
+                                @else
+                                    <span class="text-slate-400">—</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 text-caption text-slate-600">{{ $building->last_updated_at?->diffForHumans() ?? '—' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
 
     {{-- Recent reports table --}}
     <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">

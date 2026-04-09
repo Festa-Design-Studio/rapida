@@ -119,6 +119,19 @@ return [
     'no_reports_community' => 'No reports submitted yet.',
     'be_first' => 'Be the first to help your community.',
 
+    // UI — Verification / Redundancy
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redundancy',
+    'redundancy_dismiss' => 'Dismiss',
+    'redundancy_keep' => 'Keep',
+
+    // UI — Analytics panel
+    'reports_over_time' => 'Reports Over Time',
+    'top_buildings' => 'Most Reported Buildings',
+    'building_id' => 'Building',
+    'reports_count' => 'Reports',
+    'last_updated' => 'Last Updated',
+
     // UI — Damage levels
     'damage_level_label' => 'Damage Level',
     'damage_minimal' => 'Minimal',
