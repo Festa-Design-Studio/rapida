@@ -144,6 +144,9 @@ new class extends Component {
             if ($value === null || $value === '' || $value === []) {
                 continue;
             }
+            if (! str_contains($key, '.')) {
+                continue;
+            }
             [$moduleKey, $fieldKey] = explode('.', $key, 2);
             \App\Models\ReportModule::create([
                 'report_id' => $report->id,

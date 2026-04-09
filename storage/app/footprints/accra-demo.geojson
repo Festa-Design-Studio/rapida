@@ -1,0 +1,105 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-makola-market" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1975, 5.5555], [-0.1963, 5.5555], [-0.1963, 5.5565], [-0.1975, 5.5565], [-0.1975, 5.5555]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-korle-bu-hospital" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2058, 5.5493], [-0.2042, 5.5493], [-0.2042, 5.5507], [-0.2058, 5.5507], [-0.2058, 5.5493]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-independence-square" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1880, 5.5602], [-0.1860, 5.5602], [-0.1860, 5.5618], [-0.1880, 5.5618], [-0.1880, 5.5602]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-kaneshie-market" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2128, 5.5573], [-0.2112, 5.5573], [-0.2112, 5.5587], [-0.2128, 5.5587], [-0.2128, 5.5573]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-osu-castle" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1790, 5.5642], [-0.1770, 5.5642], [-0.1770, 5.5658], [-0.1790, 5.5658], [-0.1790, 5.5642]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-national-theatre" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1858, 5.5483], [-0.1842, 5.5483], [-0.1842, 5.5497], [-0.1858, 5.5497], [-0.1858, 5.5483]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-central-mosque" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2008, 5.5523], [-0.1992, 5.5523], [-0.1992, 5.5537], [-0.2008, 5.5537], [-0.2008, 5.5523]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-university-gate" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2078, 5.5693], [-0.2062, 5.5693], [-0.2062, 5.5707], [-0.2078, 5.5707], [-0.2078, 5.5693]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-mall" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1958, 5.5613], [-0.1942, 5.5613], [-0.1942, 5.5627], [-0.1958, 5.5627], [-0.1958, 5.5613]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-ridge-hospital" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1908, 5.5663], [-0.1892, 5.5663], [-0.1892, 5.5677], [-0.1908, 5.5677], [-0.1908, 5.5663]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-jamestown-lighthouse" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1938, 5.5463], [-0.1922, 5.5463], [-0.1922, 5.5477], [-0.1938, 5.5477], [-0.1938, 5.5463]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-abeka-bridge" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2108, 5.5543], [-0.2092, 5.5543], [-0.2092, 5.5557], [-0.2108, 5.5557], [-0.2108, 5.5543]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-achimota-school" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1928, 5.5713], [-0.1912, 5.5713], [-0.1912, 5.5727], [-0.1928, 5.5727], [-0.1928, 5.5713]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-agbogbloshie" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2068, 5.5453], [-0.2052, 5.5453], [-0.2052, 5.5467], [-0.2068, 5.5467], [-0.2068, 5.5453]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-osu-oxford-street" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1838, 5.5533], [-0.1822, 5.5533], [-0.1822, 5.5547], [-0.1838, 5.5547], [-0.1838, 5.5533]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-labadi-beach" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1818, 5.5583], [-0.1802, 5.5583], [-0.1802, 5.5597], [-0.1818, 5.5597], [-0.1818, 5.5583]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-holy-spirit-cathedral" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1998, 5.5503], [-0.1982, 5.5503], [-0.1982, 5.5517], [-0.1998, 5.5517], [-0.1998, 5.5503]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-darkuman-overpass" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2088, 5.5623], [-0.2072, 5.5623], [-0.2072, 5.5637], [-0.2088, 5.5637], [-0.2088, 5.5623]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-arts-centre" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.1878, 5.5473], [-0.1862, 5.5473], [-0.1862, 5.5487], [-0.1878, 5.5487], [-0.1878, 5.5473]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "ms_building_id": "accra-bukom-arena" },
+      "geometry": { "type": "Polygon", "coordinates": [[[-0.2038, 5.5433], [-0.2022, 5.5433], [-0.2022, 5.5447], [-0.2038, 5.5447], [-0.2038, 5.5433]]] }
+    }
+  ]
+}
