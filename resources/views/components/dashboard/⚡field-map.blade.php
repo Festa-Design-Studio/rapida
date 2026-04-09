@@ -28,14 +28,15 @@ new class extends Component
         baseUrl: '/api/v1/crises/{{ $crisisSlug }}/pins',
 
         applyFilter() {
-            const mapApi = window.__rapidaFieldMap;
-            if (!mapApi) return;
+            const mapEl = document.querySelector('[x-ref=mapEl]');
+            const api = mapEl?.__rapidaMapApi;
+            if (!api) return;
             let url = this.baseUrl;
             const params = [];
             if (this.damageFilter) params.push('damage_level=' + this.damageFilter);
             if (this.infraFilter) params.push('infrastructure_type=' + this.infraFilter);
             if (params.length) url += '?' + params.join('&');
-            mapApi.refetchPins(url);
+            api.refetchPins(url);
         }
     }"
     class="flex flex-col h-full"
@@ -107,17 +108,7 @@ new class extends Component
                 })"
                 x-ref="mapEl"
                 wire:ignore
-                x-init="
-                    init();
-                    const self = this;
-                    window.__rapidaFieldMap = {
-                        refetchPins(url) {
-                            self.config.pinsUrl = url;
-                            self.lastPinTimestamp = null;
-                            self._fetchPins();
-                        }
-                    };
-                "
+                x-init="init()"
                 class="absolute inset-0"
                 aria-label="{{ __('rapida.location') }}"
             ></div>

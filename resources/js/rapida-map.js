@@ -67,9 +67,22 @@ function rapidaMap(config = {}) {
         },
 
         init() {
+            const component = this;
             this.$nextTick(() => {
                 this._createMap();
             });
+
+            // Expose a stable refetch API on the DOM element for external callers
+            // (dashboard filters). Uses plain object to avoid Livewire circular JSON.
+            if (this.$el) {
+                this.$el.__rapidaMapApi = {
+                    refetchPins(url) {
+                        component.config.pinsUrl = url;
+                        component.lastPinTimestamp = null;
+                        component._fetchPins();
+                    },
+                };
+            }
         },
 
         destroy() {
