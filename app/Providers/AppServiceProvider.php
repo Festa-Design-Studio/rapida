@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Spatie\Health\Facades\Health;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,15 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Crisis::class, CrisisPolicy::class);
 
         $this->configureRateLimiting();
+        $this->configureHealthChecks();
+    }
+
+    private function configureHealthChecks(): void
+    {
+        Health::checks([
+            DatabaseCheck::new(),
+            UsedDiskSpaceCheck::new()->warnWhenUsedSpaceIsAbovePercentage(80)->failWhenUsedSpaceIsAbovePercentage(90),
+        ]);
     }
 
     private function configureRateLimiting(): void

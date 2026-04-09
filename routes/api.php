@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApiAiController;
 use App\Http\Controllers\Api\ApiBuildingController;
 use App\Http\Controllers\Api\ApiMapPinsController;
 use App\Http\Controllers\Api\ApiReportController;
+use App\Http\Controllers\Api\RecoveryOutcomeController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Middleware\BackpressureThrottle;
 use App\Http\Middleware\VerifyTwilioSignature;
@@ -25,6 +26,13 @@ Route::prefix('v1')->middleware(['throttle:rapida-global', BackpressureThrottle:
     Route::post('/webhooks/whatsapp', [WhatsAppWebhookController::class, 'handle'])
         ->middleware([VerifyTwilioSignature::class, 'throttle:rapida-whatsapp'])
         ->name('api.whatsapp.webhook');
+
+    Route::get('/crises/{slug}/outcomes', [RecoveryOutcomeController::class, 'index'])
+        ->name('api.outcomes.index');
+
+    Route::post('/crises/{slug}/outcomes', [RecoveryOutcomeController::class, 'store'])
+        ->middleware('auth:undp')
+        ->name('api.outcomes.store');
 
     Route::post('/internal/ai-result', [ApiAiController::class, 'receive'])
         ->name('api.ai.result');
