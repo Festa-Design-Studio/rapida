@@ -1,0 +1,83 @@
+@props([
+    'height' => 'h-[500px]',
+    'reports' => [],
+    'crisisSlug' => null,
+    'mode' => 'reporter',
+    'centerLat' => 5.56,
+    'centerLng' => -0.20,
+    'zoom' => 13,
+    'fullscreen' => false,
+])
+
+@php
+    try {
+        $slug = $crisisSlug ?? \App\Models\Crisis::where('status', 'active')->value('slug');
+    } catch (\Exception $e) {
+        $slug = null;
+    }
+    $hasSlug = !empty($slug);
+    $containerClass = $fullscreen
+        ? 'relative overflow-hidden'
+        : 'relative rounded-xl overflow-hidden border border-slate-200';
+@endphp
+
+<div
+    {{ $attributes->class([$containerClass, $height]) }}
+    role="region"
+    aria-label="Damage report map"
+>
+    @if($hasSlug)
+        {{-- Real MapLibre GL map — controls provided by MapLibre NavigationControl --}}
+        <div
+            x-data="rapidaMap({
+                crisisSlug: '{{ $slug }}',
+                mode: '{{ $mode }}',
+                center: [{{ $centerLng }}, {{ $centerLat }}],
+                zoom: {{ $zoom }},
+                tokens: {
+                    damage_minimal: '#22c55e',   // damage-minimal-map
+                    damage_partial: '#f59e0b',   // damage-partial-map
+                    damage_complete: '#c46b5a',  // crisis-rose-400
+                    footprint_fill: '#2e6689',   // rapida-blue-700
+                    footprint_stroke: '#1a3a4a', // rapida-blue-900
+                    user_dot: '#2e6689',         // rapida-blue-700
+                },
+                buildingsUrl: '/api/v1/crises/{{ $slug }}/buildings',
+                pinsUrl: '/api/v1/crises/{{ $slug }}/pins',
+            })"
+            x-init="init()"
+            wire:ignore
+            id="rapida-map"
+            class="absolute inset-0"
+            aria-label="Interactive damage map — tap to select location"
+        ></div>
+    @else
+        {{-- Fallback when no active crisis --}}
+        <div id="rapida-map" class="absolute inset-0 bg-slate-200 flex items-center justify-center">
+            <div class="text-center space-y-2">
+                <x-atoms.icon name="pin" size="xl" class="text-slate-400 mx-auto" />
+                <p class="text-body text-slate-500">No active crisis</p>
+                <p class="text-caption text-slate-400">The map will appear when a crisis is activated</p>
+            </div>
+        </div>
+    @endif
+
+    {{-- Legend --}}
+    <div class="absolute bottom-16 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+        <p class="text-caption font-medium text-slate-700 mb-2">Damage Level</p>
+        <div class="space-y-1.5">
+            <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-green-500" aria-hidden="true"></span>
+                <span class="text-caption text-slate-600">Minimal</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-amber-500" aria-hidden="true"></span>
+                <span class="text-caption text-slate-600">Partial</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-red-600" aria-hidden="true"></span>
+                <span class="text-caption text-slate-600">Complete</span>
+            </div>
+        </div>
+    </div>
+</div>

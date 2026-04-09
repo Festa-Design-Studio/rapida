@@ -1,6 +1,5 @@
 {
     "agents": [
-        "cursor",
         "claude_code"
     ],
     "guidelines": true,
@@ -9,6 +8,8 @@
     "sail": false,
     "skills": [
         "laravel-best-practices",
-        "pest-testing"
+        "livewire-development",
+        "pest-testing",
+        "tailwindcss-development"
     ]
 }

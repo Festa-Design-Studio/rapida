@@ -35,4 +35,24 @@ return [
         ],
     ],
 
+    'twilio' => [
+        'account_sid' => env('TWILIO_ACCOUNT_SID'),
+        'auth_token' => env('TWILIO_AUTH_TOKEN'),
+        'whatsapp_from' => env('TWILIO_WHATSAPP_FROM', 'whatsapp:+14155238886'),
+    ],
+
+    'ai' => [
+        'url' => env('AI_SERVICE_URL', 'http://localhost:8001'),
+        'secret' => env('AI_SERVICE_SECRET', 'dev-secret'),
+    ],
+
+    'w3w' => [
+        'api_key' => env('WHAT3WORDS_API_KEY'),
+    ],
+
+    'libretranslate' => [
+        'url' => env('LIBRETRANSLATE_URL', 'https://libretranslate.com'),
+        'api_key' => env('LIBRETRANSLATE_API_KEY'),
+    ],
+
 ];

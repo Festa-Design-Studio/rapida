@@ -1,11 +1,110 @@
-@import 'tailwindcss';
+@import 'maplibre-gl/dist/maplibre-gl.css';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* ============================================================
+   RAPIDA UI — Base Layer
+   Source: Notion Design Token Pages
+   ============================================================ */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Noto Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333333; /* grey-900 — text-primary */
+    background-color: #f0f7fa; /* rapida-blue-50 — surface-page */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* iOS auto-zoom prevention: inputs below 16px trigger zoom on focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Icon SVG sizing — inline SVGs fill their parent container */
+  .inline-flex > svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* prefers-reduced-motion — from Notion Layout & Spacing System */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   RAPIDA UI — Responsive Type Scale
+   Source: Notion Typography System — Tablet + Desktop scales
+   ============================================================ */
+
+@layer utilities {
+  /* Tablet scale (md: 768px+) */
+  @screen md {
+    .text-display { font-size: 2.5rem; line-height: 1.25; }    /* 40px */
+    .text-h1      { font-size: 2.25rem; line-height: 1.28; }   /* 36px */
+    .text-h2      { font-size: 1.75rem; line-height: 1.36; }   /* 28px */
+    .text-h3      { font-size: 1.375rem; line-height: 1.36; }  /* 22px */
+    .text-body-lg { font-size: 1.25rem; line-height: 1.6; }    /* 20px */
+  }
+
+  /* Desktop scale (lg: 1024px+) */
+  @screen lg {
+    .text-display { font-size: 3rem; line-height: 1.25; }      /* 48px */
+    .text-h1      { font-size: 2.5rem; line-height: 1.25; }    /* 40px */
+    .text-h2      { font-size: 2rem; line-height: 1.31; }      /* 32px */
+    .text-h3      { font-size: 1.5rem; line-height: 1.33; }    /* 24px */
+    .text-body-lg { font-size: 1.25rem; line-height: 1.6; }    /* 20px */
+    .text-body    { font-size: 1.125rem; line-height: 1.56; }  /* 18px */
+  }
+}
+
+/* ============================================================
+   RAPIDA UI — Calm Gradient Utilities
+   Source: Notion Color System — Calm Gradient System
+   Rules: max 2 stops, adjacent palette colours, 160-180° angle,
+   never on interactive elements
+   ============================================================ */
+
+@layer utilities {
+  /* Gradient 01 — Trust Wash: nav/header background */
+  .gradient-trust-wash {
+    background: linear-gradient(160deg, #1a3a4a 0%, #2e6689 100%);
+  }
+
+  /* Gradient 02 — Ground Calm: confirmation/success screen */
+  .gradient-ground-calm {
+    background: linear-gradient(180deg, #f0f9f4 0%, #d0e8f2 100%);
+  }
+
+  /* Gradient 03 — Selenite Rest: form/wizard card */
+  .gradient-selenite-rest {
+    background: linear-gradient(180deg, #ffffff 0%, #f7f7f5 100%);
+  }
+
+  /* Gradient 04 — Dawn Warmth: dignity screen */
+  .gradient-dawn-warmth {
+    background: linear-gradient(160deg, #fdf3f1 0%, #f0f9f4 100%);
+  }
+
+  /* Gradient 05 — Map Overlay: translucent panel over map */
+  .gradient-map-overlay {
+    background: linear-gradient(180deg, rgba(26,58,74,0.92) 0%, rgba(26,58,74,0.65) 50%, rgba(26,58,74,0.00) 100%);
+  }
 }
