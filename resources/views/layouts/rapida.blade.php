@@ -11,20 +11,9 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1a3a4a">
 
-    {{-- Font preconnect — performance-optimised --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    {{-- Inter — headings and UI (400 Regular, 500 Medium, 600 SemiBold, 700 Bold) --}}
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    {{-- Noto Sans — body and all content (400 Regular, 500 Medium, 700 Bold) --}}
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-    {{-- Noto Sans Arabic — conditional, loaded only when locale is Arabic --}}
-    @if(app()->getLocale() === 'ar')
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
-    @endif
+    {{-- Fonts self-hosted in public/fonts/ — no CDN dependency for offline PWA (Gap C5) --}}
+    <link rel="preload" href="/fonts/inter/Inter-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/noto-sans/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
     {{-- Vite assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

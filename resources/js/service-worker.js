@@ -14,12 +14,12 @@ registerRoute(
     })
 );
 
-// 2. Fonts — Cache First
+// 2. Fonts — Cache First (self-hosted in /fonts/, no CDN dependency)
 registerRoute(
-    ({ url }) => url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com',
+    ({ url }) => url.pathname.startsWith('/fonts/') && url.pathname.endsWith('.woff2'),
     new CacheFirst({
         cacheName: 'rapida-fonts-v1',
-        plugins: [new ExpirationPlugin({ maxAgeSeconds: 365 * 24 * 60 * 60, maxEntries: 30 })],
+        plugins: [new ExpirationPlugin({ maxAgeSeconds: 365 * 24 * 60 * 60, maxEntries: 20 })],
     })
 );
 

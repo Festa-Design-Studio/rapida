@@ -5,10 +5,11 @@ use App\Http\Controllers\Api\ApiBuildingController;
 use App\Http\Controllers\Api\ApiMapPinsController;
 use App\Http\Controllers\Api\ApiReportController;
 use App\Http\Controllers\WhatsAppWebhookController;
+use App\Http\Middleware\BackpressureThrottle;
 use App\Http\Middleware\VerifyTwilioSignature;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->middleware('throttle:rapida-global')->group(function () {
+Route::prefix('v1')->middleware(['throttle:rapida-global', BackpressureThrottle::class])->group(function () {
     Route::get('/crises/{slug}/buildings', [ApiBuildingController::class, 'footprints'])
         ->middleware('throttle:rapida-pins')
         ->name('api.buildings');
