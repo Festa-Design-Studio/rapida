@@ -80,13 +80,19 @@
                 </template>
             </div>
 
-            {{-- Language switcher --}}
-            <div class="hidden md:block">
-                <x-molecules.language-switcher
-                    current="{{ session('locale', 'en') }}"
-                    :languages="['en' => 'English', 'fr' => 'French', 'ar' => 'Arabic']"
-                />
-            </div>
+            {{-- Language switcher (compact dropdown — all 6 UN languages) --}}
+            <x-molecules.language-switcher
+                current="{{ session('locale', 'en') }}"
+                :languages="[
+                    'en' => 'English',
+                    'fr' => 'Français',
+                    'ar' => 'العربية',
+                    'zh' => '中文',
+                    'ru' => 'Русский',
+                    'es' => 'Español',
+                ]"
+                variant="dropdown"
+            />
 
             {{-- Safe Exit --}}
             <x-atoms.button

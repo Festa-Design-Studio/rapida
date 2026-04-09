@@ -104,6 +104,7 @@ return [
     'be_first' => 'Станьте первым, кто поможет своему сообществу.',
 
     // UI — Damage levels
+    'damage_level_label' => 'Уровень ущерба',
     'damage_minimal' => 'Минимальные',
     'damage_partial' => 'Частичные',
     'damage_complete' => 'Полные',

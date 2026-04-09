@@ -1,72 +1,72 @@
 <?php
 
-it('renders with language options', function () {
+it('renders dropdown variant by default with all languages', function () {
     $view = $this->blade('
         <x-molecules.language-switcher
             current="en"
-            :languages="[\'en\' => \'English\', \'ar\' => \'Arabic\', \'ne\' => \'Nepali\']"
+            :languages="[\'en\' => \'English\', \'fr\' => \'Français\', \'ar\' => \'العربية\']"
         />
     ');
 
-    $view->assertSee('EN');
-    $view->assertSee('AR');
-    $view->assertSee('NE');
+    $view->assertSee('select', false);
+    $view->assertSee('EN — English');
+    $view->assertSee('FR — Français');
 });
 
-it('uses radiogroup role for accessibility', function () {
+it('marks current language as selected in dropdown', function () {
+    $view = $this->blade('
+        <x-molecules.language-switcher
+            current="fr"
+            :languages="[\'en\' => \'English\', \'fr\' => \'Français\']"
+        />
+    ');
+
+    $view->assertSee('value="fr"', false);
+    $view->assertSee('selected', false);
+});
+
+it('has aria-label on select element', function () {
     $view = $this->blade('
         <x-molecules.language-switcher
             current="en"
             :languages="[\'en\' => \'English\']"
+        />
+    ');
+
+    $view->assertSee('aria-label="Language"', false);
+});
+
+it('renders badges variant when specified', function () {
+    $view = $this->blade('
+        <x-molecules.language-switcher
+            current="en"
+            :languages="[\'en\' => \'English\', \'ar\' => \'Arabic\']"
+            variant="badges"
         />
     ');
 
     $view->assertSee('role="radiogroup"', false);
-    $view->assertSee('aria-label="Language selection"', false);
+    $view->assertSee('EN');
+    $view->assertSee('AR');
 });
 
-it('marks current language as checked', function () {
-    $view = $this->blade('
-        <x-molecules.language-switcher
-            current="ar"
-            :languages="[\'en\' => \'English\', \'ar\' => \'Arabic\']"
-        />
-    ');
-
-    $view->assertSee('value="ar"', false);
-    $view->assertSee('checked', false);
-});
-
-it('composes badge atom for language codes', function () {
+it('renders all 6 UN languages in dropdown', function () {
     $view = $this->blade('
         <x-molecules.language-switcher
             current="en"
-            :languages="[\'en\' => \'English\']"
+            :languages="[
+                \'en\' => \'English\',
+                \'fr\' => \'Français\',
+                \'ar\' => \'العربية\',
+                \'zh\' => \'中文\',
+                \'ru\' => \'Русский\',
+                \'es\' => \'Español\',
+            ]"
         />
     ');
 
-    $view->assertSee('rounded-full', false);
-});
-
-it('has aria-label on each radio input', function () {
-    $view = $this->blade('
-        <x-molecules.language-switcher
-            current="en"
-            :languages="[\'en\' => \'English\', \'ar\' => \'Arabic\']"
-        />
-    ');
-
-    $view->assertSee('aria-label="English"', false);
-    $view->assertSee('aria-label="Arabic"', false);
-});
-
-it('renders with flex-wrap layout', function () {
-    $view = $this->blade('
-        <x-molecules.language-switcher
-            current="en"
-            :languages="[\'en\' => \'English\']"
-        />
-    ');
-
-    $view->assertSee('flex flex-wrap gap-2', false);
+    $view->assertSee('EN — English');
+    $view->assertSee('ZH — 中文');
+    $view->assertSee('RU — Русский');
+    $view->assertSee('ES — Español');
 });

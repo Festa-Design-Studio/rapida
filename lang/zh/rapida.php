@@ -104,6 +104,7 @@ return [
     'be_first' => '成为第一个帮助社区的人。',
 
     // UI — Damage levels
+    'damage_level_label' => '损害等级',
     'damage_minimal' => '轻微',
     'damage_partial' => '部分',
     'damage_complete' => '完全',

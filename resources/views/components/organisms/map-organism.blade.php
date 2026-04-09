@@ -63,22 +63,6 @@
         </div>
     @endif
 
-    {{-- Legend --}}
-    <div class="absolute bottom-16 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-sm">
-        <p class="text-caption font-medium text-slate-700 mb-2">Damage Level</p>
-        <div class="space-y-1.5">
-            <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-damage-minimal-map" aria-hidden="true"></span>
-                <span class="text-caption text-slate-600">Minimal</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-damage-partial-map" aria-hidden="true"></span>
-                <span class="text-caption text-slate-600">Partial</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-damage-complete-map" aria-hidden="true"></span>
-                <span class="text-caption text-slate-600">Complete</span>
-            </div>
-        </div>
-    </div>
+    {{-- Legend (reusable, translated) --}}
+    <x-molecules.map-legend class="absolute bottom-16 left-3 z-10" />
 </div>

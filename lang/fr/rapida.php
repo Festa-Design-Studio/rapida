@@ -104,6 +104,7 @@ return [
     'be_first' => 'Soyez le premier a aider votre communaute.',
 
     // UI — Damage levels
+    'damage_level_label' => 'Niveau de degats',
     'damage_minimal' => 'Minimal',
     'damage_partial' => 'Partiel',
     'damage_complete' => 'Complet',

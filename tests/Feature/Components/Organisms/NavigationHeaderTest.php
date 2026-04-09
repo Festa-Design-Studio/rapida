@@ -17,7 +17,9 @@ it('renders safe exit button', function () {
 it('composes language switcher molecule', function () {
     $view = $this->blade('<x-organisms.navigation-header />');
 
-    $view->assertSee('aria-label="Language selection"', false);
+    $view->assertSee('aria-label="Language"', false);
+    $view->assertSee('EN — English');
+    $view->assertSee('ZH — 中文');
 });
 
 it('renders main navigation links', function () {

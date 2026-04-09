@@ -1,11 +1,13 @@
 @props([
     'current' => 'en',
     'languages' => [],
+    'variant' => 'dropdown',
 ])
 
 <div
     x-data="{
         switchLang(code) {
+            if (code === '{{ $current }}') return;
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '{{ route('onboarding.language') }}';
@@ -19,28 +21,55 @@
             form.submit();
         }
     }"
-    {{ $attributes->class(['flex flex-wrap gap-2']) }}
-    role="radiogroup"
-    aria-label="Language selection"
+    {{ $attributes }}
 >
-    @foreach($languages as $code => $name)
-        <label class="cursor-pointer" @click.prevent="switchLang('{{ $code }}')">
-            <input
-                type="radio"
-                name="language"
-                value="{{ $code }}"
-                class="sr-only peer"
-                @if($code === $current) checked @endif
-                aria-label="{{ $name }}"
-            />
-            <x-atoms.badge
-                variant="language"
-                class="peer-checked:bg-rapida-blue-700 peer-checked:text-white peer-checked:border-transparent
-                       peer-focus-visible:ring-2 peer-focus-visible:ring-rapida-blue-700 peer-focus-visible:ring-offset-2
-                       cursor-pointer transition-colors duration-150 min-h-[48px] min-w-[48px] flex items-center justify-center"
+    @if($variant === 'dropdown')
+        {{-- Compact dropdown — fits 6 languages in minimal space --}}
+        <div class="relative">
+            <select
+                @change="switchLang($event.target.value)"
+                aria-label="Language"
+                class="appearance-none bg-rapida-blue-700 text-white text-body-sm font-heading font-semibold
+                       rounded-lg pl-3 pr-8 py-2 min-h-[40px] cursor-pointer
+                       border border-transparent
+                       focus:outline-none focus:ring-2 focus:ring-rapida-blue-500 focus:ring-offset-2
+                       transition-colors duration-fast"
             >
-                {{ strtoupper($code) }}
-            </x-atoms.badge>
-        </label>
-    @endforeach
+                @foreach($languages as $code => $name)
+                    <option value="{{ $code }}" {{ $code === $current ? 'selected' : '' }}>
+                        {{ strtoupper($code) }} — {{ $name }}
+                    </option>
+                @endforeach
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <svg class="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    @else
+        {{-- Badge variant for onboarding page (more space available) --}}
+        <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="Language selection">
+            @foreach($languages as $code => $name)
+                <label class="cursor-pointer" @click.prevent="switchLang('{{ $code }}')">
+                    <input
+                        type="radio"
+                        name="language"
+                        value="{{ $code }}"
+                        class="sr-only peer"
+                        @if($code === $current) checked @endif
+                        aria-label="{{ $name }}"
+                    />
+                    <x-atoms.badge
+                        variant="language"
+                        class="peer-checked:bg-rapida-blue-700 peer-checked:text-white peer-checked:border-transparent
+                               peer-focus-visible:ring-2 peer-focus-visible:ring-rapida-blue-700 peer-focus-visible:ring-offset-2
+                               cursor-pointer transition-colors duration-150 min-h-[48px] min-w-[48px] flex items-center justify-center"
+                    >
+                        {{ strtoupper($code) }}
+                    </x-atoms.badge>
+                </label>
+            @endforeach
+        </div>
+    @endif
 </div>

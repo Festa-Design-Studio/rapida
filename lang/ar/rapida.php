@@ -104,6 +104,7 @@ return [
     'be_first' => 'كن أول من يساعد مجتمعك.',
 
     // واجهة — مستويات الضرر
+    'damage_level_label' => 'مستوى الضرر',
     'damage_minimal' => 'طفيف',
     'damage_partial' => 'جزئي',
     'damage_complete' => 'كامل',
