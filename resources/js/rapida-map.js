@@ -473,6 +473,14 @@ function rapidaMap(config = {}) {
         async _addHeatmapLayer() {
             if (!this.config.heatmapUrl) return;
 
+            // Remove existing heatmap layers/source if re-rendering
+            if (this.map.getSource('heatmap-cells')) {
+                ['heatmap-labels', 'heatmap-outline', 'heatmap-fill'].forEach(id => {
+                    if (this.map.getLayer(id)) this.map.removeLayer(id);
+                });
+                this.map.removeSource('heatmap-cells');
+            }
+
             try {
                 const res = await fetch(this.config.heatmapUrl);
                 if (!res.ok) return;
