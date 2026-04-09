@@ -28,16 +28,14 @@ new class extends Component
         baseUrl: '/api/v1/crises/{{ $crisisSlug }}/pins',
 
         applyFilter() {
-            const mapData = window.__rapidaFieldMap;
-            if (!mapData || !mapData.map) return;
+            const mapApi = window.__rapidaFieldMap;
+            if (!mapApi) return;
             let url = this.baseUrl;
             const params = [];
             if (this.damageFilter) params.push('damage_level=' + this.damageFilter);
             if (this.infraFilter) params.push('infrastructure_type=' + this.infraFilter);
             if (params.length) url += '?' + params.join('&');
-            mapData.config.pinsUrl = url;
-            mapData.lastPinTimestamp = null;
-            mapData._fetchPins();
+            mapApi.refetchPins(url);
         }
     }"
     class="flex flex-col h-full"
@@ -108,7 +106,18 @@ new class extends Component
                     heatmapUrl: '',
                 })"
                 x-ref="mapEl"
-                x-init="init(); $watch('map', (m) => { if (m) window.__rapidaFieldMap = $data })"
+                wire:ignore
+                x-init="
+                    init();
+                    const self = this;
+                    window.__rapidaFieldMap = {
+                        refetchPins(url) {
+                            self.config.pinsUrl = url;
+                            self.lastPinTimestamp = null;
+                            self._fetchPins();
+                        }
+                    };
+                "
                 class="absolute inset-0"
                 aria-label="{{ __('rapida.location') }}"
             ></div>
