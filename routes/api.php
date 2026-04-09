@@ -8,16 +8,21 @@ use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Middleware\VerifyTwilioSignature;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group(function () {
-    Route::get('/crises/{slug}/buildings', [ApiBuildingController::class, 'footprints'])->name('api.buildings');
-    Route::get('/crises/{slug}/pins', [ApiMapPinsController::class, 'index'])->name('api.pins');
+Route::prefix('v1')->middleware('throttle:rapida-global')->group(function () {
+    Route::get('/crises/{slug}/buildings', [ApiBuildingController::class, 'footprints'])
+        ->middleware('throttle:rapida-pins')
+        ->name('api.buildings');
+
+    Route::get('/crises/{slug}/pins', [ApiMapPinsController::class, 'index'])
+        ->middleware('throttle:rapida-pins')
+        ->name('api.pins');
 
     Route::post('/reports', [ApiReportController::class, 'store'])
-        ->middleware('throttle:60,1')
+        ->middleware('throttle:rapida-report')
         ->name('api.reports.store');
 
     Route::post('/webhooks/whatsapp', [WhatsAppWebhookController::class, 'handle'])
-        ->middleware(VerifyTwilioSignature::class)
+        ->middleware([VerifyTwilioSignature::class, 'throttle:rapida-whatsapp'])
         ->name('api.whatsapp.webhook');
 
     Route::post('/internal/ai-result', [ApiAiController::class, 'receive'])

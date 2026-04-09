@@ -22,6 +22,12 @@ class Crisis extends Model
         'h3_resolution',
         'status',
         'qr_code_url',
+        'conflict_context',
+        'whatsapp_enabled',
+        'wizard_mode',
+        'multi_photo_enabled',
+        'crisis_type_default',
+        'data_retention_days',
     ];
 
     protected function casts(): array
@@ -30,6 +36,10 @@ class Crisis extends Model
             'available_languages' => 'array',
             'active_modules' => 'array',
             'map_tile_bbox' => 'array',
+            'conflict_context' => 'boolean',
+            'whatsapp_enabled' => 'boolean',
+            'multi_photo_enabled' => 'boolean',
+            'data_retention_days' => 'integer',
         ];
     }
 
@@ -56,5 +66,10 @@ class Crisis extends Model
     public function accounts(): HasMany
     {
         return $this->hasMany(Account::class);
+    }
+
+    public function recoveryOutcomes(): HasMany
+    {
+        return $this->hasMany(RecoveryOutcome::class);
     }
 }

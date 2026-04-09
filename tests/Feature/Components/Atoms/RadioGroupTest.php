@@ -67,5 +67,5 @@ it('has focus ring on radio inputs', function () {
     );
 
     $view->assertSee('focus:ring-2', false);
-    $view->assertSee('focus:ring-teal-600', false);
+    $view->assertSee('focus:ring-rapida-blue-700', false);
 });

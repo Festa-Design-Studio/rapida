@@ -46,7 +46,7 @@ it('renders pending state', function () {
 it('renders verified badge', function () {
     $view = $this->blade('<x-atoms.badge variant="verified">Verified Reporter</x-atoms.badge>');
 
-    $view->assertSee('bg-teal-700', false);
+    $view->assertSee('bg-rapida-blue-700', false);
     $view->assertSee('text-white', false);
 });
 

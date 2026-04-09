@@ -4,7 +4,7 @@ it('renders primary button by default', function () {
     $view = $this->blade('<x-atoms.button>Submit Report</x-atoms.button>');
 
     $view->assertSee('Submit Report');
-    $view->assertSee('bg-teal-900', false);
+    $view->assertSee('bg-rapida-blue-900', false);
     $view->assertSee('text-white', false);
     $view->assertSee('type="button"', false);
 });
@@ -14,8 +14,8 @@ it('renders secondary variant', function () {
 
     $view->assertSee('Save Draft');
     $view->assertSee('border-2', false);
-    $view->assertSee('border-teal-900', false);
-    $view->assertSee('text-teal-900', false);
+    $view->assertSee('border-rapida-blue-900', false);
+    $view->assertSee('text-rapida-blue-900', false);
 });
 
 it('renders ghost variant', function () {
@@ -74,7 +74,7 @@ it('has focus ring for keyboard accessibility', function () {
 
     $view->assertSee('focus:ring-2', false);
     $view->assertSee('focus:ring-offset-2', false);
-    $view->assertSee('focus:ring-teal-600', false);
+    $view->assertSee('focus:ring-rapida-blue-700', false);
 });
 
 it('meets minimum touch target of 48px', function () {

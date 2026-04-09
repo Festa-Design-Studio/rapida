@@ -32,7 +32,7 @@ it('shows active state for current route', function () {
     $view = $this->blade('<x-organisms.navigation-header currentRoute="report" />');
 
     $view->assertSee('aria-current="page"', false);
-    $view->assertSee('bg-teal-100', false);
+    $view->assertSee('bg-rapida-blue-100', false);
 });
 
 it('renders online status badge', function () {

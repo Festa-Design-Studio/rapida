@@ -19,6 +19,9 @@ class Account extends Authenticatable
         'badge_count',
         'leaderboard_score',
         'preferred_language',
+        'verification_tier',
+        'is_trusted_device',
+        'trusted_since',
         'h3_cell_id',
         'is_suspended',
         'flagged_report_count',
@@ -34,6 +37,8 @@ class Account extends Authenticatable
     {
         return [
             'is_suspended' => 'boolean',
+            'is_trusted_device' => 'boolean',
+            'trusted_since' => 'datetime',
             'password' => 'hashed',
         ];
     }

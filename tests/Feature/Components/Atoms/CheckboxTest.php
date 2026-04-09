@@ -36,17 +36,17 @@ it('renders disabled state', function () {
     $view->assertSee('cursor-not-allowed', false);
 });
 
-it('uses teal accent color', function () {
+it('uses rapida-blue accent color', function () {
     $view = $this->blade('<x-atoms.checkbox name="test" label="Test" />');
 
-    $view->assertSee('accent-teal-700', false);
+    $view->assertSee('accent-rapida-blue-700', false);
 });
 
 it('has focus ring for keyboard accessibility', function () {
     $view = $this->blade('<x-atoms.checkbox name="test" label="Test" />');
 
     $view->assertSee('focus:ring-2', false);
-    $view->assertSee('focus:ring-teal-600', false);
+    $view->assertSee('focus:ring-rapida-blue-700', false);
 });
 
 it('entire label row is tappable', function () {

@@ -12,7 +12,9 @@ return [
     'report_submitted' => "Thank you. Report #:report_id submitted!\n\nYour data helps UNDP coordinate emergency response.",
     'session_restarted' => 'Session restarted. Send a photo to begin.',
     'session_cancelled' => 'Report cancelled. Type RAPIDA to start again.',
-    'max_retries_exceeded' => 'Too many failed attempts. Type RAPIDA to restart.',
+    'max_retries_exceeded' => "Something went wrong a few times. Type RAPIDA and we'll start fresh.",
     'confirm_or_restart' => 'Type CONFIRM to submit or RESTART to start over.',
-    'unknown_state' => 'Sorry, something went wrong. Type RAPIDA to restart.',
+    'unknown_state' => "Your session timed out after 30 minutes. Type RAPIDA when you're ready to continue.",
+    'whatsapp_disabled' => 'This crisis uses anonymous-only reporting. Please use the web app to submit a report.',
+    'location_conflict_mode' => 'Describe where the damage is — a street name, landmark, or three-word code.',
 ];

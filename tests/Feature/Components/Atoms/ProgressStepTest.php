@@ -11,14 +11,14 @@ it('renders dots variant by default', function () {
 it('renders correct number of dots', function () {
     $view = $this->blade('<x-atoms.progress-step :current="3" :total="5" />');
 
-    $view->assertSee('bg-teal-700', false);
+    $view->assertSee('bg-rapida-blue-700', false);
     $view->assertSee('bg-slate-300', false);
 });
 
 it('highlights active step with ring', function () {
     $view = $this->blade('<x-atoms.progress-step :current="2" :total="5" />');
 
-    $view->assertSee('ring-4 ring-teal-100', false);
+    $view->assertSee('ring-4 ring-rapida-blue-100', false);
 });
 
 it('renders counter variant', function () {

@@ -60,5 +60,5 @@ it('has focus ring for keyboard accessibility', function () {
     $view = $this->blade('<x-atoms.select name="test" label="Test" />');
 
     $view->assertSee('focus:ring-1', false);
-    $view->assertSee('focus:ring-teal-600', false);
+    $view->assertSee('focus:ring-rapida-blue-700', false);
 });

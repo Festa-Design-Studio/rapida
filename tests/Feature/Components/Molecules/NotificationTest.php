@@ -4,8 +4,8 @@ it('renders info notification', function () {
     $view = $this->blade('<x-molecules.notification type="info" message="Data sync complete." />');
 
     $view->assertSee('Data sync complete.');
-    $view->assertSee('bg-teal-50', false);
-    $view->assertSee('border-teal-200', false);
+    $view->assertSee('bg-rapida-blue-50', false);
+    $view->assertSee('border-rapida-blue-100', false);
 });
 
 it('renders success notification', function () {
