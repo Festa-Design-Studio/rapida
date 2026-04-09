@@ -6,16 +6,16 @@
 
 @php
     $pinColors = match($damageLevel) {
-        'minimal'  => 'bg-green-500 shadow-green-500/40',
-        'partial'  => 'bg-amber-500 shadow-amber-500/40',
-        'complete' => 'bg-red-600 shadow-red-600/40',
+        'minimal'  => 'bg-damage-minimal-map shadow-ground-green-500/40',
+        'partial'  => 'bg-damage-partial-map shadow-alert-amber-500/40',
+        'complete' => 'bg-damage-complete-map shadow-crisis-rose-400/40',
         default    => 'bg-slate-400 shadow-slate-400/40',
     };
 
     $clusterColors = match($damageLevel) {
-        'minimal'  => 'bg-green-100 text-green-800 border-green-300',
-        'partial'  => 'bg-amber-100 text-amber-800 border-amber-300',
-        'complete' => 'bg-red-100 text-red-800 border-red-300',
+        'minimal'  => 'bg-damage-minimal-ui-surface text-damage-minimal-ui-text border-damage-minimal-ui-border',
+        'partial'  => 'bg-damage-partial-ui-surface text-damage-partial-ui-text border-damage-partial-ui-border',
+        'complete' => 'bg-damage-complete-ui-surface text-damage-complete-ui-text border-damage-complete-ui-border',
         default    => 'bg-slate-100 text-slate-800 border-slate-300',
     };
 

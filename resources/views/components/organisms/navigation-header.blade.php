@@ -61,7 +61,7 @@
             {{-- Sync indicator (Alpine offlineQueue store) --}}
             <div x-data class="hidden sm:block">
                 <template x-if="$store.offlineQueue && !$store.offlineQueue.isOnline">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-alert-amber-50 text-alert-amber-900 border border-alert-amber-100">
                         <x-atoms.icon name="cloud-offline" size="xs" />
                         Offline
                     </span>
@@ -73,7 +73,7 @@
                     </span>
                 </template>
                 <template x-if="$store.offlineQueue && $store.offlineQueue.isOnline && $store.offlineQueue.pendingCount === 0">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-green-50 text-green-800 border border-green-200">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-caption font-medium rounded-full bg-ground-green-50 text-ground-green-900 border border-ground-green-200">
                         <x-atoms.icon name="cloud-upload" size="xs" />
                         Online
                     </span>

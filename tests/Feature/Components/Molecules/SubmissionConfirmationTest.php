@@ -23,14 +23,14 @@ it('composes badge atom for damage level', function () {
     $view = $this->blade('<x-molecules.submission-confirmation damageLevel="complete" />');
 
     $view->assertSee('Complete');
-    $view->assertSee('bg-red-100', false);
+    $view->assertSee('bg-damage-complete-ui-surface', false);
 });
 
 it('composes badge atom for sync status', function () {
     $view = $this->blade('<x-molecules.submission-confirmation syncStatus="pending" />');
 
     $view->assertSee('Pending sync');
-    $view->assertSee('bg-amber-100', false);
+    $view->assertSee('bg-alert-amber-50', false);
 });
 
 it('composes button atoms for actions', function () {
@@ -50,8 +50,8 @@ it('has ARIA live region', function () {
 it('uses green background for positive confirmation', function () {
     $view = $this->blade('<x-molecules.submission-confirmation />');
 
-    $view->assertSee('bg-green-50', false);
-    $view->assertSee('border-green-200', false);
+    $view->assertSee('bg-ground-green-50', false);
+    $view->assertSee('border-ground-green-200', false);
 });
 
 it('centers content', function () {

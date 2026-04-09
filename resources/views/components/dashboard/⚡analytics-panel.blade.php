@@ -57,7 +57,7 @@ new class extends Component
         {{-- Minimal --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div class="flex items-center gap-2">
-                <span class="inline-block h-3 w-3 rounded-full bg-green-600"></span>
+                <span class="inline-block h-3 w-3 rounded-full bg-ground-green-800"></span>
                 <p class="text-body-sm font-medium text-slate-600">Minimal</p>
             </div>
             <p class="mt-2 text-3xl font-bold font-heading text-slate-900">{{ $this->reportsByDamageLevel['minimal'] ?? 0 }}</p>
@@ -66,7 +66,7 @@ new class extends Component
         {{-- Partial --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div class="flex items-center gap-2">
-                <span class="inline-block h-3 w-3 rounded-full bg-amber-500"></span>
+                <span class="inline-block h-3 w-3 rounded-full bg-damage-partial-map"></span>
                 <p class="text-body-sm font-medium text-slate-600">Partial</p>
             </div>
             <p class="mt-2 text-3xl font-bold font-heading text-slate-900">{{ $this->reportsByDamageLevel['partial'] ?? 0 }}</p>
@@ -75,7 +75,7 @@ new class extends Component
         {{-- Complete --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div class="flex items-center gap-2">
-                <span class="inline-block h-3 w-3 rounded-full bg-red-600"></span>
+                <span class="inline-block h-3 w-3 rounded-full bg-damage-complete-map"></span>
                 <p class="text-body-sm font-medium text-slate-600">Complete</p>
             </div>
             <p class="mt-2 text-3xl font-bold font-heading text-slate-900">{{ $this->reportsByDamageLevel['complete'] ?? 0 }}</p>

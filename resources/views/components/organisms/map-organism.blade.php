@@ -67,15 +67,15 @@
         <p class="text-caption font-medium text-slate-700 mb-2">Damage Level</p>
         <div class="space-y-1.5">
             <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-green-500" aria-hidden="true"></span>
+                <span class="h-3 w-3 rounded-full bg-damage-minimal-map" aria-hidden="true"></span>
                 <span class="text-caption text-slate-600">Minimal</span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-amber-500" aria-hidden="true"></span>
+                <span class="h-3 w-3 rounded-full bg-damage-partial-map" aria-hidden="true"></span>
                 <span class="text-caption text-slate-600">Partial</span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full bg-red-600" aria-hidden="true"></span>
+                <span class="h-3 w-3 rounded-full bg-damage-complete-map" aria-hidden="true"></span>
                 <span class="text-caption text-slate-600">Complete</span>
             </div>
         </div>

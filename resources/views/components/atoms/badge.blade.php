@@ -6,12 +6,12 @@
 
 @php
     $variantClasses = match($variant) {
-        'minimal'   => 'bg-green-100 text-green-800 border-green-200',
-        'partial'   => 'bg-amber-100 text-amber-800 border-amber-200',
-        'complete'  => 'bg-red-100 text-red-800 border-red-200',
-        'synced'    => 'bg-green-100 text-green-800 border-green-200',
-        'pending'   => 'bg-amber-100 text-amber-800 border-amber-200',
-        'failed'    => 'bg-red-100 text-red-800 border-red-200',
+        'minimal'   => 'bg-damage-minimal-ui-surface text-damage-minimal-ui-text border-damage-minimal-ui-border',
+        'partial'   => 'bg-damage-partial-ui-surface text-damage-partial-ui-text border-damage-partial-ui-border',
+        'complete'  => 'bg-damage-complete-ui-surface text-damage-complete-ui-text border-damage-complete-ui-border',
+        'synced'    => 'bg-ground-green-50 text-ground-green-900 border-ground-green-200',
+        'pending'   => 'bg-alert-amber-50 text-alert-amber-900 border-alert-amber-100',
+        'failed'    => 'bg-crisis-rose-50 text-crisis-rose-900 border-crisis-rose-100',
         'draft'     => 'bg-slate-100 text-slate-600 border-slate-200',
         'verified'  => 'bg-rapida-blue-700 text-white border-transparent',
         'info'      => 'bg-rapida-blue-50 text-rapida-blue-900 border-rapida-blue-100',
@@ -20,9 +20,9 @@
     };
 
     $dotColor = match($variant) {
-        'minimal'  => 'bg-green-500',
-        'partial'  => 'bg-amber-500',
-        'complete' => 'bg-red-600',
+        'minimal'  => 'bg-damage-minimal-map',
+        'partial'  => 'bg-damage-partial-map',
+        'complete' => 'bg-damage-complete-map',
         default    => null,
     };
 

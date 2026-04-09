@@ -29,14 +29,14 @@ it('composes badge atom for damage level', function () {
     $view = $this->blade('<x-molecules.damage-report-card damageLevel="complete" location="Test" />');
 
     $view->assertSee('Complete');
-    $view->assertSee('bg-red-100', false);
+    $view->assertSee('bg-damage-complete-ui-surface', false);
 });
 
 it('composes badge atom for sync status', function () {
     $view = $this->blade('<x-molecules.damage-report-card syncStatus="pending" location="Test" />');
 
     $view->assertSee('Pending sync');
-    $view->assertSee('bg-amber-100', false);
+    $view->assertSee('bg-alert-amber-50', false);
 });
 
 it('has aria-label on article', function () {

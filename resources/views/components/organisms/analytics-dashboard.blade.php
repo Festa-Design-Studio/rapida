@@ -34,14 +34,14 @@
         {{-- Minimal --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 space-y-2" role="listitem">
             <p class="text-caption font-medium text-slate-500 uppercase tracking-widest">Minimal Damage</p>
-            <p class="text-display font-heading font-bold text-green-700">{{ $byDamageLevel['minimal'] ?? 0 }}</p>
+            <p class="text-display font-heading font-bold text-ground-green-700">{{ $byDamageLevel['minimal'] ?? 0 }}</p>
             <x-atoms.badge variant="minimal">Minimal</x-atoms.badge>
         </div>
 
         {{-- Partial --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 space-y-2" role="listitem">
             <p class="text-caption font-medium text-slate-500 uppercase tracking-widest">Partial Damage</p>
-            <p class="text-display font-heading font-bold text-amber-700">{{ $byDamageLevel['partial'] ?? 0 }}</p>
+            <p class="text-display font-heading font-bold text-alert-amber-700">{{ $byDamageLevel['partial'] ?? 0 }}</p>
             <x-atoms.badge variant="partial">Partial</x-atoms.badge>
         </div>
 

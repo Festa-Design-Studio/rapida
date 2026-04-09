@@ -41,9 +41,9 @@
         <div class="absolute bottom-3 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-2.5 shadow-sm">
             <div class="space-y-1">
                 @foreach([
-                    ['minimal', 'bg-green-500', 'Minimal'],
-                    ['partial', 'bg-amber-500', 'Partial'],
-                    ['complete', 'bg-red-600', 'Complete'],
+                    ['minimal', 'bg-damage-minimal-map', 'Minimal'],
+                    ['partial', 'bg-damage-partial-map', 'Partial'],
+                    ['complete', 'bg-damage-complete-map', 'Complete'],
                 ] as [$level, $color, $labelText])
                     <div class="flex items-center gap-1.5 {{ $damageLevel === $level ? 'font-medium' : 'opacity-50' }}">
                         <span class="h-2.5 w-2.5 rounded-full {{ $color }} {{ $damageLevel === $level ? 'ring-2 ring-offset-1 ring-' . ($level === 'minimal' ? 'green-400' : ($level === 'partial' ? 'amber-400' : 'red-400')) : '' }}" aria-hidden="true"></span>

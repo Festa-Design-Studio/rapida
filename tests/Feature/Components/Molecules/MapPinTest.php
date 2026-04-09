@@ -3,28 +3,28 @@
 it('renders pin variant by default', function () {
     $view = $this->blade('<x-molecules.map-pin damageLevel="minimal" />');
 
-    $view->assertSee('bg-green-500', false);
+    $view->assertSee('bg-damage-minimal-map', false);
     $view->assertSee('rounded-full', false);
 });
 
 it('renders partial damage pin', function () {
     $view = $this->blade('<x-molecules.map-pin damageLevel="partial" />');
 
-    $view->assertSee('bg-amber-500', false);
+    $view->assertSee('bg-damage-partial-map', false);
 });
 
 it('renders complete damage pin', function () {
     $view = $this->blade('<x-molecules.map-pin damageLevel="complete" />');
 
-    $view->assertSee('bg-red-600', false);
+    $view->assertSee('bg-damage-complete-map', false);
 });
 
 it('renders cluster variant with count', function () {
     $view = $this->blade('<x-molecules.map-pin damageLevel="partial" variant="cluster" :count="12" />');
 
     $view->assertSee('12');
-    $view->assertSee('bg-amber-100', false);
-    $view->assertSee('border-amber-300', false);
+    $view->assertSee('bg-damage-partial-ui-surface', false);
+    $view->assertSee('border-damage-partial-ui-border', false);
 });
 
 it('has aria-label on pin variant', function () {

@@ -10,17 +10,17 @@
         'minimal' => [
             'label' => 'Minimal / No Damage',
             'description' => 'Superficial damage; building is safe and functional.',
-            'color' => 'bg-green-500',
+            'color' => 'bg-damage-minimal-map',
         ],
         'partial' => [
             'label' => 'Partial Damage',
             'description' => 'Structural issues; building may be unsafe to occupy.',
-            'color' => 'bg-amber-500',
+            'color' => 'bg-damage-partial-map',
         ],
         'complete' => [
             'label' => 'Complete Destruction',
             'description' => 'Total structural failure; building is uninhabitable.',
-            'color' => 'bg-red-600',
+            'color' => 'bg-damage-complete-map',
         ],
     ];
 @endphp

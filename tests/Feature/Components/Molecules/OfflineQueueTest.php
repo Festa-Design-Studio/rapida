@@ -4,14 +4,14 @@ it('renders online status', function () {
     $view = $this->blade('<x-molecules.offline-queue :pendingCount="0" status="online" />');
 
     $view->assertSee('Online');
-    $view->assertSee('bg-green-100', false);
+    $view->assertSee('bg-ground-green-50', false);
 });
 
 it('renders offline status with icon', function () {
     $view = $this->blade('<x-molecules.offline-queue :pendingCount="3" status="offline" />');
 
     $view->assertSee('Offline');
-    $view->assertSee('bg-red-100', false);
+    $view->assertSee('bg-crisis-rose-50', false);
 });
 
 it('renders syncing status with loader', function () {
@@ -25,7 +25,7 @@ it('shows pending count badge when count is greater than zero', function () {
     $view = $this->blade('<x-molecules.offline-queue :pendingCount="5" status="offline" />');
 
     $view->assertSee('5 pending');
-    $view->assertSee('bg-amber-100', false);
+    $view->assertSee('bg-alert-amber-50', false);
 });
 
 it('hides pending badge when count is zero', function () {

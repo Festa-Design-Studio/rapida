@@ -98,7 +98,7 @@ new class extends Component
                                 <x-atoms.button size="sm" variant="primary" wire:click="assign('{{ $report->id }}')">
                                     Assign
                                 </x-atoms.button>
-                                <x-atoms.button size="sm" variant="primary" class="bg-green-600 hover:bg-green-700 focus:ring-green-600" wire:click="verify('{{ $report->id }}')">
+                                <x-atoms.button size="sm" variant="primary" class="bg-ground-green-800 hover:bg-ground-green-700 focus:ring-ground-green-800" wire:click="verify('{{ $report->id }}')">
                                     Verify
                                 </x-atoms.button>
                                 <x-atoms.button size="sm" variant="secondary" wire:click="dispute('{{ $report->id }}')">

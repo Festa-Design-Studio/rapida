@@ -19,9 +19,9 @@ it('includes descriptions for each level', function () {
 it('renders color dots for each option', function () {
     $view = $this->blade('<x-molecules.damage-classification name="damage_level" />');
 
-    $view->assertSee('bg-green-500', false);
-    $view->assertSee('bg-amber-500', false);
-    $view->assertSee('bg-red-600', false);
+    $view->assertSee('bg-damage-minimal-map', false);
+    $view->assertSee('bg-damage-partial-map', false);
+    $view->assertSee('bg-damage-complete-map', false);
 });
 
 it('uses card variant of radio group atom', function () {
