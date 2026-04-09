@@ -4,9 +4,7 @@ import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 import { queueReport, syncQueue, getPendingCount, getCurrentPressure } from './offline-queue';
 
-// Register Alpine plugins and stores.
-// Livewire 4 auto-starts Alpine on pages WITH Livewire components.
-// On pages WITHOUT Livewire (map home, report detail), we start Alpine ourselves.
+// Register Alpine plugins and stores BEFORE Alpine starts.
 Alpine.plugin(collapse);
 
 Alpine.store('offlineQueue', {
@@ -28,17 +26,21 @@ Alpine.store('offlineQueue', {
     },
 });
 
-// Expose Alpine globally — Livewire 4 checks window.Alpine before injecting its own
-window.Alpine = Alpine;
+// Expose Alpine globally ONCE — Livewire 4 detects window.Alpine and uses it
+// instead of injecting its own copy. This prevents the "multiple instances" warning.
+if (!window.Alpine) {
+    window.Alpine = Alpine;
+}
 
-// Start Alpine after DOM is ready.
-// On Livewire pages, Livewire calls Alpine.start() itself via its injected script.
-// On non-Livewire pages, we need to start it ourselves.
+// Start Alpine only on non-Livewire pages.
+// Livewire will call Alpine.start() on its own when it loads.
+// We use a small delay to let Livewire claim Alpine first if present.
 document.addEventListener('DOMContentLoaded', () => {
-    // If Livewire hasn't already started Alpine, start it now
-    if (!Alpine.started) {
-        Alpine.start();
-    }
+    setTimeout(() => {
+        if (!Alpine.started) {
+            Alpine.start();
+        }
+    }, 50);
 });
 
 // Expose offline queue for Livewire access
