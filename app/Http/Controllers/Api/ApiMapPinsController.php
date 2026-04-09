@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\DamageLevel;
 use App\Http\Controllers\Controller;
 use App\Models\Crisis;
 use App\Models\DamageReport;
@@ -28,12 +29,16 @@ class ApiMapPinsController extends Controller
             $query->whereIn('damage_level', explode(',', $damageLevel));
         }
 
+        if ($infraType = $request->query('infrastructure_type')) {
+            $query->whereIn('infrastructure_type', explode(',', $infraType));
+        }
+
         $features = $query->latest('submitted_at')->limit(2000)->get()->map(fn ($r) => [
             'type' => 'Feature',
             'geometry' => ['type' => 'Point', 'coordinates' => [(float) $r->longitude, (float) $r->latitude]],
             'properties' => [
                 'report_id' => $r->id,
-                'damage_level' => $r->damage_level instanceof \App\Enums\DamageLevel ? $r->damage_level->value : $r->damage_level,
+                'damage_level' => $r->damage_level instanceof DamageLevel ? $r->damage_level->value : $r->damage_level,
                 'infrastructure_type' => $r->infrastructure_type,
                 'submitted_at' => $r->submitted_at?->toIso8601String(),
                 'photo_url' => $r->photo_url,
