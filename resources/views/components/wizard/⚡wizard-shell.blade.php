@@ -661,7 +661,7 @@ new class extends Component {
                 :reportId="$reportId"
                 :submittedAt="now()->toIso8601String()"
                 :damageLevel="$damageLevel"
-                syncStatus="synced"
+                :syncStatus="$reportId ? 'synced' : 'pending'"
             />
 
             {{-- Fix 3: Real-time impact counter --}}
