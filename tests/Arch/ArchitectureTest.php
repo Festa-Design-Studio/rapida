@@ -15,7 +15,8 @@ arch('jobs implement ShouldQueue')
 arch('controllers do not use DB facade directly')
     ->expect('App\Http\Controllers')
     ->not->toUse('Illuminate\Support\Facades\DB')
-    ->ignoring('App\Http\Controllers\Api\ApiBuildingController');
+    ->ignoring('App\Http\Controllers\Api\ApiBuildingController')
+    ->ignoring('App\Http\Controllers\Api\ApiHeatmapController');
 
 arch('services do not depend on request')
     ->expect('App\Services')

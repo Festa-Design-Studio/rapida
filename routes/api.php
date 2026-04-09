@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiAiController;
 use App\Http\Controllers\Api\ApiBuildingController;
+use App\Http\Controllers\Api\ApiHeatmapController;
 use App\Http\Controllers\Api\ApiMapPinsController;
 use App\Http\Controllers\Api\ApiReportController;
 use App\Http\Controllers\Api\RecoveryOutcomeController;
@@ -18,6 +19,10 @@ Route::prefix('v1')->middleware(['throttle:rapida-global', BackpressureThrottle:
     Route::get('/crises/{slug}/pins', [ApiMapPinsController::class, 'index'])
         ->middleware('throttle:rapida-pins')
         ->name('api.pins');
+
+    Route::get('/crises/{slug}/heatmap', [ApiHeatmapController::class, 'index'])
+        ->middleware('throttle:rapida-pins')
+        ->name('api.heatmap');
 
     Route::post('/reports', [ApiReportController::class, 'store'])
         ->middleware('throttle:rapida-report')

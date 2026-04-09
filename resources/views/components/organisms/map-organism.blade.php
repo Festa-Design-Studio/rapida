@@ -44,6 +44,7 @@
                 },
                 buildingsUrl: '/api/v1/crises/{{ $slug }}/buildings',
                 pinsUrl: '/api/v1/crises/{{ $slug }}/pins',
+                heatmapUrl: '/api/v1/crises/{{ $slug }}/heatmap',
             })"
             x-init="init()"
             wire:ignore
