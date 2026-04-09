@@ -43,7 +43,11 @@ new class extends Component {
     public ?string $description = null;
 
     /** Step 5: Modular questions */
-    public array $moduleResponses = [];
+    public array $moduleResponses = [
+        'electricity_condition' => '',
+        'health_functioning' => '',
+        'pressing_needs_needs' => [],
+    ];
 
     /** Step 3: AI suggestion */
     public ?string $aiSuggestedLevel = null;
