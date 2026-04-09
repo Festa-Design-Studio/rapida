@@ -69,6 +69,17 @@ return [
     'earned' => 'Earned',
     'locked' => 'Locked',
 
+    // UI — Progress ring
+    'progress_ring_title' => 'Zone Coverage',
+    'progress_ring_desc' => ':percent% of buildings in your zone have been reported',
+    'progress_ring_buildings' => ':reported of :total buildings',
+
+    // UI — Leaderboard
+    'leaderboard_title' => 'Top Contributors',
+    'leaderboard_reports' => ':count reports',
+    'leaderboard_you' => 'You',
+    'leaderboard_anonymous' => 'Anonymous reports are not ranked',
+
     // UI — Navigation
     'app_name' => 'RAPIDA',
     'status_online' => 'Online',

@@ -69,6 +69,17 @@ return [
     'earned' => 'Obtenu',
     'locked' => 'Verrouille',
 
+    // UI — Anneau de progression
+    'progress_ring_title' => 'Couverture de la zone',
+    'progress_ring_desc' => ':percent% des batiments de votre zone ont ete signales',
+    'progress_ring_buildings' => ':reported sur :total batiments',
+
+    // UI — Classement
+    'leaderboard_title' => 'Meilleurs contributeurs',
+    'leaderboard_reports' => ':count signalements',
+    'leaderboard_you' => 'Vous',
+    'leaderboard_anonymous' => 'Les signalements anonymes ne sont pas classes',
+
     // UI — Navigation
     'app_name' => 'RAPIDA',
     'status_online' => 'En ligne',

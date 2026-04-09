@@ -687,6 +687,7 @@ new class extends Component {
             <x-organisms.engagement-panel
                 :communityCount="$communityReportCount"
                 :userReportCount="1"
+                :crisisId="$crisis->id"
             />
 
             <div class="flex flex-col gap-3 mt-6 w-full max-w-sm mx-auto">

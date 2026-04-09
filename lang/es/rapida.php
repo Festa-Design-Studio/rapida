@@ -70,6 +70,14 @@ return [
     'locked' => 'Bloqueado',
 
     // UI — Navigation
+    'progress_ring_title' => 'Cobertura de zona',
+    'progress_ring_desc' => ':percent% de edificios en tu zona han sido reportados',
+    'progress_ring_buildings' => ':reported de :total edificios',
+    'leaderboard_title' => 'Mejores contribuyentes',
+    'leaderboard_reports' => ':count reportes',
+    'leaderboard_you' => 'Tu',
+    'leaderboard_anonymous' => 'Los reportes anonimos no se clasifican',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'En línea',
     'status_offline' => 'Sin conexión',

@@ -70,6 +70,14 @@ return [
     'locked' => 'مقفل',
 
     // واجهة — التنقل
+    'progress_ring_title' => 'تغطية المنطقة',
+    'progress_ring_desc' => ':percent% من المباني في منطقتك تم الإبلاغ عنها',
+    'progress_ring_buildings' => ':reported من :total مبنى',
+    'leaderboard_title' => 'أفضل المساهمين',
+    'leaderboard_reports' => ':count تقارير',
+    'leaderboard_you' => 'أنت',
+    'leaderboard_anonymous' => 'التقارير المجهولة غير مصنفة',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'متصل',
     'status_offline' => 'غير متصل',

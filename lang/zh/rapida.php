@@ -70,6 +70,14 @@ return [
     'locked' => '未解锁',
 
     // UI — Navigation
+    'progress_ring_title' => '区域覆盖率',
+    'progress_ring_desc' => '您所在区域:percent%的建筑已被报告',
+    'progress_ring_buildings' => ':reported/:total栋建筑',
+    'leaderboard_title' => '贡献排行',
+    'leaderboard_reports' => ':count份报告',
+    'leaderboard_you' => '您',
+    'leaderboard_anonymous' => '匿名报告不参与排名',
+
     'app_name' => 'RAPIDA',
     'status_online' => '在线',
     'status_offline' => '离线',

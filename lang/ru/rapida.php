@@ -70,6 +70,14 @@ return [
     'locked' => 'Заблокировано',
 
     // UI — Navigation
+    'progress_ring_title' => 'Покрытие зоны',
+    'progress_ring_desc' => ':percent% зданий в вашей зоне отмечены',
+    'progress_ring_buildings' => ':reported из :total зданий',
+    'leaderboard_title' => 'Лучшие участники',
+    'leaderboard_reports' => ':count отчётов',
+    'leaderboard_you' => 'Вы',
+    'leaderboard_anonymous' => 'Анонимные отчёты не ранжируются',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'В сети',
     'status_offline' => 'Не в сети',

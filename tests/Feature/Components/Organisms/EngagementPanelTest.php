@@ -3,7 +3,7 @@
 it('renders the engagement panel', function () {
     $view = $this->blade('<x-organisms.engagement-panel />');
 
-    $view->assertSee('aria-label="Community engagement and recognition"', false);
+    $view->assertSee('aria-label="Community Contributions"', false);
     $view->assertSee('Community Contributions');
 });
 
