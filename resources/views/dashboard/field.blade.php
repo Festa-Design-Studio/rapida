@@ -29,8 +29,10 @@
         </div>
     </header>
 
+    <x-dashboard.dashboard-nav current="field" />
+
     {{-- Full-height map --}}
-    <main class="flex flex-col" style="height: calc(100vh - 57px);">
+    <main class="flex flex-col" style="height: calc(100vh - 100px);">
         <livewire:dashboard.field-map />
     </main>
 @endsection

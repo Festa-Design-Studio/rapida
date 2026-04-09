@@ -98,6 +98,10 @@ return [
     'submit_new_report' => 'Отправить новое сообщение',
 
     // UI — Map home
+    'dashboard_field' => 'Полевая карта',
+    'dashboard_analyst' => 'Аналитик',
+    'dashboard_export' => 'Экспорт',
+
     'report_damage' => 'Сообщить о повреждениях',
     'recent_reports' => 'Последние сообщения',
     'no_reports_community' => 'Сообщений пока нет.',

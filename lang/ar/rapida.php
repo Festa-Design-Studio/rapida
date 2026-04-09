@@ -98,6 +98,10 @@ return [
     'submit_new_report' => 'تقرير جديد',
 
     // واجهة — الصفحة الرئيسية
+    'dashboard_field' => 'خريطة الميدان',
+    'dashboard_analyst' => 'محلل',
+    'dashboard_export' => 'تصدير',
+
     'report_damage' => 'الإبلاغ عن أضرار',
     'recent_reports' => 'التقارير الأخيرة',
     'no_reports_community' => 'لا توجد تقارير بعد.',

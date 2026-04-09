@@ -29,6 +29,8 @@
         </div>
     </header>
 
+    <x-dashboard.dashboard-nav current="analyst" />
+
     {{-- Dashboard content --}}
     <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
         <livewire:dashboard.analytics-panel />

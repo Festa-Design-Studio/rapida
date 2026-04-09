@@ -98,6 +98,10 @@ return [
     'submit_new_report' => '提交新报告',
 
     // UI — Map home
+    'dashboard_field' => '现场地图',
+    'dashboard_analyst' => '分析师',
+    'dashboard_export' => '导出',
+
     'report_damage' => '报告损害',
     'recent_reports' => '最新报告',
     'no_reports_community' => '尚无报告提交。',

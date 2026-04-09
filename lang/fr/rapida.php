@@ -97,6 +97,11 @@ return [
     'no_reports_yet' => 'Vous n\'avez pas encore soumis de signalement.',
     'submit_new_report' => 'Nouveau signalement',
 
+    // UI — Dashboard nav
+    'dashboard_field' => 'Carte terrain',
+    'dashboard_analyst' => 'Analyste',
+    'dashboard_export' => 'Exporter',
+
     // UI — Map home
     'report_damage' => 'Signaler des degats',
     'recent_reports' => 'Signalements recents',

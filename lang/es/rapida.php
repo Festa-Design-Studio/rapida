@@ -98,6 +98,10 @@ return [
     'submit_new_report' => 'Enviar nuevo reporte',
 
     // UI — Map home
+    'dashboard_field' => 'Mapa de campo',
+    'dashboard_analyst' => 'Analista',
+    'dashboard_export' => 'Exportar',
+
     'report_damage' => 'Reportar daños',
     'recent_reports' => 'Reportes recientes',
     'no_reports_community' => 'Aún no se han enviado reportes.',

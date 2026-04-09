@@ -97,6 +97,11 @@ return [
     'no_reports_yet' => "You haven't submitted any reports yet.",
     'submit_new_report' => 'Submit New Report',
 
+    // UI — Dashboard nav
+    'dashboard_field' => 'Field Map',
+    'dashboard_analyst' => 'Analyst',
+    'dashboard_export' => 'Export',
+
     // UI — Map home
     'report_damage' => 'Report Damage',
     'recent_reports' => 'Recent Reports',
