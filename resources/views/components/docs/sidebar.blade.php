@@ -60,11 +60,14 @@
 @endphp
 
 <nav aria-label="Design system navigation" class="space-y-element">
-    {{-- Logo / Home --}}
-    <a href="{{ route('rapida-ui.index') }}"
-       class="block text-h4 font-heading font-semibold text-rapida-blue-900 hover:text-rapida-blue-700 transition-colors duration-150 pb-micro border-b border-grey-100">
-        RAPIDA UI
-    </a>
+    {{-- Logo / RAPIDA logomark --}}
+    <div class="flex items-center gap-2 pb-micro border-b border-grey-100">
+        <x-atoms.logo size="sm" variant="mark" class="text-rapida-blue-700" />
+        <a href="{{ route('rapida-ui.index') }}"
+           class="text-h4 font-heading font-semibold text-rapida-blue-900 hover:text-rapida-blue-700 transition-colors duration-150">
+            RAPIDA UI
+        </a>
+    </div>
 
     @foreach($sections as $sectionName => $items)
         <div x-data="{ open: {{ count($items) > 0 && collect($items)->contains('key', $current) ? 'true' : (count($items) > 0 ? 'true' : 'false') }} }">
@@ -101,4 +104,23 @@
             @endif
         </div>
     @endforeach
+
+    {{-- Festa Design Studio attribution --}}
+    <div class="mt-section pt-element border-t border-grey-100">
+        <a
+            href="https://festa.design/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-caption text-text-placeholder hover:text-text-secondary transition-colors"
+            aria-label="Festa Design Studio (opens in a new tab)"
+        >
+            <img
+                src="/icons/festa-logomark.svg"
+                alt=""
+                aria-hidden="true"
+                class="h-4 w-4 shrink-0 opacity-60"
+            />
+            <span>Interface designed by Festa.</span>
+        </a>
+    </div>
 </nav>
