@@ -6,9 +6,8 @@
     {{-- Navigation header --}}
     <header class="flex items-center justify-between bg-white border-b border-slate-200 px-4 py-3">
         <div class="flex items-center gap-3">
-            <x-atoms.icon name="pin" size="md" class="text-rapida-blue-700" />
-            <h1 class="text-h4 font-heading font-bold text-slate-900">RAPIDA</h1>
-            <span class="text-body-sm text-slate-500">Analyst Dashboard</span>
+            <x-atoms.logo size="sm" variant="full" class="text-rapida-blue-700" />
+            <span class="text-body-sm text-text-secondary">{{ __('rapida.dashboard_analyst') }}</span>
         </div>
         <div class="flex items-center gap-4">
             <span class="text-body-sm text-slate-600">{{ auth('undp')->user()->name }}</span>

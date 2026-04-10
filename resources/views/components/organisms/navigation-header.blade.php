@@ -11,10 +11,9 @@
 >
     <div class="h-16 px-4 md:px-6 flex items-center justify-between max-w-7xl mx-auto">
         {{-- Logo / Brand --}}
-        <div class="flex items-center gap-3">
-            <a href="{{ route('map-home') }}" class="flex items-center gap-2 min-h-[48px] min-w-[48px]" aria-label="RAPIDA home">
-                <x-atoms.icon name="pin" size="md" class="text-rapida-blue-700" />
-                <span class="text-h4 font-heading font-bold text-rapida-blue-900 hidden sm:inline">{{ __('rapida.app_name') }}</span>
+        <div class="flex items-center">
+            <a href="{{ route('map-home') }}" class="flex items-center min-h-[48px] min-w-[48px]" aria-label="RAPIDA home">
+                <x-atoms.logo size="md" variant="responsive" class="text-rapida-blue-700" />
             </a>
         </div>
 

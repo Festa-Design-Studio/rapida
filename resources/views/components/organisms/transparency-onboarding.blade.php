@@ -24,7 +24,9 @@
     <div class="w-full max-w-md mx-auto text-center space-y-element">
         {{-- Logo + crisis name --}}
         <div class="space-y-nano">
-            <x-atoms.icon name="check-circle" size="xl" class="text-rapida-blue-700 mx-auto" />
+            <div class="flex justify-center">
+                <x-atoms.logo size="xl" variant="mark" class="text-rapida-blue-700" />
+            </div>
             <h1 class="text-h2 font-heading font-bold text-rapida-blue-900 tracking-tight">{{ $crisisName }}</h1>
         </div>
 

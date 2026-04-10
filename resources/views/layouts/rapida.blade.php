@@ -7,7 +7,8 @@
 
     <title>@yield('title', config('app.name', 'RAPIDA'))</title>
 
-    {{-- PWA manifest and theme --}}
+    {{-- Favicon + PWA --}}
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#1a3a4a">
 

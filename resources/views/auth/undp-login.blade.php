@@ -6,7 +6,10 @@
 <div class="min-h-screen flex items-center justify-center px-padding-page-x-mob">
     <div class="w-full max-w-sm">
         <div class="text-center mb-gap-component">
-            <h1 class="text-h2 font-heading font-semibold text-rapida-blue-900">RAPIDA</h1>
+            <div class="flex justify-center mb-inner">
+                <x-atoms.logo size="xl" variant="mark" class="text-rapida-blue-700" />
+            </div>
+            <h1 class="text-h2 font-heading font-semibold text-rapida-blue-900">{{ __('rapida.app_name') }}</h1>
             <p class="text-body-sm text-text-secondary mt-nano">UNDP Staff Login</p>
         </div>
 

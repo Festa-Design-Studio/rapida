@@ -125,6 +125,7 @@ Route::prefix('rapida-ui')->name('rapida-ui.')->group(function () {
     Route::get('/tokens/states', fn () => view('rapida-ui.tokens.states', ['current' => 'tokens.states']))->name('tokens.states');
 
     // Atoms
+    Route::get('/atoms/logo', fn () => view('rapida-ui.atoms.logo', ['current' => 'atoms.logo']))->name('atoms.logo');
     Route::get('/atoms/button', fn () => view('rapida-ui.atoms.button', ['current' => 'atoms.button']))->name('atoms.button');
     Route::get('/atoms/text-input', fn () => view('rapida-ui.atoms.text-input', ['current' => 'atoms.text-input']))->name('atoms.text-input');
     Route::get('/atoms/textarea', fn () => view('rapida-ui.atoms.textarea', ['current' => 'atoms.textarea']))->name('atoms.textarea');
