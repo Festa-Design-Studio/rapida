@@ -81,6 +81,13 @@ return [
     'leaderboard_anonymous' => 'Les signalements anonymes ne sont pas classes',
 
     // UI — Navigation
+    'nav_report' => 'Signaler',
+    'nav_map' => 'Carte',
+    'nav_my_reports' => 'Mes signalements',
+    'nav_dashboard' => 'Tableau de bord',
+    'nav_admin' => 'Administration',
+    'nav_logout' => 'Déconnexion',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'En ligne',
     'status_offline' => 'Hors ligne',

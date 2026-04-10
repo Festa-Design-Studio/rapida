@@ -78,6 +78,13 @@ return [
     'leaderboard_you' => 'Tu',
     'leaderboard_anonymous' => 'Los reportes anonimos no se clasifican',
 
+    'nav_report' => 'Reportar',
+    'nav_map' => 'Mapa',
+    'nav_my_reports' => 'Mis reportes',
+    'nav_dashboard' => 'Panel',
+    'nav_admin' => 'Administración',
+    'nav_logout' => 'Cerrar sesión',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'En línea',
     'status_offline' => 'Sin conexión',

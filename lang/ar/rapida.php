@@ -78,6 +78,13 @@ return [
     'leaderboard_you' => 'أنت',
     'leaderboard_anonymous' => 'التقارير المجهولة غير مصنفة',
 
+    'nav_report' => 'إبلاغ',
+    'nav_map' => 'الخريطة',
+    'nav_my_reports' => 'تقاريري',
+    'nav_dashboard' => 'لوحة القيادة',
+    'nav_admin' => 'الإدارة',
+    'nav_logout' => 'تسجيل الخروج',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'متصل',
     'status_offline' => 'غير متصل',

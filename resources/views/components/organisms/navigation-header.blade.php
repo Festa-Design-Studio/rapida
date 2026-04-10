@@ -22,9 +22,9 @@
         <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
             @php
                 $navItems = [
-                    ['label' => 'Report', 'route' => 'report', 'href' => route('submit')],
-                    ['label' => 'Map', 'route' => 'map', 'href' => route('map-home')],
-                    ['label' => 'My Reports', 'route' => 'my-reports', 'href' => route('my-reports')],
+                    ['label' => __('rapida.nav_report'), 'route' => 'report', 'href' => route('submit')],
+                    ['label' => __('rapida.nav_map'), 'route' => 'map', 'href' => route('map-home')],
+                    ['label' => __('rapida.nav_my_reports'), 'route' => 'my-reports', 'href' => route('my-reports')],
                 ];
             @endphp
             @foreach($navItems as $item)
@@ -49,7 +49,7 @@
                                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}"
                     @if($currentRoute === 'dashboard') aria-current="page" @endif
                 >
-                    Dashboard
+                    {{ __('rapida.nav_dashboard') }}
                 </a>
 
                 @if(in_array(auth('undp')->user()->role->value, ['operator', 'superadmin']))
@@ -61,7 +61,7 @@
                                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}"
                         @if($currentRoute === 'admin') aria-current="page" @endif
                     >
-                        Admin
+                        {{ __('rapida.nav_admin') }}
                     </a>
                 @endif
             @endauth
@@ -110,7 +110,7 @@
                 <form method="POST" action="{{ route('undp.logout') }}" class="inline">
                     @csrf
                     <x-atoms.button type="submit" variant="ghost" size="sm">
-                        Logout
+                        {{ __('rapida.nav_logout') }}
                     </x-atoms.button>
                 </form>
             @endauth

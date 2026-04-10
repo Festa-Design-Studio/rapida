@@ -78,6 +78,13 @@ return [
     'leaderboard_you' => '您',
     'leaderboard_anonymous' => '匿名报告不参与排名',
 
+    'nav_report' => '报告',
+    'nav_map' => '地图',
+    'nav_my_reports' => '我的报告',
+    'nav_dashboard' => '控制台',
+    'nav_admin' => '管理',
+    'nav_logout' => '退出登录',
+
     'app_name' => 'RAPIDA',
     'status_online' => '在线',
     'status_offline' => '离线',

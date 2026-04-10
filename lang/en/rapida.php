@@ -81,6 +81,13 @@ return [
     'leaderboard_anonymous' => 'Anonymous reports are not ranked',
 
     // UI — Navigation
+    'nav_report' => 'Report',
+    'nav_map' => 'Map',
+    'nav_my_reports' => 'My Reports',
+    'nav_dashboard' => 'Dashboard',
+    'nav_admin' => 'Admin',
+    'nav_logout' => 'Logout',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'Online',
     'status_offline' => 'Offline',

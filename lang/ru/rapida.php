@@ -78,6 +78,13 @@ return [
     'leaderboard_you' => 'Вы',
     'leaderboard_anonymous' => 'Анонимные отчёты не ранжируются',
 
+    'nav_report' => 'Сообщить',
+    'nav_map' => 'Карта',
+    'nav_my_reports' => 'Мои сообщения',
+    'nav_dashboard' => 'Панель управления',
+    'nav_admin' => 'Администрирование',
+    'nav_logout' => 'Выйти',
+
     'app_name' => 'RAPIDA',
     'status_online' => 'В сети',
     'status_offline' => 'Не в сети',
