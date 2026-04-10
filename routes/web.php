@@ -123,9 +123,9 @@ Route::prefix('rapida-ui')->name('rapida-ui.')->group(function () {
     Route::get('/tokens/typography', fn () => view('rapida-ui.tokens.typography', ['current' => 'tokens.typography']))->name('tokens.typography');
     Route::get('/tokens/spacing', fn () => view('rapida-ui.tokens.spacing', ['current' => 'tokens.spacing']))->name('tokens.spacing');
     Route::get('/tokens/states', fn () => view('rapida-ui.tokens.states', ['current' => 'tokens.states']))->name('tokens.states');
+    Route::get('/tokens/logo', fn () => view('rapida-ui.tokens.logo', ['current' => 'tokens.logo']))->name('tokens.logo');
 
     // Atoms
-    Route::get('/atoms/logo', fn () => view('rapida-ui.atoms.logo', ['current' => 'atoms.logo']))->name('atoms.logo');
     Route::get('/atoms/button', fn () => view('rapida-ui.atoms.button', ['current' => 'atoms.button']))->name('atoms.button');
     Route::get('/atoms/text-input', fn () => view('rapida-ui.atoms.text-input', ['current' => 'atoms.text-input']))->name('atoms.text-input');
     Route::get('/atoms/textarea', fn () => view('rapida-ui.atoms.textarea', ['current' => 'atoms.textarea']))->name('atoms.textarea');

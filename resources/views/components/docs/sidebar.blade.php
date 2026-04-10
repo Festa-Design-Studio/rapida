@@ -7,6 +7,7 @@
             ['label' => 'Typography', 'route' => 'rapida-ui.tokens.typography', 'key' => 'tokens.typography'],
             ['label' => 'Spacing & Layout', 'route' => 'rapida-ui.tokens.spacing', 'key' => 'tokens.spacing'],
             ['label' => 'States', 'route' => 'rapida-ui.tokens.states', 'key' => 'tokens.states'],
+            ['label' => 'Logo', 'route' => 'rapida-ui.tokens.logo', 'key' => 'tokens.logo'],
         ],
         'Atoms' => [
             ['label' => 'Button', 'route' => 'rapida-ui.atoms.button', 'key' => 'atoms.button'],
