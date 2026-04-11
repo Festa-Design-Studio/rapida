@@ -819,6 +819,50 @@ new class extends Component {
     {{-- Client-side error handling for network/CSRF failures (Livewire 4 API) --}}
     @script
     <script>
+        // === DIAGNOSTIC LOGGING (remove after debugging) ===
+        console.log('[wizard] @script initialized, $wire:', typeof $wire);
+        console.log('[wizard] currentStep:', $wire.currentStep);
+
+        // Log ALL Livewire actions on this component
+        $wire.$hook('message.sent', () => {
+            console.log('[wizard] Livewire message sent, step:', $wire.currentStep);
+        });
+
+        // Monitor clicks on the submit button specifically
+        const submitBtn = document.querySelector('[wire\\:click="submit"]');
+        if (submitBtn) {
+            console.log('[wizard] Submit button found in DOM');
+            submitBtn.addEventListener('click', (e) => {
+                console.log('[wizard] Submit button CLICKED', {
+                    disabled: submitBtn.disabled,
+                    pointerEvents: getComputedStyle(submitBtn).pointerEvents,
+                    classes: submitBtn.className,
+                });
+            }, true); // capture phase
+        } else {
+            console.log('[wizard] Submit button NOT found in DOM (step is', $wire.currentStep, ')');
+        }
+
+        // Watch for step changes and re-check for submit button
+        $wire.$watch('currentStep', (step) => {
+            console.log('[wizard] Step changed to:', step);
+            if (step === 6) {
+                setTimeout(() => {
+                    const btn = document.querySelector('[wire\\:click="submit"]');
+                    console.log('[wizard] Submit button on step 6:', btn ? 'FOUND' : 'NOT FOUND');
+                    if (btn) {
+                        btn.addEventListener('click', (e) => {
+                            console.log('[wizard] Submit button CLICKED on step 6', {
+                                disabled: btn.disabled,
+                                pointerEvents: getComputedStyle(btn).pointerEvents,
+                            });
+                        }, true);
+                    }
+                }, 200);
+            }
+        });
+        // === END DIAGNOSTICS ===
+
         Livewire.interceptRequest(({ onError, onFailure }) => {
             onError(({ response, preventDefault }) => {
                 if (response.status === 419) {
@@ -828,6 +872,7 @@ new class extends Component {
             });
 
             onFailure(({ error }) => {
+                console.log('[wizard] onFailure:', error);
                 window.dispatchEvent(new Event('livewire-network-error'));
 
                 setTimeout(() => {
