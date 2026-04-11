@@ -27,9 +27,9 @@
     };
 
     $baseClasses = 'inline-flex items-center justify-center gap-2 font-heading font-semibold rounded-lg
-        active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2
+        cursor-pointer active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2
         transition-colors duration-150
-        disabled:opacity-40 disabled:cursor-not-allowed';
+        disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
     $classes = "$baseClasses $variantClasses $sizeClasses";
 @endphp

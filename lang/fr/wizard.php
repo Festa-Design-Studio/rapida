@@ -58,6 +58,8 @@ return [
     'btn_continue' => 'Continuer',
     'btn_back' => 'Retour',
     'btn_submit' => 'Soumettre le rapport',
+    'btn_submitting' => 'Envoi en cours...',
+    'submit_error' => 'Une erreur est survenue. Veuillez réessayer.',
     'btn_submit_another' => 'Soumettre un autre rapport',
     'btn_view_reports' => 'Voir mes rapports',
     'btn_back_to_map' => 'Retour a la carte',

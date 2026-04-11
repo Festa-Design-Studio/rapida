@@ -58,6 +58,8 @@ return [
     'btn_continue' => 'Continuar',
     'btn_back' => 'Atras',
     'btn_submit' => 'Enviar informe',
+    'btn_submitting' => 'Enviando...',
+    'submit_error' => 'Algo salió mal. Inténtalo de nuevo.',
     'btn_submit_another' => 'Enviar otro informe',
     'btn_view_reports' => 'Ver mis informes',
     'btn_back_to_map' => 'Volver al mapa',

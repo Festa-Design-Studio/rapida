@@ -58,6 +58,8 @@ return [
     'btn_continue' => 'Continue',
     'btn_back' => 'Back',
     'btn_submit' => 'Submit Report',
+    'btn_submitting' => 'Submitting...',
+    'submit_error' => 'Something went wrong. Please try again.',
     'btn_submit_another' => 'Submit Another Report',
     'btn_view_reports' => 'View My Reports',
     'btn_back_to_map' => 'Back to Map',

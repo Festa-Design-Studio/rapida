@@ -58,6 +58,8 @@ return [
     'btn_continue' => 'Продолжить',
     'btn_back' => 'Назад',
     'btn_submit' => 'Отправить отчёт',
+    'btn_submitting' => 'Отправка...',
+    'submit_error' => 'Произошла ошибка. Попробуйте ещё раз.',
     'btn_submit_another' => 'Отправить ещё один отчёт',
     'btn_view_reports' => 'Мои отчёты',
     'btn_back_to_map' => 'Вернуться к карте',

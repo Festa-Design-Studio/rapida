@@ -58,6 +58,8 @@ return [
     'btn_continue' => '继续',
     'btn_back' => '返回',
     'btn_submit' => '提交报告',
+    'btn_submitting' => '正在提交...',
+    'submit_error' => '出现问题，请重试。',
     'btn_submit_another' => '提交另一份报告',
     'btn_view_reports' => '查看我的报告',
     'btn_back_to_map' => '返回地图',

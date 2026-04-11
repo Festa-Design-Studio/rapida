@@ -116,62 +116,80 @@ new class extends Component {
 
     public function submit(): void
     {
-        $isConflict = $this->crisis->conflict_context ?? false;
+        try {
+            $isConflict = $this->crisis->conflict_context ?? false;
 
-        $report = \App\Models\DamageReport::create([
-            'crisis_id' => $this->crisis->id,
-            'building_footprint_id' => $this->buildingFootprintId,
-            'account_id' => auth()->id(),
-            'device_fingerprint_id' => $isConflict ? null : request()->input('device_fingerprint_id'),
-            'photo_url' => $this->photo ? $this->photo->store('photos', 'public') : 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg',
-            'photo_hash' => $this->photo ? hash_file('sha256', $this->photo->getRealPath()) : hash('sha256', 'placeholder'),
-            'photo_guidance_shown' => true,
-            'damage_level' => $this->damageLevel ?: 'partial',
-            'ai_suggested_level' => $this->aiSuggestedLevel,
-            'infrastructure_type' => is_array($this->infrastructureTypes) ? ($this->infrastructureTypes[0] ?? 'other') : 'other',
-            'crisis_type' => $this->crisisType ?: 'flood',
-            'infrastructure_name' => $this->infrastructureName,
-            'debris_required' => $this->debrisRequired === 'yes',
-            'location_method' => $this->locationMethod,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'landmark_text' => $this->landmarkText,
-            'description' => $this->description,
-            'completeness_score' => $this->calculateCompletenessScore(),
-            'submitted_via' => 'web',
-            'reporter_tier' => $isConflict ? 'anonymous' : 'anonymous',
-            'submitted_at' => now(),
-            'synced_at' => now(),
-            'is_flagged' => false,
-        ]);
+            // Resilient photo storage — if temp file is lost (session overflow), continue with placeholder
+            $photoUrl = 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg';
+            $photoHash = hash('sha256', 'placeholder');
 
-        // Save modular question responses
-        $moduleKeyMap = [
-            'electricity_condition' => ['electricity', 'condition'],
-            'health_functioning' => ['health', 'functioning'],
-            'pressing_needs_needs' => ['pressing_needs', 'needs'],
-        ];
-        foreach ($this->moduleResponses as $key => $value) {
-            if ($value === null || $value === '' || $value === []) {
-                continue;
+            if ($this->photo) {
+                try {
+                    $photoUrl = $this->photo->store('photos', 'public');
+                    $photoHash = hash_file('sha256', $this->photo->getRealPath());
+                } catch (\Throwable $e) {
+                    report($e);
+                }
             }
-            if (! isset($moduleKeyMap[$key])) {
-                continue;
-            }
-            [$moduleKey, $fieldKey] = $moduleKeyMap[$key];
-            \App\Models\ReportModule::create([
-                'report_id' => $report->id,
-                'module_key' => $moduleKey,
-                'field_key' => $fieldKey,
-                'value' => is_array($value) ? $value : [$value],
+
+            $report = \App\Models\DamageReport::create([
+                'crisis_id' => $this->crisis->id,
+                'building_footprint_id' => $this->buildingFootprintId,
+                'account_id' => auth()->id(),
+                'device_fingerprint_id' => $isConflict ? null : request()->input('device_fingerprint_id'),
+                'photo_url' => $photoUrl,
+                'photo_hash' => $photoHash,
+                'photo_guidance_shown' => true,
+                'damage_level' => $this->damageLevel ?: 'partial',
+                'ai_suggested_level' => $this->aiSuggestedLevel,
+                'infrastructure_type' => is_array($this->infrastructureTypes) ? ($this->infrastructureTypes[0] ?? 'other') : 'other',
+                'crisis_type' => $this->crisisType ?: 'flood',
+                'infrastructure_name' => $this->infrastructureName,
+                'debris_required' => $this->debrisRequired === 'yes',
+                'location_method' => $this->locationMethod,
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+                'landmark_text' => $this->landmarkText,
+                'description' => $this->description,
+                'completeness_score' => $this->calculateCompletenessScore(),
+                'submitted_via' => 'web',
+                'reporter_tier' => $isConflict ? 'anonymous' : 'anonymous',
+                'submitted_at' => now(),
+                'synced_at' => now(),
+                'is_flagged' => false,
             ]);
+
+            // Save modular question responses
+            $moduleKeyMap = [
+                'electricity_condition' => ['electricity', 'condition'],
+                'health_functioning' => ['health', 'functioning'],
+                'pressing_needs_needs' => ['pressing_needs', 'needs'],
+            ];
+            foreach ($this->moduleResponses as $key => $value) {
+                if ($value === null || $value === '' || $value === []) {
+                    continue;
+                }
+                if (! isset($moduleKeyMap[$key])) {
+                    continue;
+                }
+                [$moduleKey, $fieldKey] = $moduleKeyMap[$key];
+                \App\Models\ReportModule::create([
+                    'report_id' => $report->id,
+                    'module_key' => $moduleKey,
+                    'field_key' => $fieldKey,
+                    'value' => is_array($value) ? $value : [$value],
+                ]);
+            }
+
+            $this->reportId = $report->id;
+            $this->communityReportCount = \App\Models\DamageReport::where('crisis_id', $this->crisis->id)->count();
+            $this->currentStep = 7;
+
+            \App\Events\ReportSubmitted::dispatch($report);
+        } catch (\Throwable $e) {
+            report($e);
+            session()->flash('error', __('wizard.submit_error'));
         }
-
-        $this->reportId = $report->id;
-        $this->communityReportCount = \App\Models\DamageReport::where('crisis_id', $this->crisis->id)->count();
-        $this->currentStep = 7;
-
-        \App\Events\ReportSubmitted::dispatch($report);
     }
 
     public function calculateCompletenessScore(): int
@@ -594,6 +612,12 @@ new class extends Component {
         {{-- ========== STEP 6: REVIEW ========== --}}
         @elseif($currentStep === 6)
             <div class="flex flex-col gap-6">
+                @if(session('error'))
+                    <div class="rounded-lg bg-crisis-rose-50 border border-crisis-rose-200 p-4">
+                        <p class="text-body-sm text-crisis-rose-900">{{ session('error') }}</p>
+                    </div>
+                @endif
+
                 <div class="flex flex-col gap-2">
                     <h1 class="text-h1 font-heading font-bold text-slate-900">{{ __('wizard.step_6_title') }}</h1>
                     <p class="text-body text-slate-600">{{ __('wizard.step_6_desc') }}</p>
@@ -749,9 +773,16 @@ new class extends Component {
                         variant="primary"
                         size="lg"
                         wire:click="submit"
+                        wire:loading.attr="disabled"
+                        wire:loading.class="cursor-wait pointer-events-none"
+                        wire:target="submit"
                         class="flex-1 min-h-[48px]"
                     >
-                        {{ __('wizard.btn_submit') }}
+                        <span wire:loading.remove wire:target="submit">{{ __('wizard.btn_submit') }}</span>
+                        <span wire:loading wire:target="submit" class="inline-flex items-center gap-2">
+                            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                            {{ __('wizard.btn_submitting') }}
+                        </span>
                     </x-atoms.button>
                 @endif
             </div>

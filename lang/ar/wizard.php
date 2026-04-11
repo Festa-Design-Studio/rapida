@@ -58,6 +58,8 @@ return [
     'btn_continue' => 'متابعة',
     'btn_back' => 'رجوع',
     'btn_submit' => 'إرسال التقرير',
+    'btn_submitting' => 'جارٍ الإرسال...',
+    'submit_error' => 'حدث خطأ. يرجى المحاولة مرة أخرى.',
     'btn_submit_another' => 'إرسال تقرير آخر',
     'btn_view_reports' => 'عرض تقاريري',
     'btn_back_to_map' => 'العودة إلى الخريطة',
