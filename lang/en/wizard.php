@@ -60,6 +60,7 @@ return [
     'btn_submit' => 'Submit Report',
     'btn_submitting' => 'Submitting...',
     'submit_error' => 'Something went wrong. Please try again.',
+    'session_expired' => 'Your session has expired. Reload the page?',
     'btn_submit_another' => 'Submit Another Report',
     'btn_view_reports' => 'View My Reports',
     'btn_back_to_map' => 'Back to Map',

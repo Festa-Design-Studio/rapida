@@ -59,6 +59,9 @@ new class extends Component {
 
     public int $communityReportCount = 0;
 
+    /** Error state */
+    public ?string $submitError = null;
+
     public function nextStep(): void
     {
         if ($this->currentStep < $this->totalSteps) {
@@ -116,10 +119,12 @@ new class extends Component {
 
     public function submit(): void
     {
+        $this->submitError = null;
+
         try {
             $isConflict = $this->crisis->conflict_context ?? false;
 
-            // Resilient photo storage — if temp file is lost (session overflow), continue with placeholder
+            // Resilient photo storage — if temp file is lost, continue with placeholder
             $photoUrl = 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg';
             $photoHash = hash('sha256', 'placeholder');
 
@@ -185,10 +190,15 @@ new class extends Component {
             $this->communityReportCount = \App\Models\DamageReport::where('crisis_id', $this->crisis->id)->count();
             $this->currentStep = 7;
 
-            \App\Events\ReportSubmitted::dispatch($report);
+            // Event dispatch in separate try/catch — listeners must not break the submit
+            try {
+                \App\Events\ReportSubmitted::dispatch($report);
+            } catch (\Throwable $e) {
+                report($e);
+            }
         } catch (\Throwable $e) {
             report($e);
-            session()->flash('error', __('wizard.submit_error'));
+            $this->submitError = __('wizard.submit_error');
         }
     }
 
@@ -207,7 +217,7 @@ new class extends Component {
 };
 ?>
 
-<div class="flex flex-col min-h-screen bg-surface-page">
+<div class="flex flex-col min-h-screen bg-surface-page" style="min-height: 100dvh;">
     {{-- Transparency screen gate (shown once per device per crisis) --}}
     <x-organisms.transparency-onboarding
         :crisisSlug="$crisis->slug"
@@ -612,9 +622,9 @@ new class extends Component {
         {{-- ========== STEP 6: REVIEW ========== --}}
         @elseif($currentStep === 6)
             <div class="flex flex-col gap-6">
-                @if(session('error'))
-                    <div class="rounded-lg bg-crisis-rose-50 border border-crisis-rose-200 p-4">
-                        <p class="text-body-sm text-crisis-rose-900">{{ session('error') }}</p>
+                @if($submitError)
+                    <div class="rounded-lg bg-crisis-rose-50 border border-crisis-rose-200 p-4" role="alert">
+                        <p class="text-body-sm text-crisis-rose-900">{{ $submitError }}</p>
                     </div>
                 @endif
 
@@ -744,7 +754,7 @@ new class extends Component {
 
     {{-- Bottom navigation --}}
     @if($currentStep >= 1 && $currentStep <= $totalSteps)
-        <div class="px-6 pb-6 pt-2 flex flex-col gap-3">
+        <div class="px-6 pb-6 pt-2 flex flex-col gap-3" style="padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));">
             <p class="text-body-sm text-slate-500 text-center" aria-live="polite">
                 {{ __('wizard.submit_anytime') }}
             </p>
@@ -788,4 +798,19 @@ new class extends Component {
             </div>
         </div>
     @endif
+
+    {{-- Client-side error handling for network/CSRF failures --}}
+    @script
+    <script>
+        Livewire.hook('request', ({ fail }) => {
+            fail(({ status }) => {
+                if (status === 419) {
+                    if (confirm('{{ __('wizard.session_expired') }}')) {
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+    </script>
+    @endscript
 </div>
