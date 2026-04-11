@@ -62,6 +62,8 @@ new class extends Component {
     /** Error state */
     public ?string $submitError = null;
 
+    public bool $networkError = false;
+
     public function nextStep(): void
     {
         if ($this->currentStep < $this->totalSteps) {
@@ -628,6 +630,21 @@ new class extends Component {
                     </div>
                 @endif
 
+                {{-- Network error banner (Alpine-managed, no server round-trip needed) --}}
+                <div x-data="{ show: false }"
+                     x-on:livewire-network-error.window="show = true"
+                     x-show="show"
+                     x-cloak
+                     class="rounded-lg bg-alert-amber-50 border border-alert-amber-100 p-4 flex items-center gap-3"
+                     role="alert"
+                >
+                    <p class="text-body-sm text-alert-amber-900 flex-1">{{ __('wizard.network_error') }}</p>
+                    <button type="button" @click="show = false"
+                            class="text-body-sm font-medium text-alert-amber-700 hover:text-alert-amber-900 shrink-0">
+                        {{ __('wizard.btn_dismiss') }}
+                    </button>
+                </div>
+
                 <div class="flex flex-col gap-2">
                     <h1 class="text-h1 font-heading font-bold text-slate-900">{{ __('wizard.step_6_title') }}</h1>
                     <p class="text-body text-slate-600">{{ __('wizard.step_6_desc') }}</p>
@@ -802,14 +819,24 @@ new class extends Component {
     {{-- Client-side error handling for network/CSRF failures (Livewire 4 API) --}}
     @script
     <script>
-        Livewire.interceptRequest(({ onError }) => {
+        $wire.interceptRequest(({ onError, onFailure }) => {
             onError(({ response, preventDefault }) => {
                 if (response.status === 419) {
                     preventDefault();
-                    if (confirm(@js(__('wizard.session_expired')))) {
-                        window.location.reload();
-                    }
+                    $wire.set('submitError', @js(__('wizard.session_expired_action')));
                 }
+            });
+
+            onFailure(({ error }) => {
+                window.dispatchEvent(new Event('livewire-network-error'));
+
+                setTimeout(() => {
+                    const btn = $wire.$el.querySelector('[wire\\:target="submit"]');
+                    if (btn) {
+                        btn.removeAttribute('disabled');
+                        btn.classList.remove('pointer-events-none', 'cursor-wait');
+                    }
+                }, 100);
             });
         });
     </script>

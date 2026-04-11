@@ -35,6 +35,11 @@
     font-size: 16px;
   }
 
+  /* Eliminate 300ms tap delay on interactive elements (mobile PWA) */
+  button, a, [role="button"], label[for] {
+    touch-action: manipulation;
+  }
+
   /* Icon SVG sizing — inline SVGs fill their parent container */
   .inline-flex > svg {
     width: 100%;
