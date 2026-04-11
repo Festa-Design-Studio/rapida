@@ -799,13 +799,14 @@ new class extends Component {
         </div>
     @endif
 
-    {{-- Client-side error handling for network/CSRF failures --}}
+    {{-- Client-side error handling for network/CSRF failures (Livewire 4 API) --}}
     @script
     <script>
-        Livewire.hook('request', ({ fail }) => {
-            fail(({ status }) => {
-                if (status === 419) {
-                    if (confirm('{{ __('wizard.session_expired') }}')) {
+        Livewire.interceptRequest(({ onError }) => {
+            onError(({ response, preventDefault }) => {
+                if (response.status === 419) {
+                    preventDefault();
+                    if (confirm(@js(__('wizard.session_expired')))) {
                         window.location.reload();
                     }
                 }
