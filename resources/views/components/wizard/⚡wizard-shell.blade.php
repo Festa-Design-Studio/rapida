@@ -819,7 +819,7 @@ new class extends Component {
     {{-- Client-side error handling for network/CSRF failures (Livewire 4 API) --}}
     @script
     <script>
-        $wire.interceptRequest(({ onError, onFailure }) => {
+        Livewire.interceptRequest(({ onError, onFailure }) => {
             onError(({ response, preventDefault }) => {
                 if (response.status === 419) {
                     preventDefault();
@@ -831,7 +831,7 @@ new class extends Component {
                 window.dispatchEvent(new Event('livewire-network-error'));
 
                 setTimeout(() => {
-                    const btn = $wire.$el.querySelector('[wire\\:target="submit"]');
+                    const btn = document.querySelector('[wire\\:target="submit"]');
                     if (btn) {
                         btn.removeAttribute('disabled');
                         btn.classList.remove('pointer-events-none', 'cursor-wait');

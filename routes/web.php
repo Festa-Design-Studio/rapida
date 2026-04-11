@@ -172,3 +172,6 @@ Route::prefix('rapida-ui')->name('rapida-ui.')->group(function () {
     Route::get('/templates/data-export', fn () => view('rapida-ui.templates.data-export', ['current' => 'templates.data-export']))->name('templates.data-export');
     Route::get('/templates/pitch-video', fn () => view('rapida-ui.templates.pitch-video', ['current' => 'templates.pitch-video']))->name('templates.pitch-video');
 });
+
+// Temporary test route — remove after debugging
+Route::get('/submit-test', fn () => view('templates.submit-test'))->name('submit-test');
