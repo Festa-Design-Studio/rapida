@@ -791,6 +791,7 @@ new class extends Component {
                     <x-atoms.button
                         variant="primary"
                         wire:click="nextStep"
+                        wire:key="btn-next"
                         class="flex-1 min-h-[48px]"
                     >
                         {{ __('wizard.btn_continue') }}
@@ -800,13 +801,11 @@ new class extends Component {
                         variant="primary"
                         size="lg"
                         wire:click="submit"
-                        wire:loading.attr="disabled"
-                        wire:loading.class="cursor-wait pointer-events-none"
-                        wire:target="submit"
-                        class="flex-1 min-h-[48px]"
+                        wire:key="btn-submit"
+                        class="flex-1 min-h-[48px] data-[loading]:cursor-wait data-[loading]:pointer-events-none data-[loading]:opacity-70"
                     >
-                        <span wire:loading.remove wire:target="submit">{{ __('wizard.btn_submit') }}</span>
-                        <span wire:loading wire:target="submit" class="inline-flex items-center gap-2">
+                        <span class="data-[loading]:hidden">{{ __('wizard.btn_submit') }}</span>
+                        <span class="hidden data-[loading]:inline-flex items-center gap-2">
                             <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
                             {{ __('wizard.btn_submitting') }}
                         </span>
@@ -830,14 +829,6 @@ new class extends Component {
 
                 onFailure(({ error }) => {
                     window.dispatchEvent(new Event('livewire-network-error'));
-
-                    setTimeout(() => {
-                        const btn = document.querySelector('[wire\\:target="submit"]');
-                        if (btn) {
-                            btn.removeAttribute('disabled');
-                            btn.classList.remove('pointer-events-none', 'cursor-wait');
-                        }
-                    }, 100);
                 });
             });
         } catch (e) {
