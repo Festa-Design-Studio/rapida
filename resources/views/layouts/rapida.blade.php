@@ -32,5 +32,37 @@
 </head>
 <body class="bg-surface-page text-text-primary font-sans text-body antialiased">
     @yield('content')
+
+    {{--
+        Floating language switcher for the crisis report wizard.
+
+        The wizard is deliberately chromeless — no <x-organisms.navigation-header>
+        — so it has no inherited language switcher, which was forcing English
+        speakers on French-default crises to rely on browser translation.
+        Every other reporter surface (map-home, my-reports, confirmation,
+        submission-wizard, analytics-dashboard, report-detail) already
+        renders navigation-header, which contains its own switcher; onboarding
+        renders an inline badge-variant switcher. Adding the pill globally
+        duplicates those. So this is an allowlist of exactly one route.
+
+        PRD "always visible" is satisfied across the app as a union:
+        navigation-header on chromed pages, badge variant on onboarding,
+        and this pill on the chromeless wizard.
+    --}}
+    @if(request()->routeIs('crisis.show'))
+        @isset($__rapidaLanguageMenu)
+            <div
+                class="fixed top-inner end-inner z-40"
+                style="padding-top: env(safe-area-inset-top); padding-inline-end: env(safe-area-inset-right);"
+                data-testid="global-language-switcher"
+            >
+                <x-molecules.language-switcher
+                    :current="app()->getLocale()"
+                    :languages="$__rapidaLanguageMenu"
+                    variant="dropdown"
+                />
+            </div>
+        @endisset
+    @endif
 </body>
 </html>

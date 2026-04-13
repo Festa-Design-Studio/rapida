@@ -13,6 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
+
+        // Locale preference cookie must be readable by the PWA service
+        // worker and by client-side JS so offline caches can be keyed
+        // by language. Excluding it from encryption keeps the raw value
+        // ("en", "fr", "ar", ...) accessible via document.cookie.
+        $middleware->encryptCookies(except: ['rapida_locale']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

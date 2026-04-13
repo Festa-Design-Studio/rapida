@@ -86,6 +86,36 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Supported Locales
+    |--------------------------------------------------------------------------
+    |
+    | Canonical list of locales RAPIDA ships translations for. Anything
+    | resolved from Accept-Language, cookies, or query strings must appear
+    | in this list before app()->setLocale() is called. Keep in sync with
+    | the lang/{code}/ directory structure.
+    |
+    */
+
+    'supported_locales' => ['en', 'fr', 'ar', 'es', 'ru', 'zh'],
+
+    /*
+    | Human-readable language names, keyed by locale code. Used by the
+    | language switcher and onboarding screen. The value is the endonym
+    | (language's own name) so users recognise it regardless of current UI
+    | locale — e.g. French users browsing an Arabic UI still see "Français".
+    */
+
+    'language_names' => [
+        'en' => 'English',
+        'fr' => 'Français',
+        'ar' => 'العربية',
+        'es' => 'Español',
+        'ru' => 'Русский',
+        'zh' => '中文',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

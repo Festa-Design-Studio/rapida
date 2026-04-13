@@ -9,12 +9,16 @@ class CrisisSeeder extends Seeder
 {
     public function run(): void
     {
-        // Primary demo crisis — Accra flood (French primary, standard mode)
+        // Primary demo crisis — Accra flood (English primary, standard mode).
+        // Accra is anglophone Ghana. French and Arabic remain available for
+        // francophone and Lebanese-diaspora residents, but the default must
+        // be EN so browser-locale negotiation resolves sensibly when the
+        // Accept-Language header is missing.
         Crisis::create([
             'name' => 'Accra Urban Flood 2026 (Demo)',
             'slug' => 'accra-flood-2026',
-            'default_language' => 'fr',
-            'available_languages' => ['fr', 'en', 'ar'],
+            'default_language' => 'en',
+            'available_languages' => ['en', 'fr', 'ar'],
             'active_modules' => ['electricity', 'health', 'pressing_needs'],
             'map_tile_bbox' => [-0.4, 5.4, 0.1, 5.8],
             'h3_resolution' => 8,

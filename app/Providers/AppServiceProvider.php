@@ -10,6 +10,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
@@ -29,6 +30,33 @@ class AppServiceProvider extends ServiceProvider
 
         $this->configureRateLimiting();
         $this->configureHealthChecks();
+        $this->configureGlobalLanguageMenu();
+    }
+
+    /**
+     * Share a crisis-aware language map with every rendered view so both
+     * the main layout (floating pill on crisis.show) and anonymous Blade
+     * components (navigation-header organism) see the same list. A
+     * wildcard composer is required because x-components have isolated
+     * variable scopes — variables set on the layout view do not cascade
+     * into their descendants. This composer runs once per view render
+     * and is cheap: one route lookup + one collect() per render.
+     */
+    private function configureGlobalLanguageMenu(): void
+    {
+        View::composer('*', function ($view) {
+            $crisis = request()->route('crisis');
+            $codes = $crisis instanceof Crisis && ! empty($crisis->available_languages)
+                ? $crisis->available_languages
+                : config('app.supported_locales', ['en']);
+
+            $names = config('app.language_names', []);
+            $menu = collect($codes)
+                ->mapWithKeys(fn (string $code) => [$code => $names[$code] ?? $code])
+                ->all();
+
+            $view->with('__rapidaLanguageMenu', $menu);
+        });
     }
 
     private function configureHealthChecks(): void

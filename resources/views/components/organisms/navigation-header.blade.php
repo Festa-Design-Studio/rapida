@@ -90,17 +90,16 @@
                 </template>
             </div>
 
-            {{-- Language switcher (compact dropdown — all 6 UN languages) --}}
+            {{-- Language switcher — crisis-aware via $__rapidaLanguageMenu
+                 shared from AppServiceProvider's layouts.rapida composer.
+                 Current locale reflects middleware-resolved value (not raw
+                 session), so switcher badge matches what the user actually
+                 sees after Accept-Language/cookie negotiation. --}}
             <x-molecules.language-switcher
-                current="{{ session('locale', 'en') }}"
-                :languages="[
-                    'en' => 'English',
-                    'fr' => 'Français',
-                    'ar' => 'العربية',
-                    'zh' => '中文',
-                    'ru' => 'Русский',
-                    'es' => 'Español',
-                ]"
+                :current="app()->getLocale()"
+                :languages="$__rapidaLanguageMenu ?? collect(config('app.supported_locales', ['en']))
+                    ->mapWithKeys(fn (string $code) => [$code => config('app.language_names.'.$code, $code)])
+                    ->all()"
                 variant="dropdown"
             />
 
