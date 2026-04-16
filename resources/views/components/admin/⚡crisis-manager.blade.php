@@ -224,6 +224,31 @@ new class extends Component
                                 </div>
                             </td>
                         </tr>
+                        {{-- WhatsApp QR Code --}}
+                        @if($crisis->status === 'active' && ($crisis->whatsapp_enabled ?? true))
+                            @php
+                                $whatsappPhone = ltrim(config('services.twilio.whatsapp_from', 'whatsapp:+14155238886'), 'whatsapp:+');
+                                $whatsappUrl = 'https://api.whatsapp.com/send?phone=' . $whatsappPhone . '&text=RAPIDA+' . $crisis->slug;
+                                $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($whatsappUrl);
+                            @endphp
+                            <tr class="bg-slate-50">
+                                <td colspan="7" class="px-4 pb-4 pt-0">
+                                    <div class="mt-2 p-4 bg-white rounded-lg border border-slate-200">
+                                        <p class="text-sm font-medium text-slate-700 mb-2">WhatsApp Report Link</p>
+                                        <div class="flex items-start gap-4">
+                                            <img src="{{ $qrUrl }}" alt="WhatsApp QR for {{ $crisis->name }}" width="100" height="100" class="rounded" loading="lazy" />
+                                            <div class="text-xs text-slate-500 space-y-1">
+                                                <p class="font-mono break-all">{{ $whatsappUrl }}</p>
+                                                <a href="{{ $qrUrl }}" download="rapida-qr-{{ $crisis->slug }}.png"
+                                                   class="inline-flex items-center text-rapida-blue-700 hover:underline">
+                                                    Download QR
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
                     @empty
                         <tr>
                             <td colspan="7" class="px-4 py-8 text-center text-slate-400">No crises configured yet.</td>
