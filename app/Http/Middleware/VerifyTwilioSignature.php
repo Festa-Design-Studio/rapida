@@ -12,8 +12,8 @@ class VerifyTwilioSignature
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // Skip verification in local/testing environments
-        if (app()->environment('local', 'testing')) {
+        // Skip verification in local/testing environments or when explicitly disabled
+        if (app()->environment('local', 'testing') || config('services.twilio.verify_signature') === false) {
             return $next($request);
         }
 
