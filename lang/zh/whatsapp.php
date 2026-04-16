@@ -15,4 +15,6 @@ return [
     'max_retries_exceeded' => '尝试次数过多。输入 RAPIDA 重新开始。',
     'confirm_or_restart' => '输入 是 提交或 重新开始。',
     'unknown_state' => '抱歉，出现错误。输入 RAPIDA 重新开始。',
+    'whatsapp_disabled' => '此危机仅使用匿名报告。请使用网页应用提交报告。',
+    'location_conflict_mode' => '描述损坏位置——街道名称、地标或三词代码。',
 ];

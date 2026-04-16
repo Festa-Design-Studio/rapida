@@ -139,4 +139,17 @@ return [
     'sync_synced' => 'متزامن',
     'sync_pending' => 'في انتظار المزامنة',
     'sync_failed' => 'فشل المزامنة',
+
+    // واجهة — تبويبات التحقق والتكرار
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redundancy',
+    'redundancy_dismiss' => 'تجاهل',
+    'redundancy_keep' => 'الاحتفاظ',
+
+    // واجهة — لوحة التحليلات
+    'reports_over_time' => 'Reports Over Time',
+    'top_buildings' => 'Most Reported Buildings',
+    'building_id' => 'Building',
+    'reports_count' => 'Reports',
+    'last_updated' => 'Last Updated',
 ];

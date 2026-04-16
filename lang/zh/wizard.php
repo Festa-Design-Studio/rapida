@@ -131,4 +131,12 @@ return [
     'landmark_picker_label' => '或选择一个已知地标：',
     // Map
     'map_aria_label' => '地图——点击选择位置',
+    // Photo guidance drawer
+    'photo_guide_title' => '如何拍摄有用的照片',
+    'photo_guide_front' => '站在建筑物正面',
+    'photo_guide_whole' => '将整栋建筑纳入画面',
+    'photo_guide_closeup' => '拍摄损坏最严重区域的近景',
+    'photo_guide_no_faces' => '请勿拍摄人物或面孔',
+    'photo_guide_gps' => 'GPS 从您所在位置记录——请站在建筑正面',
+    'photo_guide_perimeter' => '在安全距离内拍摄——请勿靠近',
 ];

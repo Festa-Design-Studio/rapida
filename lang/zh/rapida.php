@@ -132,4 +132,24 @@ return [
     'sync_synced' => '已同步',
     'sync_pending' => '等待同步',
     'sync_failed' => '同步失败',
+
+    // UI — Verification / Redundancy
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redundancy',
+    'redundancy_dismiss' => '忽略',
+    'redundancy_keep' => '保留',
+
+    // UI — Analytics panel
+    'reports_over_time' => 'Reports Over Time',
+    'top_buildings' => 'Most Reported Buildings',
+    'building_id' => 'Building',
+    'reports_count' => 'Reports',
+    'last_updated' => 'Last Updated',
+
+    // UI — AI confidence
+    'ai_confidence_label' => 'AI 置信度',
+    'ai_confidence_high' => '高置信度',
+    'ai_confidence_medium' => '中等置信度',
+    'ai_confidence_low' => '低置信度',
+    'ai_suggestion_with_confidence' => '我们认为损坏程度为 :level（置信度 :percent）。看起来对吗？',
 ];

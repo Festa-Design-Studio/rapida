@@ -132,4 +132,24 @@ return [
     'sync_synced' => 'Синхронизировано',
     'sync_pending' => 'Ожидает синхронизации',
     'sync_failed' => 'Ошибка синхронизации',
+
+    // UI — Verification / Redundancy
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redundancy',
+    'redundancy_dismiss' => 'Отклонить',
+    'redundancy_keep' => 'Сохранить',
+
+    // UI — Analytics panel
+    'reports_over_time' => 'Reports Over Time',
+    'top_buildings' => 'Most Reported Buildings',
+    'building_id' => 'Building',
+    'reports_count' => 'Reports',
+    'last_updated' => 'Last Updated',
+
+    // UI — AI confidence
+    'ai_confidence_label' => 'Уверенность ИИ',
+    'ai_confidence_high' => 'Высокая уверенность',
+    'ai_confidence_medium' => 'Средняя уверенность',
+    'ai_confidence_low' => 'Низкая уверенность',
+    'ai_suggestion_with_confidence' => 'Мы считаем, что это :level (уверенность: :percent). Похоже на правду?',
 ];

@@ -15,4 +15,6 @@ return [
     'max_retries_exceeded' => 'Demasiados intentos. Escribe RAPIDA para reiniciar.',
     'confirm_or_restart' => 'Escribe CONFIRM para enviar o RESTART para reiniciar.',
     'unknown_state' => 'Lo siento, algo salio mal. Escribe RAPIDA para reiniciar.',
+    'whatsapp_disabled' => 'Esta crisis usa solo reportes anónimos. Por favor usa la aplicación web para enviar un reporte.',
+    'location_conflict_mode' => 'Describe dónde está el daño — nombre de calle, punto de referencia o código de tres palabras.',
 ];

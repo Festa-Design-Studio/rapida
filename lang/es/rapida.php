@@ -132,4 +132,24 @@ return [
     'sync_synced' => 'Sincronizado',
     'sync_pending' => 'Pendiente de sincronización',
     'sync_failed' => 'Error de sincronización',
+
+    // UI — Verification / Redundancy
+    'tab_verification' => 'Verification',
+    'tab_redundancy' => 'Redundancy',
+    'redundancy_dismiss' => 'Descartar',
+    'redundancy_keep' => 'Conservar',
+
+    // UI — Analytics panel
+    'reports_over_time' => 'Reports Over Time',
+    'top_buildings' => 'Most Reported Buildings',
+    'building_id' => 'Building',
+    'reports_count' => 'Reports',
+    'last_updated' => 'Last Updated',
+
+    // UI — AI confidence
+    'ai_confidence_label' => 'Confianza de la IA',
+    'ai_confidence_high' => 'Confianza alta',
+    'ai_confidence_medium' => 'Confianza media',
+    'ai_confidence_low' => 'Confianza baja',
+    'ai_suggestion_with_confidence' => 'Creemos que el nivel de daño es :level (:percent de confianza). ¿Te parece correcto?',
 ];

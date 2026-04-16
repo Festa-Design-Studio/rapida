@@ -131,4 +131,12 @@ return [
     'landmark_picker_label' => 'O seleccione un punto de referencia conocido:',
     // Map
     'map_aria_label' => 'Mapa — toque para seleccionar ubicacion',
+    // Photo guidance drawer
+    'photo_guide_title' => 'Cómo tomar una foto útil',
+    'photo_guide_front' => 'Párese frente al edificio',
+    'photo_guide_whole' => 'Capture el edificio completo en el encuadre',
+    'photo_guide_closeup' => 'Tome un primer plano del área más dañada',
+    'photo_guide_no_faces' => 'No fotografíe personas ni rostros',
+    'photo_guide_gps' => 'El GPS se registra desde donde está parado — párese frente al edificio',
+    'photo_guide_perimeter' => 'Fotografíe desde una distancia segura — no se acerque',
 ];
