@@ -103,6 +103,8 @@ return [
     'community_reporter' => 'Membre de la communaute',
     'submitted' => 'Soumis',
     'location' => 'Emplacement',
+    'reported_location' => 'Emplacement signalé',
+    'coordinates' => 'Coordonnées',
     'version_history' => 'Historique des versions',
     'current_version' => 'Version actuelle',
     'back_to_reports' => 'Retour a mes signalements',

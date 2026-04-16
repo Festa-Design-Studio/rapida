@@ -103,6 +103,8 @@ return [
     'community_reporter' => 'Community Reporter',
     'submitted' => 'Submitted',
     'location' => 'Location',
+    'reported_location' => 'Reported Location',
+    'coordinates' => 'Coordinates',
     'version_history' => 'Version History',
     'current_version' => 'Current Version',
     'back_to_reports' => 'Back to My Reports',

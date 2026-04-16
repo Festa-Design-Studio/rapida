@@ -100,6 +100,8 @@ return [
     'community_reporter' => 'عضو في المجتمع',
     'submitted' => 'تم التقديم',
     'location' => 'الموقع',
+    'reported_location' => 'الموقع المُبلَّغ عنه',
+    'coordinates' => 'الإحداثيات',
     'version_history' => 'سجل الإصدارات',
     'current_version' => 'الإصدار الحالي',
     'back_to_reports' => 'العودة إلى تقاريري',

@@ -100,6 +100,8 @@ return [
     'community_reporter' => 'Участник сообщества',
     'submitted' => 'Отправлено',
     'location' => 'Местоположение',
+    'reported_location' => 'Указанное местоположение',
+    'coordinates' => 'Координаты',
     'version_history' => 'История версий',
     'current_version' => 'Текущая версия',
     'back_to_reports' => 'Вернуться к моим сообщениям',

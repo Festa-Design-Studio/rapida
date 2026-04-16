@@ -12,7 +12,7 @@
         default    => ucfirst($damageLevel),
     };
     $syncStatus = $report->synced_at ? 'synced' : 'pending';
-    $location = $report->landmark_text ?? ($report->latitude ? "{$report->latitude}, {$report->longitude}" : 'Location pending');
+    $location = $report->landmark_text ?? __('rapida.reported_location');
 
     $versions = [];
     if ($report->verification) {
@@ -84,6 +84,12 @@
                 <span class="text-slate-500">{{ __('rapida.submitted') }}</span>
                 <time datetime="{{ $report->submitted_at?->toIso8601String() }}" class="text-slate-900">{{ $report->submitted_at?->format('M d, Y H:i') ?? '' }}</time>
             </div>
+            @if($report->latitude && $report->longitude)
+                <div class="py-3 flex justify-between text-body-sm">
+                    <span class="text-slate-500">{{ __('rapida.coordinates') }}</span>
+                    <span class="font-mono text-slate-900">{{ number_format($report->latitude, 4) }}, {{ number_format($report->longitude, 4) }}</span>
+                </div>
+            @endif
             @if($report->ai_confidence !== null)
                 @php
                     $confidencePercent = round($report->ai_confidence * 100);

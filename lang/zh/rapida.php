@@ -100,6 +100,8 @@ return [
     'community_reporter' => '社区报告者',
     'submitted' => '已提交',
     'location' => '位置',
+    'reported_location' => '报告位置',
+    'coordinates' => '坐标',
     'version_history' => '版本历史',
     'current_version' => '当前版本',
     'back_to_reports' => '返回我的报告',

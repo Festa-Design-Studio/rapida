@@ -100,6 +100,8 @@ return [
     'community_reporter' => 'Miembro de la comunidad',
     'submitted' => 'Enviado',
     'location' => 'Ubicación',
+    'reported_location' => 'Ubicación reportada',
+    'coordinates' => 'Coordenadas',
     'version_history' => 'Historial de versiones',
     'current_version' => 'Versión actual',
     'back_to_reports' => 'Volver a mis reportes',
