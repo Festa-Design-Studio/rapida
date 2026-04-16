@@ -11,16 +11,15 @@ import { cellToBoundary } from 'h3-js';
 const protocol = new Protocol();
 maplibregl.addProtocol('pmtiles', protocol.tile);
 
-/**
- * Color tokens for damage levels and map features.
- */
+// Tokens should be passed from server config via Alpine data attribute.
+// These defaults match config/rapida-tokens.php as a safety net.
 const DEFAULT_TOKENS = {
-    damage_minimal: '#22C55E',
-    damage_partial: '#F59E0B',
-    damage_complete: '#EF4444',
-    footprint_fill: '#2563EB',
-    footprint_stroke: '#1A2E4A',
-    user_dot: '#2563EB',
+    damage_minimal: '#22c55e',
+    damage_partial: '#f59e0b',
+    damage_complete: '#c46b5a',
+    footprint_fill: '#2e6689',
+    footprint_stroke: '#1a3a4a',
+    user_dot: '#2e6689',
 };
 
 /**
