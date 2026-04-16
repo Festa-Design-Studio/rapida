@@ -34,10 +34,10 @@ class AnalyticsQueryService
      */
     public function byDamageLevel(string $crisisId): Collection
     {
-        return Cache::remember(
+        $data = Cache::remember(
             "analytics:{$crisisId}:by_damage",
             self::CACHE_TTL,
-            function () use ($crisisId): Collection {
+            function () use ($crisisId): array {
                 $query = DamageReport::query()
                     ->selectRaw('damage_level, count(*) as count')
                     ->groupBy('damage_level');
@@ -46,9 +46,11 @@ class AnalyticsQueryService
                     $query->where('crisis_id', $crisisId);
                 }
 
-                return $query->pluck('count', 'damage_level');
+                return $query->pluck('count', 'damage_level')->toArray();
             }
         );
+
+        return collect($data);
     }
 
     /**
@@ -56,10 +58,10 @@ class AnalyticsQueryService
      */
     public function byInfrastructureType(string $crisisId): Collection
     {
-        return Cache::remember(
+        $data = Cache::remember(
             "analytics:{$crisisId}:by_infra",
             self::CACHE_TTL,
-            function () use ($crisisId): Collection {
+            function () use ($crisisId): array {
                 $query = DamageReport::query()
                     ->selectRaw('infrastructure_type, count(*) as count')
                     ->groupBy('infrastructure_type');
@@ -68,17 +70,19 @@ class AnalyticsQueryService
                     $query->where('crisis_id', $crisisId);
                 }
 
-                return $query->pluck('count', 'infrastructure_type');
+                return $query->pluck('count', 'infrastructure_type')->toArray();
             }
         );
+
+        return collect($data);
     }
 
     public function reportsByDay(string $crisisId, int $limit = 14): Collection
     {
-        return Cache::remember(
+        $data = Cache::remember(
             "analytics:{$crisisId}:by_day:{$limit}",
             self::CACHE_TTL,
-            function () use ($crisisId, $limit): Collection {
+            function () use ($crisisId, $limit): array {
                 $query = DamageReport::query()
                     ->selectRaw('DATE(submitted_at) as date, COUNT(*) as count')
                     ->groupBy('date')
@@ -89,9 +93,11 @@ class AnalyticsQueryService
                     $query->where('crisis_id', $crisisId);
                 }
 
-                return $query->get();
+                return $query->get()->toArray();
             }
         );
+
+        return collect($data);
     }
 
     /**
@@ -99,21 +105,16 @@ class AnalyticsQueryService
      */
     public function topBuildings(string $crisisId, int $limit = 10): EloquentCollection
     {
-        return Cache::remember(
-            "analytics:{$crisisId}:top_buildings:{$limit}",
-            self::CACHE_TTL,
-            function () use ($crisisId, $limit): EloquentCollection {
-                $query = Building::where('report_count', '>', 0)
-                    ->orderByDesc('report_count')
-                    ->limit($limit);
+        // Not cached — returns Eloquent models with UUIDs that don't survive serialization
+        $query = Building::where('report_count', '>', 0)
+            ->orderByDesc('report_count')
+            ->limit($limit);
 
-                if ($crisisId) {
-                    $query->where('crisis_id', $crisisId);
-                }
+        if ($crisisId) {
+            $query->where('crisis_id', $crisisId);
+        }
 
-                return $query->get();
-            }
-        );
+        return $query->get();
     }
 
     /**
@@ -121,20 +122,15 @@ class AnalyticsQueryService
      */
     public function recentReports(string $crisisId, int $limit = 10): EloquentCollection
     {
-        return Cache::remember(
-            "analytics:{$crisisId}:recent:{$limit}",
-            self::CACHE_TTL,
-            function () use ($crisisId, $limit): EloquentCollection {
-                $query = DamageReport::query()
-                    ->orderByDesc('submitted_at')
-                    ->limit($limit);
+        // Not cached — returns Eloquent models with UUIDs that don't survive serialization
+        $query = DamageReport::query()
+            ->orderByDesc('submitted_at')
+            ->limit($limit);
 
-                if ($crisisId) {
-                    $query->where('crisis_id', $crisisId);
-                }
+        if ($crisisId) {
+            $query->where('crisis_id', $crisisId);
+        }
 
-                return $query->get();
-            }
-        );
+        return $query->get();
     }
 }
