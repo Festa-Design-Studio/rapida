@@ -97,7 +97,8 @@ class AnalyticsQueryService
             }
         );
 
-        return collect($data);
+        // Convert arrays back to objects so blade can use $day->count syntax
+        return collect($data)->map(fn ($item) => (object) $item);
     }
 
     /**
