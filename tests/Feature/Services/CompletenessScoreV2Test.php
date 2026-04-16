@@ -152,6 +152,7 @@ it('scoreFromArray scores full report as 8 (max)', function () {
         'damage_level' => 'complete',
         'infrastructure_type' => 'residential',
         'crisis_type' => 'flood',
+        'debris_required' => true,
         'infrastructure_name' => 'Town Hall',
     ]))->toBe(8);
 });

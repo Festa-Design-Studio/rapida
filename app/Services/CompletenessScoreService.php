@@ -52,7 +52,7 @@ class CompletenessScoreService
             $score += 2;
         }
 
-        if (! empty($data['infrastructure_type']) && ! empty($data['crisis_type'])) {
+        if (! empty($data['infrastructure_type']) && ! empty($data['crisis_type']) && array_key_exists('debris_required', $data) && $data['debris_required'] !== null) {
             $score += 1;
         }
 
