@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Events\ReportSubmitted;
+use App\DataTransferObjects\SubmitReportData;
 use App\Models\Crisis;
-use App\Models\DamageReport;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -16,6 +15,8 @@ class WhatsAppBotService
 
     public function __construct(
         private readonly CompletenessScoreService $scoreService,
+        private readonly ReportSubmissionService $submissionService,
+        private readonly ConflictModeService $conflictModeService,
     ) {}
 
     /**
@@ -48,15 +49,15 @@ class WhatsAppBotService
 
         $step = $session['step'] ?? 0;
 
-        return match ($step) {
-            0 => $this->stepStart($sessionKey, $body, $lang),
-            1 => $this->stepPhoto($sessionKey, $session, $mediaUrl, $lang),
-            2 => $this->stepLocation($sessionKey, $session, $latitude, $longitude, $body, $lang),
-            3 => $this->stepDamage($sessionKey, $session, $body, $lang),
-            4 => $this->stepInfra($sessionKey, $session, $body, $lang),
+        return match ((string) $step) {
+            '0' => $this->stepStart($sessionKey, $body, $lang),
+            '1' => $this->stepPhoto($sessionKey, $session, $mediaUrl, $lang),
+            '2' => $this->stepLocation($sessionKey, $session, $latitude, $longitude, $body, $lang),
+            '3' => $this->stepDamage($sessionKey, $session, $body, $lang),
+            '4' => $this->stepInfra($sessionKey, $session, $body, $lang),
             '4b' => $this->stepCrisisType($sessionKey, $session, $body, $lang),
             '4c' => $this->stepDebris($sessionKey, $session, $body, $lang),
-            5 => $this->stepConfirm($sessionKey, $session, $body, $lang),
+            '5' => $this->stepConfirm($sessionKey, $session, $body, $lang),
             default => ['message' => __('whatsapp.unknown_state', [], $lang)],
         };
     }
@@ -77,7 +78,7 @@ class WhatsAppBotService
             'step' => 1,
             'language' => $lang,
             'crisis_slug' => $crisisSlug,
-            'conflict_context' => $crisis?->conflict_context ?? false,
+            'conflict_context' => $crisis ? $this->conflictModeService->isConflict($crisis) : false,
             'idempotency_key' => Str::uuid()->toString(),
             'retry_count' => 0,
         ];
@@ -232,34 +233,25 @@ class WhatsAppBotService
             $crisis = Crisis::where('status', 'active')->first();
         }
 
-        $isConflict = $crisis->conflict_context ?? false;
+        $data = new SubmitReportData(
+            crisis: $crisis,
+            latitude: isset($session['latitude']) ? (float) $session['latitude'] : null,
+            longitude: isset($session['longitude']) ? (float) $session['longitude'] : null,
+            w3wCode: $session['w3w_code'] ?? null,
+            landmarkText: $session['landmark_text'] ?? null,
+            damageLevel: $session['damage_level'] ?? 'partial',
+            infrastructureType: $session['infrastructure_type'] ?? 'other',
+            crisisType: $session['crisis_type'] ?? 'flood',
+            debrisRequired: $session['debris_required'] ?? false,
+            deviceFingerprintId: $session['device_fingerprint_id'] ?? null,
+            idempotencyKey: $session['idempotency_key'] ?? null,
+            buildingFootprintId: $session['building_footprint_id'] ?? null,
+            locationMethod: $session['location_method'] ?? 'coordinate_only',
+            submittedVia: 'whatsapp',
+        );
 
-        $report = DamageReport::create([
-            'crisis_id' => $crisis->id,
-            'building_footprint_id' => $session['building_footprint_id'] ?? null,
-            'device_fingerprint_id' => $isConflict ? null : ($session['device_fingerprint_id'] ?? null),
-            'photo_url' => $session['photo_url'] ?? 'https://rapida-demo.s3.amazonaws.com/placeholder.jpg',
-            'photo_hash' => $session['photo_hash'] ?? hash('sha256', 'placeholder'),
-            'damage_level' => $session['damage_level'],
-            'ai_suggested_level' => $session['ai_suggested_level'] ?? null,
-            'infrastructure_type' => $session['infrastructure_type'],
-            'crisis_type' => $session['crisis_type'],
-            'debris_required' => $session['debris_required'] ?? false,
-            'latitude' => $session['latitude'] ?? null,
-            'longitude' => $session['longitude'] ?? null,
-            'w3w_code' => $session['w3w_code'] ?? null,
-            'landmark_text' => $session['landmark_text'] ?? null,
-            'location_method' => $session['location_method'] ?? 'coordinate_only',
-            'submitted_via' => 'whatsapp',
-            'reporter_tier' => $isConflict ? 'anonymous' : 'anonymous',
-            'idempotency_key' => $session['idempotency_key'],
-            'submitted_at' => now(),
-            'synced_at' => now(),
-            'is_flagged' => false,
-            'completeness_score' => $this->scoreService->scoreFromArray($session),
-        ]);
+        $report = $this->submissionService->submit($data);
 
-        ReportSubmitted::dispatch($report);
         Cache::forget($key);
 
         return ['message' => __('whatsapp.report_submitted', [
