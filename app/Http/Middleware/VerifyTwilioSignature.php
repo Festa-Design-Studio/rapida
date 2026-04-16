@@ -23,9 +23,19 @@ class VerifyTwilioSignature
 
         $validator = new RequestValidator($authToken);
 
+        // Use the public URL that Twilio signed against, not the internal
+        // proxy URL. Behind reverse proxies (Laravel Cloud, Cloudflare),
+        // fullUrl() may return http:// while Twilio signed https://.
+        $url = $request->fullUrl();
+        if (! str_starts_with($url, 'https://') && $request->secure()) {
+            $url = 'https://'.substr($url, 7);
+        } elseif (! str_starts_with($url, 'https://') && config('app.url') && str_starts_with(config('app.url'), 'https://')) {
+            $url = preg_replace('/^http:/', 'https:', $url);
+        }
+
         $valid = $validator->validate(
             $request->header('X-Twilio-Signature', ''),
-            $request->fullUrl(),
+            $url,
             $request->all()
         );
 
