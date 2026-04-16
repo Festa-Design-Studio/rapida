@@ -8,7 +8,8 @@ it('renders confirmation message', function () {
         syncStatus="synced"
     />');
 
-    $view->assertSee('Report Submitted');
+    $view->assertSee('Your report was received.');
+    $view->assertSee("Your report is saved.");
     $view->assertSee('RPT-2026-001');
     $view->assertSee('2026-03-26 10:00');
 });

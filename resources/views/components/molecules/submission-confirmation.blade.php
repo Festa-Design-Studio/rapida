@@ -31,9 +31,12 @@
 >
     <x-atoms.icon name="check-circle" size="xl" class="text-ground-green-700" />
 
-    <div class="space-y-2">
-        <h2 class="text-h3 font-heading font-semibold text-slate-900">{{ __('rapida.report_submitted') }}</h2>
-        <p class="text-body text-slate-600">{{ __('rapida.report_submitted_desc') }}</p>
+    <div class="space-y-2" x-data="{ isOnline: $store.offlineQueue?.isOnline ?? true }">
+        <h2 class="text-h3 font-heading font-semibold text-slate-900">
+            <span x-show="isOnline">{{ __('rapida.confirmation_online') }}</span>
+            <span x-show="!isOnline" x-cloak>{{ __('rapida.confirmation_offline') }}</span>
+        </h2>
+        <p class="text-body text-slate-600">{{ __('rapida.confirmation_thanks') }}</p>
     </div>
 
     <div class="flex flex-wrap items-center justify-center gap-2">
