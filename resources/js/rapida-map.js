@@ -1,10 +1,12 @@
 import maplibregl from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
-import { cellToBoundary } from 'h3-js';
+import { initBuildingLayer, destroyBuildingLayer } from './map-buildings';
+import { initPinLayer, destroyPinLayer, startPinPolling, refetchPins } from './map-pins';
+import { initHeatmapLayer, destroyHeatmapLayer } from './map-heatmap';
 
 /* ============================================================
-   RAPIDA Map — Alpine.js MapLibre GL Controller
-   Tech Spec 06 — Building Footprints + Pin Clusters
+   RAPIDA Map — Alpine.js MapLibre GL Controller (Composer)
+   Imports building, pin, and heatmap layers from focused modules.
    ============================================================ */
 
 // Register PMTiles protocol once globally
@@ -45,14 +47,13 @@ function damageColor(level, tokens) {
  * @param {Object} config.tokens — color tokens
  * @param {string} config.buildingsUrl — API endpoint for building footprints
  * @param {string} config.pinsUrl — API endpoint for map pins
+ * @param {string} config.heatmapUrl — API endpoint for H3 heatmap
  */
 function rapidaMap(config = {}) {
     return {
         map: null,
         userMarker: null,
         watchId: null,
-        pollTimer: null,
-        lastPinTimestamp: null,
 
         config: {
             crisisSlug: config.crisisSlug || '',
@@ -77,8 +78,7 @@ function rapidaMap(config = {}) {
                 this.$el.__rapidaMapApi = {
                     refetchPins(url) {
                         component.config.pinsUrl = url;
-                        component.lastPinTimestamp = null;
-                        component._fetchPins();
+                        refetchPins(component.map, url);
                     },
                 };
             }
@@ -88,9 +88,9 @@ function rapidaMap(config = {}) {
             if (this.watchId !== null) {
                 navigator.geolocation.clearWatch(this.watchId);
             }
-            if (this.pollTimer) {
-                clearInterval(this.pollTimer);
-            }
+            destroyPinLayer(this.map);
+            destroyBuildingLayer(this.map);
+            destroyHeatmapLayer(this.map);
             if (this.map) {
                 this.map.remove();
             }
@@ -137,280 +137,28 @@ function rapidaMap(config = {}) {
             this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
             this.map.on('load', () => {
-                this._addBuildingsLayer();
-                this._setupBuildingTapHandler();
+                const tokens = this.config.tokens;
+                const dispatch = this.$dispatch.bind(this);
+
+                initBuildingLayer(this.map, this.config.buildingsUrl, tokens, dispatch);
                 this._setupTapAnywhereHandler();
 
                 if (this.config.mode === 'reporter' && this.config.heatmapUrl) {
                     // Privacy-conscious: show aggregated H3 hexagons, not individual pins
-                    this._addHeatmapLayer();
+                    initHeatmapLayer(this.map, this.config.heatmapUrl).then((ok) => {
+                        if (!ok) {
+                            // Fallback to pins if heatmap fails
+                            initPinLayer(this.map, this.config.pinsUrl, tokens);
+                        }
+                    });
                     this._startGpsTracking();
                 } else {
                     // Dashboard/analyst: show individual pins
-                    this._addPinsLayer();
+                    initPinLayer(this.map, this.config.pinsUrl, tokens);
                     if (this.config.mode === 'dashboard') {
-                        this._startPinPolling();
+                        startPinPolling(this.map, this.config.pinsUrl, tokens);
                     }
                 }
-            });
-        },
-
-        /* ----------------------------------------------------------
-           Buildings GeoJSON layer (fill + stroke)
-           ---------------------------------------------------------- */
-        _addBuildingsLayer() {
-            const tokens = this.config.tokens;
-
-            // Guard: don't re-add if source already exists
-            if (this.map.getSource('buildings')) {
-                return;
-            }
-
-            this.map.addSource('buildings', {
-                type: 'geojson',
-                data: { type: 'FeatureCollection', features: [] },
-            });
-
-            // Fill layer — colored by damage level
-            this.map.addLayer({
-                id: 'buildings-fill',
-                type: 'fill',
-                source: 'buildings',
-                paint: {
-                    'fill-color': [
-                        'match',
-                        ['get', 'canonical_damage_level'],
-                        'minimal', tokens.damage_minimal,
-                        'partial', tokens.damage_partial,
-                        'complete', tokens.damage_complete,
-                        tokens.footprint_fill, // default
-                    ],
-                    'fill-opacity': 0.45,
-                },
-            });
-
-            // Stroke layer
-            this.map.addLayer({
-                id: 'buildings-stroke',
-                type: 'line',
-                source: 'buildings',
-                paint: {
-                    'line-color': tokens.footprint_stroke,
-                    'line-width': 1.5,
-                },
-            });
-
-            // Fetch buildings
-            this._fetchBuildings();
-
-            // Reload buildings when map moves
-            this.map.on('moveend', () => {
-                this._fetchBuildings();
-            });
-        },
-
-        async _fetchBuildings() {
-            if (!this.config.buildingsUrl) {
-                return;
-            }
-
-            try {
-                const bounds = this.map.getBounds();
-                const bbox = [
-                    bounds.getWest(),
-                    bounds.getSouth(),
-                    bounds.getEast(),
-                    bounds.getNorth(),
-                ].join(',');
-
-                const url = `${this.config.buildingsUrl}?bbox=${bbox}`;
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    return;
-                }
-
-                const geojson = await response.json();
-                const source = this.map.getSource('buildings');
-
-                if (source) {
-                    source.setData(geojson);
-                }
-            } catch (e) {
-                console.warn('[rapida-map] Failed to fetch buildings:', e.message);
-            }
-        },
-
-        /* ----------------------------------------------------------
-           Pins GeoJSON layer (clustered circles)
-           ---------------------------------------------------------- */
-        _addPinsLayer() {
-            const tokens = this.config.tokens;
-
-            // Guard: don't re-add if source already exists
-            if (this.map.getSource('pins')) {
-                return;
-            }
-
-            this.map.addSource('pins', {
-                type: 'geojson',
-                data: { type: 'FeatureCollection', features: [] },
-                cluster: true,
-                clusterMaxZoom: 14,
-                clusterRadius: 50,
-            });
-
-            // Cluster circles
-            this.map.addLayer({
-                id: 'pin-clusters',
-                type: 'circle',
-                source: 'pins',
-                filter: ['has', 'point_count'],
-                paint: {
-                    'circle-color': [
-                        'step',
-                        ['get', 'point_count'],
-                        tokens.damage_minimal,
-                        10, tokens.damage_partial,
-                        50, tokens.damage_complete,
-                    ],
-                    'circle-radius': [
-                        'step',
-                        ['get', 'point_count'],
-                        18,
-                        10, 24,
-                        50, 32,
-                    ],
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': '#ffffff',
-                },
-            });
-
-            // Cluster count labels
-            this.map.addLayer({
-                id: 'pin-cluster-count',
-                type: 'symbol',
-                source: 'pins',
-                filter: ['has', 'point_count'],
-                layout: {
-                    'text-field': '{point_count_abbreviated}',
-                    'text-size': 13,
-                    'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-                },
-                paint: {
-                    'text-color': '#ffffff',
-                },
-            });
-
-            // Individual pin circles — colored by damage level
-            this.map.addLayer({
-                id: 'pin-unclustered',
-                type: 'circle',
-                source: 'pins',
-                filter: ['!', ['has', 'point_count']],
-                paint: {
-                    'circle-color': [
-                        'match',
-                        ['get', 'damage_level'],
-                        'minimal', tokens.damage_minimal,
-                        'partial', tokens.damage_partial,
-                        'complete', tokens.damage_complete,
-                        tokens.footprint_fill,
-                    ],
-                    'circle-radius': 8,
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': '#ffffff',
-                },
-            });
-
-            // Fetch initial pins
-            this._fetchPins();
-        },
-
-        async _fetchPins() {
-            if (!this.config.pinsUrl) {
-                return;
-            }
-
-            try {
-                let url = this.config.pinsUrl;
-
-                if (this.lastPinTimestamp) {
-                    url += `?since=${encodeURIComponent(this.lastPinTimestamp)}`;
-                }
-
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    return;
-                }
-
-                const geojson = await response.json();
-                const source = this.map.getSource('pins');
-
-                if (source) {
-                    source.setData(geojson);
-                }
-
-                // Track latest timestamp for incremental polling
-                if (geojson.features && geojson.features.length > 0) {
-                    const timestamps = geojson.features
-                        .map((f) => f.properties.submitted_at)
-                        .filter(Boolean)
-                        .sort();
-                    if (timestamps.length > 0) {
-                        this.lastPinTimestamp = timestamps[timestamps.length - 1];
-                    }
-                }
-            } catch (e) {
-                console.warn('[rapida-map] Failed to fetch pins:', e.message);
-            }
-        },
-
-        /* ----------------------------------------------------------
-           Building tap handler — dispatches Alpine event
-           ---------------------------------------------------------- */
-        _setupBuildingTapHandler() {
-            // Pointer cursor on hover
-            this.map.on('mouseenter', 'buildings-fill', () => {
-                this.map.getCanvas().style.cursor = 'pointer';
-            });
-            this.map.on('mouseleave', 'buildings-fill', () => {
-                this.map.getCanvas().style.cursor = '';
-            });
-
-            // Click / tap handler
-            this.map.on('click', 'buildings-fill', (e) => {
-                if (!e.features || e.features.length === 0) {
-                    return;
-                }
-
-                const feature = e.features[0];
-                const props = feature.properties;
-
-                // Get centroid from click location
-                const lngLat = e.lngLat;
-
-                // Dispatch Alpine event for Livewire to consume
-                this.$dispatch('building-selected', {
-                    id: String(props.id),
-                    latitude: lngLat.lat,
-                    longitude: lngLat.lng,
-                    damage_level: props.canonical_damage_level || null,
-                });
-
-                // Visual feedback — brief highlight
-                this.map.setPaintProperty('buildings-fill', 'fill-opacity', [
-                    'case',
-                    ['==', ['id'], feature.id],
-                    0.8,
-                    0.45,
-                ]);
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    this.map.setPaintProperty('buildings-fill', 'fill-opacity', 0.45);
-                }, 2000);
             });
         },
 
@@ -480,141 +228,6 @@ function rapidaMap(config = {}) {
         },
 
         /* ----------------------------------------------------------
-           H3 Heatmap layer (reporter mode — privacy-conscious)
-           ---------------------------------------------------------- */
-        async _addHeatmapLayer() {
-            if (!this.config.heatmapUrl) return;
-
-            // Remove existing heatmap layers/source if re-rendering
-            if (this.map.getSource('heatmap-cells')) {
-                ['heatmap-labels', 'heatmap-outline', 'heatmap-fill'].forEach(id => {
-                    if (this.map.getLayer(id)) this.map.removeLayer(id);
-                });
-                this.map.removeSource('heatmap-cells');
-            }
-
-            try {
-                const res = await fetch(this.config.heatmapUrl);
-                if (!res.ok) return;
-                const data = await res.json();
-
-                const features = (data.cells || []).map(cell => {
-                    // Convert H3 cell ID to polygon boundary using h3-js
-                    const boundary = cellToBoundary(cell.cell_id, true); // true = GeoJSON [lng, lat] order
-                    return {
-                        type: 'Feature',
-                        geometry: {
-                            type: 'Polygon',
-                            coordinates: [boundary],
-                        },
-                        properties: {
-                            cell_id: cell.cell_id,
-                            report_count: cell.report_count,
-                            minimal: cell.minimal,
-                            partial: cell.partial,
-                            complete: cell.complete,
-                            dominant: cell.dominant,
-                        },
-                    };
-                });
-
-                this.map.addSource('heatmap-cells', {
-                    type: 'geojson',
-                    data: { type: 'FeatureCollection', features },
-                });
-
-                // Fill layer — opacity by report count, color by dominant damage
-                this.map.addLayer({
-                    id: 'heatmap-fill',
-                    type: 'fill',
-                    source: 'heatmap-cells',
-                    paint: {
-                        'fill-color': [
-                            'match', ['get', 'dominant'],
-                            'minimal', '#2e6689',  // rapida-blue-700
-                            'partial', '#c47d2a',  // alert-amber-500
-                            'complete', '#c46b5a', // crisis-rose-400
-                            '#4a8db5',             // rapida-blue-500 default
-                        ],
-                        'fill-opacity': [
-                            'interpolate', ['linear'], ['get', 'report_count'],
-                            1, 0.2,
-                            5, 0.35,
-                            10, 0.5,
-                            25, 0.65,
-                        ],
-                    },
-                });
-
-                // Outline layer
-                this.map.addLayer({
-                    id: 'heatmap-outline',
-                    type: 'line',
-                    source: 'heatmap-cells',
-                    paint: {
-                        'line-color': '#1a3a4a', // rapida-blue-900
-                        'line-width': 1,
-                        'line-opacity': 0.3,
-                    },
-                });
-
-                // Count label
-                this.map.addLayer({
-                    id: 'heatmap-labels',
-                    type: 'symbol',
-                    source: 'heatmap-cells',
-                    layout: {
-                        'text-field': ['to-string', ['get', 'report_count']],
-                        'text-size': 12,
-                        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-                    },
-                    paint: {
-                        'text-color': '#1a3a4a',
-                        'text-halo-color': '#ffffff',
-                        'text-halo-width': 1.5,
-                    },
-                });
-
-                // Popup on click
-                this.map.on('click', 'heatmap-fill', (e) => {
-                    const props = e.features[0].properties;
-                    const html = `
-                        <div style="font-family:system-ui;font-size:13px;line-height:1.5;min-width:140px">
-                            <strong>${props.report_count} reports in this zone</strong>
-                            <div style="margin-top:6px;display:flex;gap:4px;align-items:center">
-                                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#22c55e"></span>
-                                ${props.minimal} minimal
-                            </div>
-                            <div style="display:flex;gap:4px;align-items:center">
-                                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b"></span>
-                                ${props.partial} partial
-                            </div>
-                            <div style="display:flex;gap:4px;align-items:center">
-                                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#c46b5a"></span>
-                                ${props.complete} complete
-                            </div>
-                        </div>
-                    `;
-                    new maplibregl.Popup({ offset: 10 })
-                        .setLngLat(e.lngLat)
-                        .setHTML(html)
-                        .addTo(this.map);
-                });
-
-                this.map.on('mouseenter', 'heatmap-fill', () => {
-                    this.map.getCanvas().style.cursor = 'pointer';
-                });
-                this.map.on('mouseleave', 'heatmap-fill', () => {
-                    this.map.getCanvas().style.cursor = '';
-                });
-
-            } catch (err) {
-                console.warn('Heatmap load failed, falling back to pins', err);
-                this._addPinsLayer();
-            }
-        },
-
-        /* ----------------------------------------------------------
            User GPS dot (reporter mode only)
            ---------------------------------------------------------- */
         _startGpsTracking() {
@@ -656,15 +269,6 @@ function rapidaMap(config = {}) {
                     timeout: 15000,
                 },
             );
-        },
-
-        /* ----------------------------------------------------------
-           Pin polling (dashboard mode only) — every 15s
-           ---------------------------------------------------------- */
-        _startPinPolling() {
-            this.pollTimer = setInterval(() => {
-                this._fetchPins();
-            }, 15000);
         },
     };
 }
