@@ -14,9 +14,8 @@ class CrisisSeeder extends Seeder
         // francophone and Lebanese-diaspora residents, but the default must
         // be EN so browser-locale negotiation resolves sensibly when the
         // Accept-Language header is missing.
-        Crisis::create([
+        Crisis::firstOrCreate(['slug' => 'accra-flood-2026'], [
             'name' => 'Accra Urban Flood 2026 (Demo)',
-            'slug' => 'accra-flood-2026',
             'default_language' => 'en',
             'available_languages' => ['en', 'fr', 'ar'],
             'active_modules' => ['electricity', 'health', 'pressing_needs'],
@@ -32,9 +31,8 @@ class CrisisSeeder extends Seeder
         ]);
 
         // Conflict zone demo — Syria (Arabic primary, conflict mode)
-        Crisis::create([
+        Crisis::firstOrCreate(['slug' => 'aleppo-conflict-2026'], [
             'name' => 'Aleppo Conflict Assessment 2026 (Demo)',
-            'slug' => 'aleppo-conflict-2026',
             'default_language' => 'ar',
             'available_languages' => ['ar', 'en', 'fr'],
             'active_modules' => ['pressing_needs'],

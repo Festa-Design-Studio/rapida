@@ -9,7 +9,7 @@ class UndpUserSeeder extends Seeder
 {
     public function run(): void
     {
-        UndpUser::create([
+        UndpUser::firstOrCreate(['email' => 'abayomi@rapida.app'], [
             'name' => 'Abayomi Ogundipe',
             'email' => 'abayomi@rapida.app',
             'password' => 'password',
@@ -18,9 +18,8 @@ class UndpUserSeeder extends Seeder
         ]);
 
         // UNDP evaluator account for demo review
-        UndpUser::create([
+        UndpUser::firstOrCreate(['email' => 'evaluator@undp.org'], [
             'name' => 'UNDP Evaluator',
-            'email' => 'evaluator@undp.org',
             'password' => 'rapida-demo-2026',
             'role' => 'analyst',
             'is_active' => true,
