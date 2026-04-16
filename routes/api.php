@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiReportController;
 use App\Http\Controllers\Api\RecoveryOutcomeController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Middleware\BackpressureThrottle;
+use App\Http\Middleware\VerifyInternalSecret;
 use App\Http\Middleware\VerifyTwilioSignature;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,6 @@ Route::prefix('v1')->middleware(['throttle:rapida-global', BackpressureThrottle:
         ->name('api.outcomes.store');
 
     Route::post('/internal/ai-result', [ApiAiController::class, 'receive'])
+        ->middleware(VerifyInternalSecret::class)
         ->name('api.ai.result');
 });

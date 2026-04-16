@@ -20,6 +20,8 @@ it('receives AI classification callback and updates report', function () {
         'damage_level' => 'partial',
         'confidence' => 0.85,
         'scores' => ['minimal' => 0.10, 'partial' => 0.85, 'complete' => 0.05],
+    ], [
+        'X-Internal-Secret' => config('services.ai.secret'),
     ]);
 
     $response->assertOk()->assertJson(['ok' => true]);
@@ -32,13 +34,17 @@ it('handles error status gracefully', function () {
         'job_id' => 'nonexistent-id',
         'status' => 'error',
         'error' => 'Model inference failed',
+    ], [
+        'X-Internal-Secret' => config('services.ai.secret'),
     ]);
 
     $response->assertOk()->assertJson(['ok' => true]);
 });
 
 it('validates AI callback payload', function () {
-    $this->postJson('/api/v1/internal/ai-result', [])
+    $this->postJson('/api/v1/internal/ai-result', [], [
+        'X-Internal-Secret' => config('services.ai.secret'),
+    ])
         ->assertStatus(422)
         ->assertJsonValidationErrors(['job_id', 'status']);
 });
