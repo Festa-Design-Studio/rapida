@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\DamageReport;
+use App\Services\AnalyticsQueryService;
 use Livewire\Component;
 
 new class extends Component
@@ -15,13 +15,7 @@ new class extends Component
 
     public function getTotalReportsProperty(): int
     {
-        $query = DamageReport::query();
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->count();
+        return app(AnalyticsQueryService::class)->totalReports($this->crisisId);
     }
 
     /**
@@ -29,15 +23,7 @@ new class extends Component
      */
     public function getReportsByDamageLevelProperty(): \Illuminate\Support\Collection
     {
-        $query = DamageReport::query()
-            ->selectRaw('damage_level, count(*) as count')
-            ->groupBy('damage_level');
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->pluck('count', 'damage_level');
+        return app(AnalyticsQueryService::class)->byDamageLevel($this->crisisId);
     }
 
     /**
@@ -45,30 +31,12 @@ new class extends Component
      */
     public function getReportsByInfraTypeProperty(): \Illuminate\Support\Collection
     {
-        $query = DamageReport::query()
-            ->selectRaw('infrastructure_type, count(*) as count')
-            ->groupBy('infrastructure_type');
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->pluck('count', 'infrastructure_type');
+        return app(AnalyticsQueryService::class)->byInfrastructureType($this->crisisId);
     }
 
     public function getReportsByDayProperty(): \Illuminate\Support\Collection
     {
-        $query = DamageReport::query()
-            ->selectRaw('DATE(submitted_at) as date, COUNT(*) as count')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->limit(14);
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->get();
+        return app(AnalyticsQueryService::class)->reportsByDay($this->crisisId);
     }
 
     /**
@@ -76,31 +44,15 @@ new class extends Component
      */
     public function getTopBuildingsProperty(): \Illuminate\Database\Eloquent\Collection
     {
-        $query = \App\Models\Building::where('report_count', '>', 0)
-            ->orderByDesc('report_count')
-            ->limit(10);
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->get();
+        return app(AnalyticsQueryService::class)->topBuildings($this->crisisId);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection<int, DamageReport>
+     * @return \Illuminate\Database\Eloquent\Collection<int, \App\Models\DamageReport>
      */
     public function getRecentReportsProperty(): \Illuminate\Database\Eloquent\Collection
     {
-        $query = DamageReport::query()
-            ->orderByDesc('submitted_at')
-            ->limit(10);
-
-        if ($this->crisisId) {
-            $query->where('crisis_id', $this->crisisId);
-        }
-
-        return $query->get();
+        return app(AnalyticsQueryService::class)->recentReports($this->crisisId);
     }
 };
 ?>
