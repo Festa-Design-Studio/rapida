@@ -27,6 +27,24 @@ class DuplicateDetectionService
             return true;
         }
 
+        // Check for visually similar photos via perceptual hash (Hamming distance <= 5)
+        if ($report->photo_phash) {
+            $similarByPHash = DamageReport::where('crisis_id', $report->crisis_id)
+                ->where('id', '!=', $report->id)
+                ->whereNotNull('photo_phash')
+                ->where('submitted_at', '>=', now()->subHours(24))
+                ->get()
+                ->filter(function ($existing) use ($report) {
+                    return $this->hammingDistance($report->photo_phash, $existing->photo_phash) <= 5;
+                });
+
+            if ($similarByPHash->isNotEmpty()) {
+                $report->update(['is_flagged' => true]);
+
+                return true;
+            }
+        }
+
         // Check for same account submitting > 3 reports to same building in 24 hours
         if ($report->account_id) {
             $rapidSubmissions = DamageReport::where('account_id', $report->account_id)
@@ -43,5 +61,16 @@ class DuplicateDetectionService
         }
 
         return false;
+    }
+
+    private function hammingDistance(string $hash1, string $hash2): int
+    {
+        $distance = 0;
+        for ($i = 0; $i < 16; $i++) {
+            $xor = intval($hash1[$i], 16) ^ intval($hash2[$i], 16);
+            $distance += substr_count(decbin($xor), '1');
+        }
+
+        return $distance;
     }
 }

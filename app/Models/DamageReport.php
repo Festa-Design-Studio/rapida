@@ -25,6 +25,7 @@ class DamageReport extends Model
         'landmark_id',
         'photo_url',
         'photo_hash',
+        'photo_phash',
         'photo_size_bytes',
         'photo_guidance_shown',
         'damage_level',
