@@ -37,7 +37,7 @@ it('forces reporter_tier to anonymous in conflict crisis', function () {
         'damage_level' => 'complete',
         'infrastructure_type' => 'commercial',
         'crisis_type' => 'conflict',
-        'reporter_tier' => 'device',
+        'device_fingerprint_id' => 'should-be-nulled',
         'submitted_at' => now()->toIso8601String(),
     ])->assertCreated();
 
@@ -66,7 +66,7 @@ it('preserves device_fingerprint_id in normal crisis', function () {
     expect($report->device_fingerprint_id)->toBe('abc-fingerprint-456');
 });
 
-it('preserves reporter_tier in normal crisis', function () {
+it('resolves device reporter_tier when fingerprint provided in normal crisis', function () {
     $crisis = Crisis::factory()->create([
         'status' => 'active',
         'conflict_context' => false,
@@ -77,7 +77,7 @@ it('preserves reporter_tier in normal crisis', function () {
         'damage_level' => 'partial',
         'infrastructure_type' => 'government',
         'crisis_type' => 'earthquake',
-        'reporter_tier' => 'device',
+        'device_fingerprint_id' => 'abc-fingerprint-789',
         'submitted_at' => now()->toIso8601String(),
     ])->assertCreated();
 
