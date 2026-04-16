@@ -67,7 +67,7 @@ Route::middleware(SetLocaleFromCrisis::class)->group(function () {
 
     Route::get('/confirmation', function (Request $request) {
         $report = $request->query('report')
-            ? DamageReport::find($request->query('report'))
+            ? DamageReport::with(['crisis', 'building', 'verification', 'modules'])->find($request->query('report'))
             : null;
 
         return view('templates.submission-confirmation', ['report' => $report]);
