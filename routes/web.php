@@ -28,11 +28,13 @@ Route::middleware('auth:undp')->group(function () {
     Route::post('/dashboard/reports/{report}/flag', [VerificationController::class, 'flag'])->name('reports.flag');
     Route::post('/dashboard/reports/{report}/assign', [VerificationController::class, 'assign'])->name('reports.assign');
     Route::patch('/dashboard/reports/{report}/verify', [VerificationController::class, 'verify'])->name('reports.verify');
-    Route::get('/dashboard/export/csv', [ExportController::class, 'csv'])->name('export.csv');
-    Route::get('/dashboard/export/geojson', [ExportController::class, 'geojson'])->name('export.geojson');
-    Route::get('/dashboard/export/kml', [ExportController::class, 'kml'])->name('export.kml');
-    Route::get('/dashboard/export/shapefile', [ExportController::class, 'shapefile'])->name('export.shapefile');
-    Route::get('/dashboard/export/pdf', [ExportController::class, 'pdf'])->name('export.pdf');
+    Route::middleware('throttle:rapida-export')->group(function () {
+        Route::get('/dashboard/export/csv', [ExportController::class, 'csv'])->name('export.csv');
+        Route::get('/dashboard/export/geojson', [ExportController::class, 'geojson'])->name('export.geojson');
+        Route::get('/dashboard/export/kml', [ExportController::class, 'kml'])->name('export.kml');
+        Route::get('/dashboard/export/shapefile', [ExportController::class, 'shapefile'])->name('export.shapefile');
+        Route::get('/dashboard/export/pdf', [ExportController::class, 'pdf'])->name('export.pdf');
+    });
 });
 
 // Operator Admin Panel
@@ -71,14 +73,28 @@ Route::middleware(SetLocaleFromCrisis::class)->group(function () {
         return view('templates.submission-confirmation', ['report' => $report]);
     })->name('confirmation');
 
-    Route::get('/my-reports', function () {
+    Route::get('/my-reports', function (Request $request) {
         $crisis = Crisis::where('status', 'active')->first();
-        $reports = $crisis
-            ? DamageReport::where('crisis_id', $crisis->id)
-                ->latest('submitted_at')
-                ->limit(20)
-                ->get()
-            : collect();
+
+        if (! $crisis) {
+            return view('templates.my-reports', ['reports' => collect(), 'crisis' => null]);
+        }
+
+        $query = DamageReport::where('crisis_id', $crisis->id);
+
+        // Filter by authenticated account or device fingerprint cookie
+        $accountId = auth()->id();
+        $fingerprint = $request->cookie('rapida_device_fingerprint');
+
+        if ($accountId) {
+            $query->where('account_id', $accountId);
+        } elseif ($fingerprint) {
+            $query->where('device_fingerprint_id', $fingerprint);
+        } else {
+            return view('templates.my-reports', ['reports' => collect(), 'crisis' => $crisis]);
+        }
+
+        $reports = $query->latest('submitted_at')->limit(20)->get();
 
         return view('templates.my-reports', ['reports' => $reports, 'crisis' => $crisis]);
     })->name('my-reports');
@@ -172,6 +188,3 @@ Route::prefix('rapida-ui')->name('rapida-ui.')->group(function () {
     Route::get('/templates/data-export', fn () => view('rapida-ui.templates.data-export', ['current' => 'templates.data-export']))->name('templates.data-export');
     Route::get('/templates/pitch-video', fn () => view('rapida-ui.templates.pitch-video', ['current' => 'templates.pitch-video']))->name('templates.pitch-video');
 });
-
-// Temporary test route — remove after debugging
-Route::get('/submit-test', fn () => view('templates.submit-test'))->name('submit-test');
