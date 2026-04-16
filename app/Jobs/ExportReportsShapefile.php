@@ -30,7 +30,7 @@ class ExportReportsShapefile implements ShouldQueue
             $query->where('damage_level', $this->damageFilter);
         }
 
-        $reports = $query->get();
+        $reports = $query->cursor();
 
         $tempDir = storage_path('app/exports/shapefile-'.now()->format('Y-m-d-His'));
         if (! is_dir($tempDir)) {

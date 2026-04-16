@@ -27,7 +27,7 @@ class ExportReportsKml implements ShouldQueue
             $query->where('damage_level', $this->damageFilter);
         }
 
-        $reports = $query->get();
+        $reports = $query->cursor();
 
         $placemarks = '';
         foreach ($reports as $r) {

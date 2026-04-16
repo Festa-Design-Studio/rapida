@@ -36,33 +36,33 @@ class ExportReportsCsv implements ShouldQueue
             $query->where('submitted_at', '<=', $this->endDate);
         }
 
-        $reports = $query->orderByDesc('submitted_at')->get();
+        $filename = 'exports/rapida-reports-'.now()->format('Y-m-d-His').'.csv';
+        $tempPath = sys_get_temp_dir().'/rapida-export-'.uniqid().'.csv';
 
-        $csv = "report_id,damage_level,infrastructure_type,crisis_type,latitude,longitude,submitted_at,completeness_score,submitted_via,ai_confidence,ai_suggested_level\n";
+        $handle = fopen($tempPath, 'w');
 
-        foreach ($reports as $r) {
+        fputcsv($handle, [
+            'report_id', 'damage_level', 'infrastructure_type', 'crisis_type',
+            'latitude', 'longitude', 'submitted_at', 'completeness_score',
+            'submitted_via', 'ai_confidence', 'ai_suggested_level',
+        ]);
+
+        foreach ($query->orderByDesc('submitted_at')->cursor() as $r) {
             $damageLevel = $r->damage_level instanceof DamageLevel ? $r->damage_level->value : $r->damage_level;
             $submittedVia = $r->submitted_via instanceof SubmissionChannel ? $r->submitted_via->value : $r->submitted_via;
-
             $aiSuggestedLevel = $r->ai_suggested_level instanceof DamageLevel ? $r->ai_suggested_level->value : $r->ai_suggested_level;
 
-            $csv .= implode(',', [
-                $r->id,
-                $damageLevel,
-                $r->infrastructure_type,
-                $r->crisis_type,
-                $r->latitude,
-                $r->longitude,
-                $r->submitted_at,
-                $r->completeness_score,
-                $submittedVia,
-                $r->ai_confidence,
-                $aiSuggestedLevel,
-            ])."\n";
+            fputcsv($handle, [
+                $r->id, $damageLevel, $r->infrastructure_type, $r->crisis_type,
+                $r->latitude, $r->longitude, $r->submitted_at, $r->completeness_score,
+                $submittedVia, $r->ai_confidence, $aiSuggestedLevel,
+            ]);
         }
 
-        $filename = 'exports/rapida-reports-'.now()->format('Y-m-d-His').'.csv';
-        Storage::put($filename, $csv);
+        fclose($handle);
+
+        Storage::put($filename, file_get_contents($tempPath));
+        unlink($tempPath);
 
         return $filename;
     }
