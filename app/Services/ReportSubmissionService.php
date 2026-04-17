@@ -41,6 +41,12 @@ class ReportSubmissionService
                 } catch (\Throwable $e) {
                     report($e);
                 }
+            } elseif ($data->photoUrl) {
+                $photoResult = $this->photoStorage->storeFromUrl(
+                    $data->photoUrl,
+                    config('services.twilio.account_sid'),
+                    config('services.twilio.auth_token'),
+                );
             }
 
             if (! $photoResult) {

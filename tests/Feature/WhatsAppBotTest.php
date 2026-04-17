@@ -3,6 +3,8 @@
 use App\Models\Crisis;
 use App\Models\DamageReport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -39,7 +41,12 @@ it('processes photo step', function () {
     $response->assertSee('Photo received', false);
 });
 
-it('completes full WhatsApp flow and creates report', function () {
+it('completes full WhatsApp flow and stores the photo', function () {
+    Storage::fake('public');
+    Http::fake([
+        'https://example.com/photo.jpg' => Http::response('fake-jpeg-image-bytes', 200, ['Content-Type' => 'image/jpeg']),
+    ]);
+
     Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
     $from = 'whatsapp:+233201234567';
 
@@ -63,7 +70,35 @@ it('completes full WhatsApp flow and creates report', function () {
     $response->assertOk();
     $response->assertSee('submitted', false);
     expect(DamageReport::count())->toBe(1);
-    expect(DamageReport::first()->submitted_via->value)->toBe('whatsapp');
+
+    $report = DamageReport::first();
+    expect($report->submitted_via->value)->toBe('whatsapp');
+    expect($report->photo_url)->not->toBe('https://rapida-demo.s3.amazonaws.com/placeholder.jpg');
+    expect($report->photo_size_bytes)->toBeGreaterThan(0);
+});
+
+it('falls back to placeholder when WhatsApp photo download fails', function () {
+    Http::fake([
+        'https://example.com/broken.jpg' => Http::response('', 500),
+    ]);
+
+    Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
+    $from = 'whatsapp:+233209999999';
+
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => 'RAPIDA accra-flood-2026']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => '', 'MediaUrl0' => 'https://example.com/broken.jpg']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => '', 'Latitude' => '5.56', 'Longitude' => '-0.20']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => '2']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => '5']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => '2']);
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => 'no']);
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => 'confirm']);
+
+    $response->assertOk();
+    $response->assertSee('submitted', false);
+
+    $report = DamageReport::first();
+    expect($report->photo_url)->toBe('https://rapida-demo.s3.amazonaws.com/placeholder.jpg');
 });
 
 it('handles session restart', function () {

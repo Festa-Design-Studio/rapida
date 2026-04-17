@@ -5,6 +5,8 @@ use App\Models\Crisis;
 use App\Models\DamageReport;
 use App\Services\ReportSubmissionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -80,4 +82,30 @@ it('sets device tier when fingerprint provided and not conflict', function () {
     $report = app(ReportSubmissionService::class)->submit($data);
 
     expect($report->reporter_tier)->toBe('device');
+});
+
+it('stores photo from URL when photoUrl is provided', function () {
+    Storage::fake('public');
+    Http::fake([
+        'https://api.twilio.com/*' => Http::response('whatsapp-photo-bytes', 200, ['Content-Type' => 'image/jpeg']),
+    ]);
+
+    $crisis = Crisis::factory()->create();
+
+    $data = new SubmitReportData(
+        crisis: $crisis,
+        damageLevel: 'partial',
+        infrastructureType: 'other',
+        crisisType: 'flood',
+        latitude: 5.6037,
+        longitude: -0.1870,
+        submittedVia: 'whatsapp',
+        photoUrl: 'https://api.twilio.com/2010-04-01/Accounts/AC123/Messages/SM456/Media/ME789',
+    );
+
+    $report = app(ReportSubmissionService::class)->submit($data);
+
+    expect($report->photo_url)->not->toBe('https://rapida-demo.s3.amazonaws.com/placeholder.jpg')
+        ->and($report->photo_url)->toStartWith('photos/')
+        ->and($report->photo_size_bytes)->toBeGreaterThan(0);
 });

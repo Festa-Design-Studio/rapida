@@ -245,6 +245,21 @@ new class extends Component
                                                 </a>
                                             </div>
                                         </div>
+                                        @if(config('services.twilio.sandbox_keyword'))
+                                            <div class="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                                                <p class="text-sm font-semibold text-amber-800 flex items-center gap-1">
+                                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                                                    Sandbox Setup Required
+                                                </p>
+                                                <p class="text-xs text-amber-700 mt-1">Before reporting via WhatsApp, each user must join the Twilio sandbox:</p>
+                                                <ol class="text-xs text-amber-700 mt-2 ml-4 list-decimal space-y-1">
+                                                    <li>Open WhatsApp and add <span class="font-mono font-bold">+1 (415) 523-8886</span></li>
+                                                    <li>Send: <span class="font-mono font-bold bg-amber-100 px-1 rounded">join {{ config('services.twilio.sandbox_keyword') }}</span></li>
+                                                    <li>Wait for confirmation, then scan the QR code above</li>
+                                                </ol>
+                                                <p class="text-xs text-amber-600 mt-2 italic">One-time setup per phone number (lasts 72 hours).</p>
+                                            </div>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

@@ -29,5 +29,6 @@ class SubmitReportData
         public bool $photoGuidanceShown = false,
         public array $moduleResponses = [],
         public mixed $photoFile = null,
+        public ?string $photoUrl = null,
     ) {}
 }

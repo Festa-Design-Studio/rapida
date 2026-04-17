@@ -40,6 +40,7 @@ return [
         'auth_token' => env('TWILIO_AUTH_TOKEN'),
         'whatsapp_from' => env('TWILIO_WHATSAPP_FROM', 'whatsapp:+14155238886'),
         'verify_signature' => env('TWILIO_VERIFY_SIGNATURE', true),
+        'sandbox_keyword' => env('TWILIO_SANDBOX_KEYWORD', ''),
     ],
 
     'ai' => [

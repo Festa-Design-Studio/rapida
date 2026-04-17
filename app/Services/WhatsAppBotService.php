@@ -248,6 +248,7 @@ class WhatsAppBotService
             buildingFootprintId: $session['building_footprint_id'] ?? null,
             locationMethod: $session['location_method'] ?? 'coordinate_only',
             submittedVia: 'whatsapp',
+            photoUrl: $session['photo_url'] ?? null,
         );
 
         $report = $this->submissionService->submit($data);
