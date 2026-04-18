@@ -63,6 +63,6 @@
         </div>
     @endif
 
-    {{-- Legend (reusable, translated) --}}
-    <x-molecules.map-legend class="absolute bottom-16 left-3 z-10" />
+    {{-- Legend (reusable, translated) — bottom-2.5 aligns with MapLibre attribution baseline --}}
+    <x-molecules.map-legend class="absolute bottom-2.5 left-3 z-10" />
 </div>

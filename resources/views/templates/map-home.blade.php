@@ -35,8 +35,8 @@
             :fullscreen="true"
         />
 
-        {{-- Floating Report Button (bottom-right, above map legend) --}}
-        <div class="absolute right-4 bottom-4 z-20">
+        {{-- Floating Report Button — bottom-center. On mobile stacks above the legend; on sm+ aligns with the legend/MapLibre baseline. --}}
+        <div class="absolute bottom-36 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20">
             <a href="{{ $crisis ? route('crisis.show', $crisis->slug) : route('onboarding') }}">
                 <x-atoms.button variant="primary" size="lg" class="shadow-lg rounded-full px-8 gap-3">
                     <x-atoms.icon name="camera" size="sm" />
