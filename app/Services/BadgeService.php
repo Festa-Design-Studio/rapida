@@ -8,6 +8,10 @@ use App\Models\DamageReport;
 
 class BadgeService
 {
+    public function __construct(
+        private readonly ConflictModeService $conflictMode,
+    ) {}
+
     /**
      * @return array<int, string>
      */
@@ -15,6 +19,15 @@ class BadgeService
     {
         if (! $report->account_id) {
             return []; // Anonymous reporters don't earn badges
+        }
+
+        // Conflict-mode crises must not produce gamification artefacts even
+        // for accounts that happen to be authenticated — leaderboard and
+        // badges create persistent identity links that are unsafe in
+        // conflict zones (PRD V2 Persona E).
+        $report->loadMissing('crisis');
+        if ($report->crisis && $this->conflictMode->shouldDisableLeaderboard($report->crisis)) {
+            return [];
         }
 
         $account = Account::find($report->account_id);
