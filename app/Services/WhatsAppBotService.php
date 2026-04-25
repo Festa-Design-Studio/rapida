@@ -74,9 +74,16 @@ class WhatsAppBotService
             return ['message' => __('whatsapp.whatsapp_disabled', [], $lang)];
         }
 
+        // Session language priority: explicit body keyword > crisis default > en fallback.
+        // Operators configure default_language on each crisis (e.g., Accra=en, Aleppo=ar);
+        // bot must honour that unless the user's first message body explicitly indicates
+        // a different language via keyword (e.g., "BONJOUR" -> fr).
+        $bodyLang = $this->detectLanguageFromBody($body);
+        $sessionLang = $bodyLang ?? $crisis?->default_language ?? 'en';
+
         $session = [
             'step' => 1,
-            'language' => $lang,
+            'language' => $sessionLang,
             'crisis_slug' => $crisisSlug,
             'conflict_context' => $crisis ? $this->conflictModeService->isConflict($crisis) : false,
             'idempotency_key' => Str::uuid()->toString(),
@@ -84,7 +91,7 @@ class WhatsAppBotService
         ];
         $this->setSession($key, $session);
 
-        return ['message' => __('whatsapp.welcome_send_photo', [], $lang)];
+        return ['message' => __('whatsapp.welcome_send_photo', [], $sessionLang)];
     }
 
     /**
@@ -283,6 +290,17 @@ class WhatsAppBotService
 
     private function detectLanguage(string $body): string
     {
+        return $this->detectLanguageFromBody($body) ?? 'en';
+    }
+
+    /**
+     * Returns the locale code if the body explicitly signals one (a keyword
+     * or a script range), or null when the body offers no signal. Callers
+     * use null to fall back to crisis.default_language rather than silently
+     * defaulting to English.
+     */
+    private function detectLanguageFromBody(string $body): ?string
+    {
         $body = strtolower(trim($body));
 
         return match (true) {
@@ -291,7 +309,7 @@ class WhatsAppBotService
             str_starts_with($body, 'es'), in_array($body, ['hola', 'si']) => 'es',
             str_starts_with($body, 'zh'), (bool) preg_match('/[\x{4E00}-\x{9FFF}]/u', $body) => 'zh',
             str_starts_with($body, 'ru'), (bool) preg_match('/[\x{0400}-\x{04FF}]/u', $body) => 'ru',
-            default => 'en',
+            default => null,
         };
     }
 
