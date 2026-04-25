@@ -31,7 +31,7 @@ it('computes photo_phash when processing a JPEG image', function () {
         'photo_phash' => null,
     ]);
 
-    (new ProcessPhotoUpload($report))->handle();
+    app()->call([new ProcessPhotoUpload($report), 'handle']);
 
     $report->refresh();
     expect($report->photo_hash)->not->toBeNull()
@@ -52,7 +52,7 @@ it('computes photo_phash when processing a PNG image', function () {
         'photo_phash' => null,
     ]);
 
-    (new ProcessPhotoUpload($report))->handle();
+    app()->call([new ProcessPhotoUpload($report), 'handle']);
 
     $report->refresh();
     expect($report->photo_phash)->not->toBeNull()
@@ -82,8 +82,8 @@ it('produces similar phash for visually similar images', function () {
         'photo_phash' => null,
     ]);
 
-    (new ProcessPhotoUpload($report1))->handle();
-    (new ProcessPhotoUpload($report2))->handle();
+    app()->call([new ProcessPhotoUpload($report1), 'handle']);
+    app()->call([new ProcessPhotoUpload($report2), 'handle']);
 
     $report1->refresh();
     $report2->refresh();
@@ -109,7 +109,7 @@ it('skips processing when photo_url does not start with photos/', function () {
         'photo_phash' => null,
     ]);
 
-    (new ProcessPhotoUpload($report))->handle();
+    app()->call([new ProcessPhotoUpload($report), 'handle']);
 
     $report->refresh();
     expect($report->photo_phash)->toBeNull();
@@ -121,7 +121,7 @@ it('skips processing when file does not exist', function () {
         'photo_phash' => null,
     ]);
 
-    (new ProcessPhotoUpload($report))->handle();
+    app()->call([new ProcessPhotoUpload($report), 'handle']);
 
     $report->refresh();
     expect($report->photo_phash)->toBeNull();
