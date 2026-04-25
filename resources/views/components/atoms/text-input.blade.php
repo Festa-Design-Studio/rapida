@@ -27,7 +27,7 @@
         transition-colors duration-150';
 
     $borderClass = match(true) {
-        (bool) $error   => 'border-red-600 bg-red-50 focus:ring-red-600 focus:border-red-600',
+        (bool) $error   => 'border-crisis-rose-700 bg-crisis-rose-50 focus:ring-crisis-rose-700 focus:border-crisis-rose-700',
         $readonly       => 'border-slate-200 bg-slate-50',
         $disabled       => 'border-slate-200 bg-slate-50',
         default         => 'border-slate-300 bg-white',
@@ -43,7 +43,7 @@
         <label for="{{ $inputId }}" class="text-label font-medium text-slate-700">
             {{ $label }}
             @if($required)
-                <span class="text-red-600 ml-0.5" aria-hidden="true">*</span>
+                <span class="text-crisis-rose-700 ml-0.5" aria-hidden="true">*</span>
             @endif
         </label>
     @endif
@@ -71,7 +71,7 @@
     </div>
 
     @if($error)
-        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-red-700 flex items-center gap-1">
+        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-crisis-rose-700 flex items-center gap-1">
             {{ $error }}
         </p>
     @elseif($help)

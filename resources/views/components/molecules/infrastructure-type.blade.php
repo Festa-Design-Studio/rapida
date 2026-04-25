@@ -48,7 +48,7 @@
     <legend class="text-label font-medium text-slate-700 mb-1">
         Infrastructure Type
         @if($required)
-            <span class="text-red-600 ml-0.5" aria-hidden="true">*</span>
+            <span class="text-crisis-rose-700 ml-0.5" aria-hidden="true">*</span>
         @endif
     </legend>
 
@@ -65,7 +65,7 @@
     </div>
 
     @if($error)
-        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-red-700 flex items-center gap-1">
+        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-crisis-rose-700 flex items-center gap-1">
             {{ $error }}
         </p>
     @endif

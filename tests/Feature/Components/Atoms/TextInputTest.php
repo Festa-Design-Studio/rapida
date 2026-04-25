@@ -18,8 +18,8 @@ it('renders default state with correct border', function () {
 it('renders error state with red border and message', function () {
     $view = $this->blade('<x-atoms.text-input name="test" label="Test" error="This field is required." />');
 
-    $view->assertSee('border-red-600', false);
-    $view->assertSee('bg-red-50', false);
+    $view->assertSee('border-crisis-rose-700', false);
+    $view->assertSee('bg-crisis-rose-50', false);
     $view->assertSee('aria-invalid="true"', false);
     $view->assertSee('role="alert"', false);
     $view->assertSee('This field is required.');

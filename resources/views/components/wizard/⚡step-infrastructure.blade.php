@@ -39,7 +39,7 @@ new class extends Component {
 
     {{-- Infrastructure type --}}
     <fieldset class="flex flex-col gap-2">
-        <legend class="text-label font-medium text-slate-700 mb-1">{{ __('wizard.infra_type_label') }} <span class="text-red-600">*</span></legend>
+        <legend class="text-label font-medium text-slate-700 mb-1">{{ __('wizard.infra_type_label') }} <span class="text-crisis-rose-700">*</span></legend>
         <p class="text-body-sm text-slate-500 mb-2">{{ __('wizard.infra_select_all') }}</p>
         @foreach([
             'commercial' => ['infra_commercial', 'infra_commercial_desc'],
@@ -64,7 +64,7 @@ new class extends Component {
 
     {{-- Crisis type --}}
     <fieldset class="flex flex-col gap-2">
-        <legend class="text-label font-medium text-slate-700 mb-1">{{ __('wizard.crisis_type_label') }} <span class="text-red-600">*</span></legend>
+        <legend class="text-label font-medium text-slate-700 mb-1">{{ __('wizard.crisis_type_label') }} <span class="text-crisis-rose-700">*</span></legend>
         @foreach([
             'flood' => 'crisis_flood',
             'earthquake' => 'crisis_earthquake',

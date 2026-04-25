@@ -29,7 +29,7 @@ it('renders danger variant', function () {
     $view = $this->blade('<x-atoms.button variant="danger">Delete Report</x-atoms.button>');
 
     $view->assertSee('Delete Report');
-    $view->assertSee('bg-red-700', false);
+    $view->assertSee('bg-crisis-rose-700', false);
 });
 
 it('renders safe-exit variant', function () {

@@ -19,8 +19,8 @@ it('renders default state with correct styling', function () {
 it('renders error state', function () {
     $view = $this->blade('<x-atoms.textarea name="test" label="Test" error="Please describe the damage." />');
 
-    $view->assertSee('border-red-600', false);
-    $view->assertSee('bg-red-50', false);
+    $view->assertSee('border-crisis-rose-700', false);
+    $view->assertSee('bg-crisis-rose-50', false);
     $view->assertSee('aria-invalid="true"', false);
     $view->assertSee('role="alert"', false);
     $view->assertSee('Please describe the damage.');
