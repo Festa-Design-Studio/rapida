@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ExportReportsCsv;
 use App\Jobs\ExportReportsKml;
 use App\Jobs\ExportReportsPdf;
 use App\Jobs\ExportReportsShapefile;
@@ -137,6 +138,95 @@ it('requires authentication for shapefile export', function () {
 
 it('requires authentication for PDF export', function () {
     $this->get('/dashboard/export/pdf')->assertRedirect('/login');
+});
+
+it('isolates exports to the crisis named by ?crisis_slug', function () {
+    // Use distinct, far-apart coordinates as markers — the CSV does not include
+    // the description column, so we identify reports by their lat/lng pair.
+    $accra = Crisis::factory()->create(['status' => 'active', 'slug' => 'accra-flood-test', 'name' => 'Accra Flood Test']);
+    $aleppo = Crisis::factory()->create(['status' => 'active', 'slug' => 'aleppo-test', 'name' => 'Aleppo Test']);
+
+    DamageReport::factory()->create([
+        'crisis_id' => $accra->id,
+        'latitude' => 5.5601, 'longitude' => -0.2001,
+    ]);
+    DamageReport::factory()->create([
+        'crisis_id' => $aleppo->id,
+        'latitude' => 36.2102, 'longitude' => 37.1602,
+    ]);
+
+    $job = new ExportReportsCsv(crisisId: $accra->id);
+    $filename = $job->handle();
+    $content = Storage::get($filename);
+
+    expect($content)->toContain('5.5601')
+        ->not->toContain('36.2102');
+
+    Storage::delete($filename);
+});
+
+it('uses ?crisis_slug query param to resolve crisis at the controller', function () {
+    $accra = Crisis::factory()->create(['status' => 'active', 'slug' => 'accra-flood-test', 'name' => 'Accra Flood Test']);
+    $aleppo = Crisis::factory()->create(['status' => 'active', 'slug' => 'aleppo-test', 'name' => 'Aleppo Test']);
+
+    DamageReport::factory()->create([
+        'crisis_id' => $accra->id,
+        'latitude' => 5.56, 'longitude' => -0.20,
+        'damage_level' => 'partial',
+    ]);
+    DamageReport::factory()->create([
+        'crisis_id' => $aleppo->id,
+        'latitude' => 36.21, 'longitude' => 37.16,
+        'damage_level' => 'complete',
+    ]);
+
+    $user = UndpUser::factory()->create(['role' => 'analyst']);
+
+    $accraResponse = $this->actingAs($user, 'undp')
+        ->get('/dashboard/export/kml?crisis_slug=accra-flood-test');
+    $accraResponse->assertOk();
+    expect($accraResponse->streamedContent())->toContain('partial')
+        ->not->toContain('complete');
+
+    $aleppoResponse = $this->actingAs($user, 'undp')
+        ->get('/dashboard/export/kml?crisis_slug=aleppo-test');
+    $aleppoResponse->assertOk();
+    expect($aleppoResponse->streamedContent())->toContain('complete')
+        ->not->toContain('partial');
+});
+
+it('returns 404 when ?crisis_slug names an unknown crisis', function () {
+    Crisis::factory()->create(['status' => 'active', 'slug' => 'real-crisis']);
+    $user = UndpUser::factory()->create(['role' => 'analyst']);
+
+    $this->actingAs($user, 'undp')
+        ->get('/dashboard/export/kml?crisis_slug=no-such-crisis')
+        ->assertNotFound();
+});
+
+it('falls back to most-recently-created active crisis when no slug given', function () {
+    $older = Crisis::factory()->create(['status' => 'active', 'slug' => 'older', 'created_at' => now()->subDays(10)]);
+    $newer = Crisis::factory()->create(['status' => 'active', 'slug' => 'newer', 'created_at' => now()->subDay()]);
+
+    DamageReport::factory()->create([
+        'crisis_id' => $older->id,
+        'latitude' => 5.56, 'longitude' => -0.20,
+        'damage_level' => 'minimal',
+    ]);
+    DamageReport::factory()->create([
+        'crisis_id' => $newer->id,
+        'latitude' => 5.57, 'longitude' => -0.21,
+        'damage_level' => 'complete',
+    ]);
+
+    $user = UndpUser::factory()->create(['role' => 'analyst']);
+
+    $response = $this->actingAs($user, 'undp')
+        ->get('/dashboard/export/kml');
+
+    $response->assertOk();
+    expect($response->streamedContent())->toContain('complete')
+        ->not->toContain('minimal');
 });
 
 it('filters KML by damage level', function () {
