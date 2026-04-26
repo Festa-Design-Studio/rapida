@@ -17,4 +17,10 @@ return [
     'unknown_state' => "Your session timed out after 30 minutes. Type RAPIDA when you're ready to continue.",
     'whatsapp_disabled' => 'This crisis uses anonymous-only reporting. Please use the web app to submit a report.',
     'location_conflict_mode' => 'Describe where the damage is — a street name, landmark, or three-word code.',
+
+    // Hall lesson 12: inline language confirmation. Shown when the body-keyword
+    // detector picked the language (e.g., user sent BONJOUR) so the user can
+    // notice and correct without restarting. Each locale phrases the
+    // override hint in its own language.
+    'language_inline_confirm' => "🇬🇧 We'll continue in English. Type FR / AR / ES / ZH / RU to switch.",
 ];

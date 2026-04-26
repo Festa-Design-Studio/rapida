@@ -17,4 +17,7 @@ return [
     'unknown_state' => 'Lo siento, algo salio mal. Escribe RAPIDA para reiniciar.',
     'whatsapp_disabled' => 'Esta crisis usa solo reportes anónimos. Por favor usa la aplicación web para enviar un reporte.',
     'location_conflict_mode' => 'Describe dónde está el daño — nombre de calle, punto de referencia o código de tres palabras.',
+
+    // Hall lesson 12: inline language confirmation (gap-20)
+    'language_inline_confirm' => '🇪🇸 Continuaremos en español. Escribe EN / FR / AR / ZH / RU para cambiar.',
 ];

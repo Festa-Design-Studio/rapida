@@ -84,7 +84,40 @@ class WhatsAppBotService
         ];
         $this->setSession($key, $session);
 
-        return ['message' => __('whatsapp.welcome_send_photo', [], $lang)];
+        // Hall lesson 12 (detect-then-confirm): when the body-keyword detector
+        // chose the language (rather than falling through to the default), prepend
+        // an inline confirmation so the user can correct without restarting.
+        // No confirmation when nothing in the body signalled — silently using the
+        // default is honest there because the bot has no claim to confirm.
+        $welcome = __('whatsapp.welcome_send_photo', [], $lang);
+        if ($this->bodyExplicitlyIndicatesLanguage($body)) {
+            $confirm = __('whatsapp.language_inline_confirm', [], $lang);
+
+            return ['message' => $confirm."\n\n".$welcome];
+        }
+
+        return ['message' => $welcome];
+    }
+
+    /**
+     * Did the user's first message body actually carry a language signal,
+     * or did detectLanguage() fall through to its default? Used by stepStart
+     * to decide whether to prepend the inline confirmation per Hall lesson 12.
+     */
+    private function bodyExplicitlyIndicatesLanguage(string $body): bool
+    {
+        $body = strtolower(trim($body));
+
+        return str_starts_with($body, 'fr')
+            || in_array($body, ['bonjour', 'oui'], true)
+            || str_starts_with($body, 'ar')
+            || (bool) preg_match('/[\x{0600}-\x{06FF}]/u', $body)
+            || str_starts_with($body, 'es')
+            || in_array($body, ['hola', 'si'], true)
+            || str_starts_with($body, 'zh')
+            || (bool) preg_match('/[\x{4E00}-\x{9FFF}]/u', $body)
+            || str_starts_with($body, 'ru')
+            || (bool) preg_match('/[\x{0400}-\x{04FF}]/u', $body);
     }
 
     /**

@@ -17,4 +17,7 @@ return [
     'unknown_state' => 'Votre session a expire apres 30 minutes. Tapez RAPIDA quand vous etes pret.',
     'whatsapp_disabled' => "Cette crise utilise le mode anonyme uniquement. Veuillez utiliser l'application web.",
     'location_conflict_mode' => 'Decrivez ou se trouve le dommage — un nom de rue, un point de repere ou un code a trois mots.',
+
+    // Hall lesson 12: inline language confirmation (gap-20)
+    'language_inline_confirm' => '🇫🇷 Nous continuons en francais. Tapez EN / AR / ES / ZH / RU pour changer.',
 ];
