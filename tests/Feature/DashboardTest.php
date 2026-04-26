@@ -3,6 +3,7 @@
 use App\Models\Crisis;
 use App\Models\DamageReport;
 use App\Models\UndpUser;
+use Database\Seeders\UndpUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -62,4 +63,32 @@ it('flags a report', function () {
         ->assertRedirect();
 
     expect($report->fresh()->is_flagged)->toBeTrue();
+});
+
+it('seeds the UNDP evaluator account with the analyst role', function () {
+    // gap-30: docs/submission/evaluator-access.md hands these credentials to
+    // UNDP InnoCentive reviewers. If this test fails, the access sheet is
+    // out of sync with the seeder and the demo will reject the reviewer's
+    // login. Lock the contract here.
+    $this->seed(UndpUserSeeder::class);
+
+    $evaluator = UndpUser::where('email', 'evaluator@undp.org')->first();
+
+    expect($evaluator)->not->toBeNull()
+        ->and((string) $evaluator->role->value)->toBe('analyst')
+        ->and((bool) $evaluator->is_active)->toBeTrue();
+});
+
+it('lets the seeded UNDP evaluator log in and reach /dashboard/analyst', function () {
+    $this->seed(UndpUserSeeder::class);
+
+    $response = $this->post('/login', [
+        'email' => 'evaluator@undp.org',
+        'password' => 'rapida-demo-2026',
+    ]);
+
+    $response->assertRedirect();
+    $this->assertAuthenticatedAs(UndpUser::where('email', 'evaluator@undp.org')->first(), 'undp');
+
+    $this->get('/dashboard/analyst')->assertOk();
 });
