@@ -182,7 +182,12 @@ new class extends Component
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-slate-400">No users configured yet.</td>
+                            <x-molecules.empty-state
+                                icon="users"
+                                title="No users configured yet"
+                                body="Add UNDP staff so they can sign in to the analyst dashboard."
+                                colspan="5"
+                            />
                         </tr>
                     @endforelse
                 </tbody>

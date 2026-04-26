@@ -272,7 +272,12 @@ new class extends Component
                         @endif
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-8 text-center text-slate-400">No crises configured yet.</td>
+                            <x-molecules.empty-state
+                                icon="folder-plus"
+                                title="No crises configured yet"
+                                body="Use the form above to create the first crisis instance."
+                                colspan="7"
+                            />
                         </tr>
                     @endforelse
                 </tbody>
