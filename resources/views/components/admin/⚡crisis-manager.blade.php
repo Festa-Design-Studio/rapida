@@ -17,7 +17,26 @@ new class extends Component
     public string $status = 'draft';
 
     /** @var array<int, string> */
+    public array $availableLanguages = ['en', 'fr', 'ar', 'es', 'ru', 'zh'];
+
+    /** @var array<int, string> */
     public array $activeModules = [];
+
+    public bool $conflictContext = false;
+
+    public bool $confirmConflictContext = false;
+
+    public string $crisisTypeDefault = 'flood';
+
+    public bool $multiPhotoEnabled = false;
+
+    public int $multiPhotoMax = 5;
+
+    public bool $dangerZonesEnabled = false;
+
+    public int $dataRetentionDays = 365;
+
+    public int $h3Resolution = 9;
 
     public ?string $editingId = null;
 
@@ -31,27 +50,37 @@ new class extends Component
         $this->crises = Crisis::withCount('damageReports')->latest()->get();
     }
 
+    /**
+     * Operator clicked the conflict_context checkbox to enable. Show
+     * the privacy-implications modal — actually persisting the flag
+     * waits until they confirm via confirmConflictContextChange().
+     */
+    public function requestConflictContextEnable(): void
+    {
+        $this->confirmConflictContext = true;
+    }
+
+    public function cancelConflictContext(): void
+    {
+        $this->conflictContext = false;
+        $this->confirmConflictContext = false;
+    }
+
+    public function confirmConflictContextChange(): void
+    {
+        $this->conflictContext = true;
+        $this->confirmConflictContext = false;
+    }
+
     public function createCrisis(): void
     {
         $this->authorize('create', Crisis::class);
 
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:crises,slug',
-            'defaultLanguage' => 'required|string|max:10',
-            'status' => 'required|in:draft,active,archived',
-        ]);
+        $this->validate($this->rules());
 
-        Crisis::create([
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'default_language' => $this->defaultLanguage,
-            'active_modules' => $this->activeModules,
-            'status' => $this->status,
-            'available_languages' => ['en', 'fr', 'ar', 'es', 'ru', 'zh'],
-        ]);
+        Crisis::create($this->payload());
 
-        $this->reset(['name', 'slug', 'defaultLanguage', 'status', 'activeModules']);
+        $this->resetForm();
         $this->loadCrises();
     }
 
@@ -60,22 +89,12 @@ new class extends Component
         $crisis = Crisis::findOrFail($id);
         $this->authorize('update', $crisis);
 
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:crises,slug,' . $id,
-            'defaultLanguage' => 'required|string|max:10',
-            'status' => 'required|in:draft,active,archived',
-        ]);
+        $this->validate($this->rules($id));
 
-        $crisis->update([
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'default_language' => $this->defaultLanguage,
-            'status' => $this->status,
-        ]);
+        $crisis->update($this->payload());
 
         $this->editingId = null;
-        $this->reset(['name', 'slug', 'defaultLanguage', 'status']);
+        $this->resetForm();
         $this->loadCrises();
     }
 
@@ -87,13 +106,21 @@ new class extends Component
         $this->slug = $crisis->slug;
         $this->defaultLanguage = $crisis->default_language;
         $this->status = $crisis->status;
+        $this->availableLanguages = $crisis->available_languages ?? ['en'];
         $this->activeModules = $crisis->active_modules ?? [];
+        $this->conflictContext = (bool) $crisis->conflict_context;
+        $this->crisisTypeDefault = $crisis->crisis_type_default ?? 'flood';
+        $this->multiPhotoEnabled = (bool) $crisis->multi_photo_enabled;
+        $this->multiPhotoMax = $crisis->multi_photo_max ?? 5;
+        $this->dangerZonesEnabled = (bool) $crisis->danger_zones_enabled;
+        $this->dataRetentionDays = $crisis->data_retention_days ?? 365;
+        $this->h3Resolution = $crisis->h3_resolution ?? 9;
     }
 
     public function cancelEdit(): void
     {
         $this->editingId = null;
-        $this->reset(['name', 'slug', 'defaultLanguage', 'status', 'activeModules']);
+        $this->resetForm();
     }
 
     public function toggleStatus(string $id): void
@@ -112,6 +139,56 @@ new class extends Component
         $crisis->delete();
         $this->loadCrises();
     }
+
+    /** @return array<string, string|array<int, string>> */
+    private function rules(?string $id = null): array
+    {
+        $slugUnique = 'unique:crises,slug'.($id ? ','.$id : '');
+
+        return [
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|'.$slugUnique,
+            'defaultLanguage' => 'required|string|max:10',
+            'status' => 'required|in:draft,active,archived',
+            'availableLanguages' => 'array|min:1',
+            'availableLanguages.*' => 'string|in:en,fr,ar,es,ru,zh',
+            'crisisTypeDefault' => 'required|in:flood,earthquake,cyclone,fire,conflict,other',
+            'multiPhotoMax' => 'integer|min:1|max:10',
+            'dataRetentionDays' => 'integer|min:30|max:3650',
+            'h3Resolution' => 'integer|in:7,8,9,10',
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    private function payload(): array
+    {
+        return [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'default_language' => $this->defaultLanguage,
+            'available_languages' => $this->availableLanguages,
+            'active_modules' => $this->activeModules,
+            'status' => $this->status,
+            'conflict_context' => $this->conflictContext,
+            'crisis_type_default' => $this->crisisTypeDefault,
+            'multi_photo_enabled' => $this->multiPhotoEnabled,
+            'multi_photo_max' => $this->multiPhotoMax,
+            'danger_zones_enabled' => $this->dangerZonesEnabled,
+            'data_retention_days' => $this->dataRetentionDays,
+            'h3_resolution' => $this->h3Resolution,
+        ];
+    }
+
+    private function resetForm(): void
+    {
+        $this->reset([
+            'name', 'slug', 'defaultLanguage', 'status', 'activeModules',
+            'conflictContext', 'confirmConflictContext', 'crisisTypeDefault',
+            'multiPhotoEnabled', 'multiPhotoMax', 'dangerZonesEnabled',
+            'dataRetentionDays', 'h3Resolution',
+        ]);
+        $this->availableLanguages = ['en', 'fr', 'ar', 'es', 'ru', 'zh'];
+    }
 };
 ?>
 
@@ -122,6 +199,7 @@ new class extends Component
             {{ $editingId ? 'Edit Crisis' : 'Create New Crisis' }}
         </h2>
         <form wire:submit="{{ $editingId ? 'updateCrisis(\'' . $editingId . '\')' : 'createCrisis' }}" class="space-y-5">
+            {{-- Identity --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-atoms.text-input
                     name="name"
@@ -140,6 +218,8 @@ new class extends Component
                     wire:model="slug"
                 />
             </div>
+
+            {{-- Localisation --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-atoms.select
                     name="defaultLanguage"
@@ -154,6 +234,127 @@ new class extends Component
                     wire:model="status"
                 />
             </div>
+
+            {{-- Available languages (multi) --}}
+            <fieldset class="border border-slate-200 rounded-lg p-4">
+                <legend class="text-label font-medium text-slate-700 px-2">Available languages</legend>
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-2">
+                    @foreach(['en' => 'EN', 'fr' => 'FR', 'ar' => 'AR', 'es' => 'ES', 'ru' => 'RU', 'zh' => 'ZH'] as $code => $label)
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                value="{{ $code }}"
+                                wire:model="availableLanguages"
+                                class="rounded border-slate-300 text-rapida-blue-600 focus:ring-rapida-blue-500"
+                            />
+                            <span class="text-body-sm text-slate-700">{{ $label }}</span>
+                        </label>
+                    @endforeach
+                </div>
+                @error('availableLanguages')
+                    <p class="text-body-sm text-crisis-rose-600 mt-2" role="alert">{{ $message }}</p>
+                @enderror
+            </fieldset>
+
+            {{-- Crisis type + spatial defaults --}}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <x-atoms.select
+                    name="crisisTypeDefault"
+                    label="Default crisis type"
+                    :options="[
+                        'flood' => 'Flood',
+                        'earthquake' => 'Earthquake',
+                        'cyclone' => 'Cyclone',
+                        'fire' => 'Fire',
+                        'conflict' => 'Conflict',
+                        'other' => 'Other',
+                    ]"
+                    wire:model="crisisTypeDefault"
+                />
+                <x-atoms.select
+                    name="h3Resolution"
+                    label="H3 resolution"
+                    :options="[7 => '7 (~5km)', 8 => '8 (~1km)', 9 => '9 (~150m)', 10 => '10 (~60m)']"
+                    wire:model="h3Resolution"
+                />
+                <x-atoms.text-input
+                    name="dataRetentionDays"
+                    label="Data retention (days)"
+                    type="number"
+                    placeholder="365"
+                    :error="$errors->first('dataRetentionDays')"
+                    wire:model="dataRetentionDays"
+                />
+            </div>
+
+            {{-- Privacy / safety toggles --}}
+            <fieldset class="border border-slate-200 rounded-lg p-4 space-y-3">
+                <legend class="text-label font-medium text-slate-700 px-2">Privacy &amp; safety</legend>
+
+                {{-- Conflict context (gated by modal) --}}
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        :checked="$conflictContext"
+                        wire:click="requestConflictContextEnable"
+                        @if($conflictContext) checked @endif
+                        class="mt-1 rounded border-slate-300 text-crisis-rose-600 focus:ring-crisis-rose-500"
+                    />
+                    <div>
+                        <span class="text-body-sm font-medium text-slate-900">Conflict context</span>
+                        <p class="text-caption text-slate-500">
+                            Enables anonymity-by-default, disables fingerprinting and
+                            badges, and tightens the WhatsApp location prompt. Required
+                            for active conflict zones.
+                        </p>
+                    </div>
+                </label>
+
+                {{-- Danger zones --}}
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        wire:model="dangerZonesEnabled"
+                        class="mt-1 rounded border-slate-300 text-rapida-blue-600 focus:ring-rapida-blue-500"
+                    />
+                    <div>
+                        <span class="text-body-sm font-medium text-slate-900">Danger-zone alerts</span>
+                        <p class="text-caption text-slate-500">
+                            Surface H3-cell danger flags to incoming reporters in the
+                            map. Disabled in conflict mode regardless of this setting.
+                        </p>
+                    </div>
+                </label>
+
+                {{-- Multi-photo --}}
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        wire:model.live="multiPhotoEnabled"
+                        class="mt-1 rounded border-slate-300 text-rapida-blue-600 focus:ring-rapida-blue-500"
+                    />
+                    <div class="flex-1">
+                        <span class="text-body-sm font-medium text-slate-900">Multi-photo per report</span>
+                        <p class="text-caption text-slate-500">
+                            Allow reporters to attach more than one photo per submission.
+                        </p>
+                    </div>
+                </label>
+
+                @if($multiPhotoEnabled)
+                    <div class="ms-7 max-w-xs">
+                        <x-atoms.text-input
+                            name="multiPhotoMax"
+                            label="Max photos per report"
+                            type="number"
+                            placeholder="5"
+                            :error="$errors->first('multiPhotoMax')"
+                            wire:model="multiPhotoMax"
+                        />
+                    </div>
+                @endif
+            </fieldset>
+
             <div class="flex items-center gap-3">
                 <x-atoms.button type="submit" variant="primary">
                     {{ $editingId ? 'Update Crisis' : 'Create Crisis' }}
@@ -166,6 +367,42 @@ new class extends Component
             </div>
         </form>
     </div>
+
+    {{-- Conflict-context confirmation modal --}}
+    @if($confirmConflictContext)
+        <div
+            class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="conflict-modal-title"
+            x-data
+            x-on:keydown.escape.window="$wire.cancelConflictContext()"
+        >
+            <div class="rounded-xl bg-white max-w-lg w-full p-6 shadow-2xl space-y-4">
+                <h3 id="conflict-modal-title" class="text-h3 font-heading font-semibold text-crisis-rose-900">
+                    Enable conflict context?
+                </h3>
+                <div class="space-y-3 text-body-sm text-slate-700">
+                    <p>Conflict context changes how RAPIDA handles every report from this crisis:</p>
+                    <ul class="list-disc ms-6 space-y-1">
+                        <li><strong>No device fingerprints</strong> — reports cannot be linked back to a phone or repeat user.</li>
+                        <li><strong>No GPS prompt on WhatsApp</strong> — reporters describe location via landmark, street, or what3words.</li>
+                        <li><strong>No badges or leaderboards</strong> — anything that could identify a contributor over time is disabled.</li>
+                        <li><strong>No AI dispatch</strong> — photos are not sent to remote classification services.</li>
+                    </ul>
+                    <p>This is the right setting for active conflict zones, surveillance-heavy contexts, or any deployment where reporter anonymity protects safety. <strong>Once you enable it, treat it as default-on for the duration of the crisis.</strong></p>
+                </div>
+                <div class="flex items-center gap-3 justify-end pt-2">
+                    <x-atoms.button type="button" variant="ghost" wire:click="cancelConflictContext">
+                        Cancel
+                    </x-atoms.button>
+                    <x-atoms.button type="button" variant="primary" wire:click="confirmConflictContextChange">
+                        Yes, enable conflict context
+                    </x-atoms.button>
+                </div>
+            </div>
+        </div>
+    @endif
 
     {{-- Crises table --}}
     <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
@@ -188,7 +425,12 @@ new class extends Component
                 <tbody class="divide-y divide-slate-100">
                     @forelse($crises as $crisis)
                         <tr class="hover:bg-slate-50 transition-colors duration-150">
-                            <td class="px-4 py-3 font-medium text-slate-900">{{ $crisis->name }}</td>
+                            <td class="px-4 py-3 font-medium text-slate-900">
+                                {{ $crisis->name }}
+                                @if($crisis->conflict_context)
+                                    <x-atoms.badge variant="error" class="ms-2">Conflict</x-atoms.badge>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 font-mono text-caption text-slate-500">{{ $crisis->slug }}</td>
                             <td class="px-4 py-3">
                                 <x-atoms.badge variant="{{ match($crisis->status) {
