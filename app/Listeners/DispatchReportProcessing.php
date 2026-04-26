@@ -6,6 +6,7 @@ use App\Events\ReportSubmitted;
 use App\Jobs\CalculateTrustedDevice;
 use App\Jobs\ClassifyDamageWithAI;
 use App\Jobs\ProcessPhotoUpload;
+use App\Jobs\SnapReportToFootprint;
 use App\Jobs\TranslateDescription;
 use App\Jobs\UpdateCanonicalReport;
 use App\Services\CircuitBreakerService;
@@ -23,6 +24,13 @@ class DispatchReportProcessing
 
         // Always dispatch — core report processing (never skipped)
         ProcessPhotoUpload::dispatch($report)->onQueue('photos');
+
+        // gap-38: snap orphans (no building_footprint_id) to nearest footprint
+        // BEFORE recomputing canonical ranking, so the snap result is in place
+        // when UpdateCanonicalReport runs. Both run on the default queue so
+        // they execute in dispatch order; SnapReportToFootprint is a no-op
+        // when the wizard already snapped.
+        SnapReportToFootprint::dispatch($report)->onQueue('default');
         UpdateCanonicalReport::dispatch($report)->onQueue('default');
 
         // Trusted device calculation (always, unless conflict mode)
