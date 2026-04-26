@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DataTransferObjects\SubmitReportData;
 use App\Events\ReportSubmitted;
+use App\Exceptions\ReportRateLimitedException;
 use App\Models\DamageReport;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +29,13 @@ class ReportSubmissionService
                 return $existing;
             }
         }
+
+        // 2b. Per-building anti-gaming rule (gap-52, PRD V2 §3.5).
+        // Same account+building or same device-fingerprint+building within
+        // 24h => reject with the localised "you've already reported this
+        // building today" message. Anonymous reporters with no identifiers
+        // can re-submit (genuinely separate sightings during a fast event).
+        $this->enforceBuildingRateLimit($data);
 
         // 3. Detect reporter tier
         $data->reporterTier = $this->resolveReporterTier($data);
@@ -171,5 +179,47 @@ class ReportSubmissionService
         }
 
         return $urls;
+    }
+
+    /**
+     * Gap-52: enforce the PRD V2 §3.5 anti-gaming rule. Throws
+     * ReportRateLimitedException carrying the localised user-facing message
+     * when the reporter has already submitted for the same building within
+     * the past 24 hours. Anonymous reporters (no account, no fingerprint)
+     * are not subject to this rule — there's no identifier to scope it to.
+     */
+    private function enforceBuildingRateLimit(SubmitReportData $data): void
+    {
+        if ($data->buildingFootprintId === null) {
+            return;
+        }
+
+        if ($this->conflictMode->isConflict($data->crisis)) {
+            return;
+        }
+
+        $identifierColumn = match (true) {
+            $data->accountId !== null => 'account_id',
+            $data->deviceFingerprintId !== null => 'device_fingerprint_id',
+            default => null,
+        };
+        if ($identifierColumn === null) {
+            return;
+        }
+
+        $identifierValue = $data->accountId ?? $data->deviceFingerprintId;
+
+        $exists = DamageReport::where('crisis_id', $data->crisis->id)
+            ->where('building_footprint_id', $data->buildingFootprintId)
+            ->where($identifierColumn, $identifierValue)
+            ->where('submitted_at', '>=', now()->subDay())
+            ->exists();
+
+        if ($exists) {
+            throw new ReportRateLimitedException(
+                __('rapida.rate_limit_building'),
+                'building_rate_limit',
+            );
+        }
     }
 }
