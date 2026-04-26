@@ -29,6 +29,10 @@ class DatabaseSeeder extends Seeder
 
         $this->seedAccraDemoData();
         $this->seedConflictDemoData();
+
+        // Realistic damage-report volume for the Accra demo so the heatmap
+        // and analyst dashboard render meaningfully on first load.
+        $this->call(DamageReportSeeder::class);
     }
 
     private function seedAccraDemoData(): void
