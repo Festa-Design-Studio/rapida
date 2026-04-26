@@ -45,3 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Expose offline queue for Livewire access
 window.rapidaOfflineQueue = { queueReport, syncQueue, getPendingCount, getCurrentPressure };
+
+// Gap-50: expose the photo-compression helper so the step-photo Alpine
+// component can intercept the file upload, compress on the client, then
+// hand the smaller File to Livewire's $wire.upload(). Lazy-imported so
+// the ~30KB browser-image-compression bundle is only loaded if the
+// reporter actually visits the wizard.
+window.rapidaCompressPhoto = async (file) => {
+    const { compressPhoto, PhotoTooLargeError } = await import('./photo-compression.js');
+    try {
+        return { ok: true, file: await compressPhoto(file) };
+    } catch (err) {
+        if (err instanceof PhotoTooLargeError) {
+            return { ok: false, reason: 'photo_too_large' };
+        }
+        return { ok: false, reason: 'unknown', message: err.message };
+    }
+};
