@@ -23,9 +23,9 @@
     x-transition:leave-end="opacity-0"
     {{ $attributes->class([
         'w-full rounded-xl p-padding-card border border-ground-green-200',
+        'bg-gradient-to-br from-crisis-rose-50 to-ground-green-50',
         'motion-reduce:transition-none',
     ]) }}
-    style="background: linear-gradient(160deg, #fdf3f1 0%, #f0f9f4 100%)"
     role="status"
     aria-live="polite"
 >
