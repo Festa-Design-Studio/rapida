@@ -29,6 +29,11 @@ class DatabaseSeeder extends Seeder
 
         $this->seedAccraDemoData();
         $this->seedConflictDemoData();
+
+        // DamageReportSeeder runs LAST because it depends on Crisis +
+        // Building rows being in place. It is idempotent (truncates
+        // Accra reports first) so re-running is safe.
+        $this->call(DamageReportSeeder::class);
     }
 
     private function seedAccraDemoData(): void
