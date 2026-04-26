@@ -34,14 +34,7 @@
                 mode: '{{ $mode }}',
                 center: [{{ $centerLng }}, {{ $centerLat }}],
                 zoom: {{ $zoom }},
-                tokens: {
-                    damage_minimal: '#22c55e',   // damage-minimal-map
-                    damage_partial: '#f59e0b',   // damage-partial-map
-                    damage_complete: '#c46b5a',  // crisis-rose-400
-                    footprint_fill: '#2e6689',   // rapida-blue-700
-                    footprint_stroke: '#1a3a4a', // rapida-blue-900
-                    user_dot: '#2e6689',         // rapida-blue-700
-                },
+                tokens: {{ Js::from(config('rapida-tokens.map')) }},
                 buildingsUrl: '/api/v1/crises/{{ $slug }}/buildings',
                 pinsUrl: '/api/v1/crises/{{ $slug }}/pins',
                 heatmapUrl: '/api/v1/crises/{{ $slug }}/heatmap',

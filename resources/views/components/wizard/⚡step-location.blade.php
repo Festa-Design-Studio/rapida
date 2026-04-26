@@ -90,14 +90,7 @@ new class extends Component {
             mode: 'reporter',
             center: [-0.20, 5.56],
             zoom: 14,
-            tokens: {
-                damage_minimal: '#22c55e',
-                damage_partial: '#f59e0b',
-                damage_complete: '#c46b5a',
-                footprint_fill: '#2e6689',
-                footprint_stroke: '#1a3a4a',
-                user_dot: '#2e6689',
-            },
+            tokens: {{ Js::from(config('rapida-tokens.map')) }},
             buildingsUrl: '/api/v1/crises/{{ $crisis->slug }}/buildings',
             pinsUrl: '/api/v1/crises/{{ $crisis->slug }}/pins',
         }) : {}"
