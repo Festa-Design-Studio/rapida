@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ExportReportsCsv;
 use App\Jobs\ExportReportsGeoJson;
+use App\Jobs\ExportReportsGpkg;
 use App\Jobs\ExportReportsKml;
 use App\Jobs\ExportReportsPdf;
 use App\Jobs\ExportReportsShapefile;
@@ -89,5 +90,20 @@ class ExportController extends Controller
         return response()->streamDownload(function () use ($filename) {
             echo Storage::get($filename);
         }, basename($filename), ['Content-Type' => 'application/pdf']);
+    }
+
+    public function gpkg(Request $request): StreamedResponse
+    {
+        $crisis = Crisis::where('status', 'active')->firstOrFail();
+
+        $job = new ExportReportsGpkg(
+            crisisId: $crisis->id,
+            damageFilter: $request->query('damage_level'),
+        );
+        $filename = $job->handle();
+
+        return response()->streamDownload(function () use ($filename) {
+            echo Storage::get($filename);
+        }, basename($filename), ['Content-Type' => 'application/geopackage+sqlite3']);
     }
 }

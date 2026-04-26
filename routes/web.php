@@ -35,6 +35,7 @@ Route::middleware('auth:undp')->group(function () {
         Route::get('/dashboard/export/kml', [ExportController::class, 'kml'])->name('export.kml');
         Route::get('/dashboard/export/shapefile', [ExportController::class, 'shapefile'])->name('export.shapefile');
         Route::get('/dashboard/export/pdf', [ExportController::class, 'pdf'])->name('export.pdf');
+        Route::get('/dashboard/export/gpkg', [ExportController::class, 'gpkg'])->name('export.gpkg');
     });
 });
 

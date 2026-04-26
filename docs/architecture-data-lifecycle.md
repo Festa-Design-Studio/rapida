@@ -53,9 +53,9 @@ MapLibre GL JS renders three distinct layers, each in its own JS module: `map-bu
 
 ### 3.7 Export
 
-Five formats: CSV, GeoJSON, KML, Shapefile, PDF. Each is a dedicated job class. All use Eloquent `cursor()` for memory-safe iteration over large datasets. Exports are written to storage and streamed to the client via `ExportController`. Rate limiting is applied at the route level.
+Six formats: CSV, GeoJSON, KML, Shapefile, GeoPackage (GPKG), PDF. Each is a dedicated job class. All use Eloquent `cursor()` for memory-safe iteration over large datasets. Exports are written to storage and streamed to the client via `ExportController`. Rate limiting is applied at the route level. The GPKG writer is pure-PHP via PDO-SQLite — a GeoPackage is a SQLite database with a documented application_id and required-table schema, so we avoid a system-binary runtime dependency (ogr2ogr) that may not ship with Laravel Cloud's PHP image.
 
-**Key files:** `app/Jobs/ExportReportsCsv.php`, `app/Jobs/ExportReportsGeoJson.php`, `app/Http/Controllers/ExportController.php`
+**Key files:** `app/Jobs/ExportReportsCsv.php`, `app/Jobs/ExportReportsGeoJson.php`, `app/Jobs/ExportReportsGpkg.php`, `app/Http/Controllers/ExportController.php`
 
 ### 3.8 Archive
 
