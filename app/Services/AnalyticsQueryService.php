@@ -12,6 +12,46 @@ class AnalyticsQueryService
 {
     private const CACHE_TTL = 300; // 5 minutes
 
+    /**
+     * Gap-49: count reports in the same H3 cell as the just-submitted report.
+     * Powers the "Your report joins N others from your area" line on the
+     * submission-confirmation page (PRD V2 §4 state-1 Impact Counter).
+     *
+     * Cached briefly (60s) so repeat reloads of the confirmation page don't
+     * re-run the query, but kept short enough that a fresh report from the
+     * same area updates the visible count quickly.
+     */
+    public function reportsInH3Cell(string $crisisId, ?string $h3CellId): int
+    {
+        if ($h3CellId === null) {
+            return 0;
+        }
+
+        return Cache::remember(
+            "analytics:{$crisisId}:h3_cell:{$h3CellId}",
+            60,
+            fn () => DamageReport::where('crisis_id', $crisisId)
+                ->where('h3_cell_id', $h3CellId)
+                ->count(),
+        );
+    }
+
+    /**
+     * Gap-49: total reports an account has submitted to a crisis.
+     * Powers the personalised "your N reports" copy on the engagement panel
+     * for logged-in reporters. Returns 0 for anonymous reporters.
+     */
+    public function reportsByAccount(string $crisisId, ?string $accountId): int
+    {
+        if ($accountId === null) {
+            return 0;
+        }
+
+        return DamageReport::where('crisis_id', $crisisId)
+            ->where('account_id', $accountId)
+            ->count();
+    }
+
     public function totalReports(string $crisisId): int
     {
         return Cache::remember(
