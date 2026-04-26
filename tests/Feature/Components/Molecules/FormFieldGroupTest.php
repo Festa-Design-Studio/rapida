@@ -41,7 +41,7 @@ it('displays error with role alert', function () {
 
     $view->assertSee('Email is required');
     $view->assertSee('role="alert"', false);
-    $view->assertSee('text-red-700', false);
+    $view->assertSee('text-crisis-rose-700', false);
 });
 
 it('displays help text when no error', function () {

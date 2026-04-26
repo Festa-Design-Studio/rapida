@@ -154,7 +154,7 @@
         <span class="text-label font-medium text-slate-700">
             {{ $label }}
             @if($required)
-                <span class="text-red-600 ml-0.5" aria-hidden="true">*</span>
+                <span class="text-crisis-rose-700 ml-0.5" aria-hidden="true">*</span>
             @endif
         </span>
     @endif
@@ -165,7 +165,7 @@
             'border-rapida-blue-500 bg-rapida-blue-50': state === 'dragover',
             'border-rapida-blue-500 bg-rapida-blue-50': state === 'compressing',
             'border-rapida-blue-700 bg-white': state === 'preview',
-            'border-red-600 bg-red-50': state === 'error'
+            'border-crisis-rose-700 bg-crisis-rose-50': state === 'error'
         }"
         class="relative flex flex-col items-center justify-center
                min-h-[160px] rounded-xl border-2 border-dashed
@@ -220,7 +220,7 @@
                     <div class="flex items-center justify-center gap-4">
                         <button type="button" @click="triggerInput()" class="text-body-sm font-medium text-rapida-blue-700 hover:text-rapida-blue-900">Change</button>
                         <span class="text-slate-300">|</span>
-                        <button type="button" @click="removePhoto()" class="text-body-sm font-medium text-red-600 hover:text-red-800">Remove</button>
+                        <button type="button" @click="removePhoto()" class="text-body-sm font-medium text-crisis-rose-700 hover:text-crisis-rose-900">Remove</button>
                     </div>
                 </div>
             </div>
@@ -229,10 +229,10 @@
         {{-- Error state --}}
         <template x-if="state === 'error'">
             <div class="flex flex-col items-center gap-3 p-6 text-center" @click="triggerInput()">
-                <svg class="w-10 h-10 text-red-400" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <svg class="w-10 h-10 text-crisis-rose-300" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <p class="text-body-sm text-red-700" x-text="errorMessage"></p>
+                <p class="text-body-sm text-crisis-rose-700" x-text="errorMessage"></p>
                 <p class="text-caption text-slate-500">Tap to try again</p>
             </div>
         </template>
@@ -251,7 +251,7 @@
     </div>
 
     @if($error)
-        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-red-700">{{ $error }}</p>
+        <p id="{{ $errorId }}" role="alert" class="text-body-sm text-crisis-rose-700">{{ $error }}</p>
     @endif
 
     @if($help)

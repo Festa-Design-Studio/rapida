@@ -52,7 +52,7 @@ new class extends Component {
                 <div class="flex items-center justify-center gap-4 px-4 py-2 bg-slate-50 border-t border-slate-200">
                     <label for="photo-replace" class="text-body-sm font-medium text-rapida-blue-700 hover:text-rapida-blue-900 cursor-pointer">{{ __('wizard.step_1_change') }}</label>
                     <span class="text-slate-300">|</span>
-                    <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-red-600 hover:text-red-800">{{ __('wizard.step_1_remove') }}</button>
+                    <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-crisis-rose-700 hover:text-crisis-rose-900">{{ __('wizard.step_1_remove') }}</button>
                 </div>
                 <input id="photo-replace" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
             </div>
@@ -81,7 +81,7 @@ new class extends Component {
         </div>
 
         @error('photo')
-            <p class="text-body-sm text-red-600" role="alert">{{ $message }}</p>
+            <p class="text-body-sm text-crisis-rose-700" role="alert">{{ $message }}</p>
         @enderror
 
         <p class="text-body-sm text-slate-500">{{ __('wizard.step_1_help') }}</p>

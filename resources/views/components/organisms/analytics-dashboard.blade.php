@@ -48,7 +48,7 @@
         {{-- Complete --}}
         <div class="rounded-xl border border-slate-200 bg-white p-5 space-y-2" role="listitem">
             <p class="text-caption font-medium text-slate-500 uppercase tracking-widest">Complete Destruction</p>
-            <p class="text-display font-heading font-bold text-red-700">{{ $byDamageLevel['complete'] ?? 0 }}</p>
+            <p class="text-display font-heading font-bold text-crisis-rose-700">{{ $byDamageLevel['complete'] ?? 0 }}</p>
             <x-atoms.badge variant="complete">Complete</x-atoms.badge>
         </div>
     </div>

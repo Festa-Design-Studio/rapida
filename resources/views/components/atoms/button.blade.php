@@ -12,7 +12,7 @@
         'primary'   => 'bg-rapida-blue-900 text-white hover:bg-rapida-blue-900 focus:ring-rapida-blue-700',
         'secondary' => 'bg-white text-rapida-blue-900 border-2 border-rapida-blue-900 hover:bg-rapida-blue-50 focus:ring-rapida-blue-700',
         'ghost'     => 'bg-transparent text-rapida-blue-900 hover:bg-rapida-blue-50 focus:ring-rapida-blue-700',
-        'danger'    => 'bg-red-700 text-white hover:bg-red-800 focus:ring-red-600',
+        'danger'    => 'bg-crisis-rose-700 text-white hover:bg-crisis-rose-900 focus:ring-crisis-rose-700',
         'safe-exit' => 'bg-slate-600 text-white hover:bg-slate-700 focus:ring-slate-500',
         'icon-only' => 'bg-transparent text-rapida-blue-900 hover:bg-rapida-blue-50 focus:ring-rapida-blue-700',
         default     => 'bg-rapida-blue-900 text-white hover:bg-rapida-blue-900 focus:ring-rapida-blue-700',

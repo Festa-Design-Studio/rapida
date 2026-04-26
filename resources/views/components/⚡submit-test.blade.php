@@ -46,7 +46,7 @@ new class extends Component {
         <p><strong>Status:</strong> <span id="test-status">{{ $status }}</span></p>
         <p><strong>Click count:</strong> <span id="test-clicks">{{ $clickCount }}</span></p>
         @if($error)
-            <p class="text-red-600"><strong>Error:</strong> {{ $error }}</p>
+            <p class="text-crisis-rose-700"><strong>Error:</strong> {{ $error }}</p>
         @endif
     </div>
 
