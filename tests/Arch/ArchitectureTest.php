@@ -29,3 +29,7 @@ arch('enums are string-backed')
 arch('no env() calls outside config files')
     ->expect('App')
     ->not->toUse('env');
+
+arch('badge and dispatch listeners consult ConflictModeService')
+    ->expect(['App\Services\BadgeService', 'App\Listeners\DispatchReportProcessing'])
+    ->toUse('App\Services\ConflictModeService');
