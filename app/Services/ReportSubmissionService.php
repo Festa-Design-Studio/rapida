@@ -33,7 +33,7 @@ class ReportSubmissionService
         $data->reporterTier = $this->resolveReporterTier($data);
 
         return DB::transaction(function () use ($data) {
-            // 4. Handle photo
+            // 4. Handle photo (primary)
             $photoResult = null;
             if ($data->photoFile) {
                 try {
@@ -53,6 +53,19 @@ class ReportSubmissionService
                 $photoResult = $this->photoStorage->placeholder();
             }
 
+            // 4b. Gap-51: additional photos when crisis.multi_photo_enabled.
+            // Capped by crisis.multi_photo_max (default 5). The primary photo
+            // counts toward the cap, so we save (max - 1) additional URLs.
+            // Silently disabled when the crisis hasn't opted in — extra photos
+            // are dropped on the floor rather than rejected, since this is a
+            // crisis-config concern not a reporter concern.
+            $allPhotoUrls = [$photoResult->url];
+            if ($data->crisis->multi_photo_enabled ?? false) {
+                $remaining = max(0, ($data->crisis->multi_photo_max ?? 5) - 1);
+                $additional = $this->storeAdditionalPhotos($data, $remaining);
+                $allPhotoUrls = array_merge($allPhotoUrls, $additional);
+            }
+
             // 5. Create damage report
             $report = DamageReport::create([
                 'crisis_id' => $data->crisis->id,
@@ -60,6 +73,7 @@ class ReportSubmissionService
                 'account_id' => $data->accountId,
                 'device_fingerprint_id' => $data->deviceFingerprintId,
                 'photo_url' => $photoResult->url,
+                'photo_urls' => $allPhotoUrls,
                 'photo_hash' => $photoResult->hash,
                 'photo_size_bytes' => $photoResult->sizeBytes,
                 'photo_guidance_shown' => $data->photoGuidanceShown,
@@ -116,5 +130,46 @@ class ReportSubmissionService
         }
 
         return 'anonymous';
+    }
+
+    /**
+     * Store additional photos (uploaded files + remote URLs) up to the cap.
+     * Failures are dropped silently — partial success beats total rejection
+     * because multi-photo is convenience, not load-bearing.
+     *
+     * @return array<int, string> URLs of successfully stored additional photos.
+     */
+    private function storeAdditionalPhotos(SubmitReportData $data, int $cap): array
+    {
+        if ($cap <= 0) {
+            return [];
+        }
+
+        $sources = array_merge(
+            array_map(fn ($file) => ['type' => 'file', 'value' => $file], $data->additionalPhotoFiles),
+            array_map(fn ($url) => ['type' => 'url', 'value' => $url], $data->additionalPhotoUrls),
+        );
+
+        $urls = [];
+
+        foreach (array_slice($sources, 0, $cap) as $source) {
+            try {
+                $result = $source['type'] === 'file'
+                    ? $this->photoStorage->store($source['value'])
+                    : $this->photoStorage->storeFromUrl(
+                        $source['value'],
+                        config('services.twilio.account_sid'),
+                        config('services.twilio.auth_token'),
+                    );
+
+                if ($result) {
+                    $urls[] = $result->url;
+                }
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
+        return $urls;
     }
 }

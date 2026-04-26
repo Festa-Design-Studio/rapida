@@ -24,6 +24,7 @@ class DamageReport extends Model
         'device_fingerprint_id',
         'landmark_id',
         'photo_url',
+        'photo_urls',
         'photo_hash',
         'photo_phash',
         'photo_size_bytes',
@@ -63,6 +64,7 @@ class DamageReport extends Model
             'debris_required' => 'boolean',
             'is_flagged' => 'boolean',
             'photo_guidance_shown' => 'boolean',
+            'photo_urls' => 'array',
             'submitted_at' => 'datetime',
             'synced_at' => 'datetime',
         ];

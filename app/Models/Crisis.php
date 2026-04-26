@@ -26,6 +26,7 @@ class Crisis extends Model
         'whatsapp_enabled',
         'wizard_mode',
         'multi_photo_enabled',
+        'multi_photo_max',
         'crisis_type_default',
         'data_retention_days',
         'danger_zones_enabled',
@@ -40,6 +41,7 @@ class Crisis extends Model
             'conflict_context' => 'boolean',
             'whatsapp_enabled' => 'boolean',
             'multi_photo_enabled' => 'boolean',
+            'multi_photo_max' => 'integer',
             'danger_zones_enabled' => 'boolean',
             'data_retention_days' => 'integer',
         ];
