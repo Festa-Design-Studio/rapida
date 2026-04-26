@@ -17,4 +17,7 @@ return [
     'unknown_state' => 'انتهت جلستك بعد 30 دقيقة. اكتب RAPIDA عندما تكون مستعدًا.',
     'whatsapp_disabled' => 'هذه الأزمة تستخدم الإبلاغ المجهول فقط. يرجى استخدام التطبيق.',
     'location_conflict_mode' => 'صف مكان الضرر — اسم شارع أو معلم أو رمز من ثلاث كلمات.',
+
+    // Hall lesson 12: inline language confirmation (gap-20)
+    'language_inline_confirm' => '🇸🇦 سنواصل باللغة العربية. اكتب EN / FR / ES / ZH / RU للتغيير.',
 ];

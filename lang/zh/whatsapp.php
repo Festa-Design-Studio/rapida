@@ -17,4 +17,7 @@ return [
     'unknown_state' => '抱歉，出现错误。输入 RAPIDA 重新开始。',
     'whatsapp_disabled' => '此危机仅使用匿名报告。请使用网页应用提交报告。',
     'location_conflict_mode' => '描述损坏位置——街道名称、地标或三词代码。',
+
+    // Hall lesson 12: inline language confirmation (gap-20)
+    'language_inline_confirm' => '🇨🇳 我们将继续使用中文。输入 EN / FR / AR / ES / RU 切换语言。',
 ];

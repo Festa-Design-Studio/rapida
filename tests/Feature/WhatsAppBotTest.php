@@ -101,6 +101,34 @@ it('falls back to placeholder when WhatsApp photo download fails', function () {
     expect($report->photo_url)->toBe('https://rapida-demo.s3.amazonaws.com/placeholder.jpg');
 });
 
+it('prepends inline language confirmation when body explicitly signals a language', function () {
+    Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => 'whatsapp:+233200001111',
+        'Body' => 'BONJOUR',
+    ]);
+
+    $response->assertOk();
+    // Confirmation prefix in French + the welcome message
+    $response->assertSee('francais', false);
+    $response->assertSee('EN / AR / ES / ZH / RU', false);
+});
+
+it('does not prepend language confirmation when body has no language signal', function () {
+    Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => 'whatsapp:+233200002222',
+        'Body' => 'RAPIDA accra-flood-2026',
+    ]);
+
+    $response->assertOk();
+    $response->assertSee('Welcome to RAPIDA', false);
+    // No language confirm prefix
+    $response->assertDontSee('Type FR / AR', false);
+});
+
 it('handles session restart', function () {
     Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
     $from = 'whatsapp:+233201234567';
