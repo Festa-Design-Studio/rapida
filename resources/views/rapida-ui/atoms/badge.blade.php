@@ -53,25 +53,25 @@
         </div>
 
         <div class="overflow-x-auto border-t border-grey-100 pt-inner">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Variant</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Color</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Variant</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Color</th>
                         <th class="py-3 font-medium text-text-secondary">Usage</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
-                    <tr><td class="py-3 pr-4 font-mono text-caption">minimal</td><td class="py-3 pr-4">Green + dot</td><td class="py-3">Minimal damage classification</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">partial</td><td class="py-3 pr-4">Amber + dot</td><td class="py-3">Partial damage classification</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">complete</td><td class="py-3 pr-4">Red + dot</td><td class="py-3">Complete destruction classification</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">synced</td><td class="py-3 pr-4">Green</td><td class="py-3">Report successfully uploaded</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">pending</td><td class="py-3 pr-4">Amber</td><td class="py-3">Queued for upload</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">failed</td><td class="py-3 pr-4">Red</td><td class="py-3">Upload failed</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">draft</td><td class="py-3 pr-4">Slate</td><td class="py-3">Report saved locally, not submitted</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">verified</td><td class="py-3 pr-4">RAPIDA Blue (solid)</td><td class="py-3">Coordinator-verified report</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">info</td><td class="py-3 pr-4">RAPIDA Blue (subtle)</td><td class="py-3">Informational labels</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">language</td><td class="py-3 pr-4">Slate</td><td class="py-3">Language code indicators (EN, AR, NE)</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">minimal</td><td class="py-3 pe-4">Green + dot</td><td class="py-3">Minimal damage classification</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">partial</td><td class="py-3 pe-4">Amber + dot</td><td class="py-3">Partial damage classification</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">complete</td><td class="py-3 pe-4">Red + dot</td><td class="py-3">Complete destruction classification</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">synced</td><td class="py-3 pe-4">Green</td><td class="py-3">Report successfully uploaded</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">pending</td><td class="py-3 pe-4">Amber</td><td class="py-3">Queued for upload</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">failed</td><td class="py-3 pe-4">Red</td><td class="py-3">Upload failed</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">draft</td><td class="py-3 pe-4">Slate</td><td class="py-3">Report saved locally, not submitted</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">verified</td><td class="py-3 pe-4">RAPIDA Blue (solid)</td><td class="py-3">Coordinator-verified report</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">info</td><td class="py-3 pe-4">RAPIDA Blue (subtle)</td><td class="py-3">Informational labels</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">language</td><td class="py-3 pe-4">Slate</td><td class="py-3">Language code indicators (EN, AR, NE)</td></tr>
                 </tbody>
             </table>
         </div>

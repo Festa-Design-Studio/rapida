@@ -137,7 +137,7 @@ new class extends Component
             <h3 class="text-h4 font-semibold font-heading text-slate-900">{{ __('rapida.top_buildings') }}</h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead class="bg-surface-page text-slate-600">
                     <tr>
                         <th class="px-4 py-3 font-medium">#</th>
@@ -177,7 +177,7 @@ new class extends Component
             <h3 class="text-h4 font-semibold font-heading text-slate-900">Recent Reports</h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead class="bg-surface-page text-slate-600">
                     <tr>
                         <th class="px-4 py-3 font-medium">ID</th>

@@ -43,17 +43,17 @@
         </div>
 
         <div class="overflow-x-auto border-t border-grey-100 pt-inner">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Variant</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Variant</th>
                         <th class="py-3 font-medium text-text-secondary">Usage</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
-                    <tr><td class="py-3 pr-4 font-mono text-caption">dots</td><td class="py-3">Compact progress — mobile wizard header</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">counter</td><td class="py-3">Verbose — shows step number and label text</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">bar</td><td class="py-3">Visual fill — pairs well with counter for combined display</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">dots</td><td class="py-3">Compact progress — mobile wizard header</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">counter</td><td class="py-3">Verbose — shows step number and label text</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">bar</td><td class="py-3">Visual fill — pairs well with counter for combined display</td></tr>
                 </tbody>
             </table>
         </div>

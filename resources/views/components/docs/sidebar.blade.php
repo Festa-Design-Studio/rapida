@@ -88,7 +88,7 @@
             </button>
 
             @if(count($items) > 0)
-                <ul x-show="open" x-collapse class="mt-nano space-y-nano pl-1">
+                <ul x-show="open" x-collapse class="mt-nano space-y-nano ps-1">
                     @foreach($items as $item)
                         <li>
                             <a href="{{ route($item['route']) }}"

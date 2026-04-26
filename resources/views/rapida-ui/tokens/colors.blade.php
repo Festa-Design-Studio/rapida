@@ -126,28 +126,28 @@
     <h2 class="text-h3 font-heading font-semibold mb-element">Semantic Color Mapping</h2>
     <p class="text-body-sm text-text-secondary mb-element">All code references semantic tokens — never raw hex. One change updates every surface.</p>
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Token</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Role</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Source</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Token</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Role</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Source</th>
                     <th class="py-3 font-medium text-text-secondary">Swatch</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4 font-mono text-caption">surface-page</td><td class="py-3 pr-4">Page backgrounds</td><td class="py-3 pr-4">rapida-blue-50</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-page border border-black/5"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">surface-form</td><td class="py-3 pr-4">Form backgrounds</td><td class="py-3 pr-4">neutral-50</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-form border border-black/5"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">surface-nav</td><td class="py-3 pr-4">Navigation bar</td><td class="py-3 pr-4">rapida-blue-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-nav"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-primary</td><td class="py-3 pr-4">All body text</td><td class="py-3 pr-4">grey-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-text-primary"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-secondary</td><td class="py-3 pr-4">Labels, helper text</td><td class="py-3 pr-4">grey-700</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-text-secondary"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">color-primary</td><td class="py-3 pr-4">Brand, interactive</td><td class="py-3 pr-4">rapida-blue-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-primary"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">color-success</td><td class="py-3 pr-4">Success states</td><td class="py-3 pr-4">ground-green-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-success"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">color-warning</td><td class="py-3 pr-4">Warning states</td><td class="py-3 pr-4">alert-amber-500</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-warning"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">color-critical</td><td class="py-3 pr-4">Critical states</td><td class="py-3 pr-4">crisis-rose-400</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-critical"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">damage-minimal</td><td class="py-3 pr-4">No/minimal damage</td><td class="py-3 pr-4">ground-green-800</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-minimal"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">damage-partial</td><td class="py-3 pr-4">Partial damage</td><td class="py-3 pr-4">alert-amber-500</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-partial"></span></td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">damage-complete</td><td class="py-3 pr-4">Complete damage</td><td class="py-3 pr-4">crisis-rose-400</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-complete"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">surface-page</td><td class="py-3 pe-4">Page backgrounds</td><td class="py-3 pe-4">rapida-blue-50</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-page border border-black/5"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">surface-form</td><td class="py-3 pe-4">Form backgrounds</td><td class="py-3 pe-4">neutral-50</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-form border border-black/5"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">surface-nav</td><td class="py-3 pe-4">Navigation bar</td><td class="py-3 pe-4">rapida-blue-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-surface-nav"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-primary</td><td class="py-3 pe-4">All body text</td><td class="py-3 pe-4">grey-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-text-primary"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-secondary</td><td class="py-3 pe-4">Labels, helper text</td><td class="py-3 pe-4">grey-700</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-text-secondary"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">color-primary</td><td class="py-3 pe-4">Brand, interactive</td><td class="py-3 pe-4">rapida-blue-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-primary"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">color-success</td><td class="py-3 pe-4">Success states</td><td class="py-3 pe-4">ground-green-900</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-success"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">color-warning</td><td class="py-3 pe-4">Warning states</td><td class="py-3 pe-4">alert-amber-500</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-warning"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">color-critical</td><td class="py-3 pe-4">Critical states</td><td class="py-3 pe-4">crisis-rose-400</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-color-critical"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">damage-minimal</td><td class="py-3 pe-4">No/minimal damage</td><td class="py-3 pe-4">ground-green-800</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-minimal"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">damage-partial</td><td class="py-3 pe-4">Partial damage</td><td class="py-3 pe-4">alert-amber-500</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-partial"></span></td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">damage-complete</td><td class="py-3 pe-4">Complete damage</td><td class="py-3 pe-4">crisis-rose-400</td><td class="py-3"><span class="inline-block h-5 w-10 rounded bg-damage-complete"></span></td></tr>
             </tbody>
         </table>
     </div>
@@ -220,24 +220,24 @@
     <h2 class="text-h3 font-heading font-semibold mb-element">WCAG Contrast Ratios</h2>
     <p class="text-body-sm text-text-secondary mb-element">All text/background combinations verified against WCAG 2.1 AA (4.5:1 normal, 3:1 large text).</p>
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Combination</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Ratio</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Combination</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Ratio</th>
                     <th class="py-3 font-medium text-text-secondary">Grade</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4">grey-900 on neutral-50</td><td class="py-3 pr-4">12.6:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">grey-900 on white</td><td class="py-3 pr-4">13.9:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">rapida-blue-50 on rapida-blue-900</td><td class="py-3 pr-4">9.8:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">ground-green-900 on ground-green-50</td><td class="py-3 pr-4">8.4:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">white on ground-green-800</td><td class="py-3 pr-4">5.1:1</td><td class="py-3 font-medium text-ground-green-700">AA</td></tr>
-                <tr><td class="py-3 pr-4">alert-amber-900 on alert-amber-50</td><td class="py-3 pr-4">9.1:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">white on alert-amber-500</td><td class="py-3 pr-4">3.2:1</td><td class="py-3 font-medium text-alert-amber-700">AA Large</td></tr>
-                <tr><td class="py-3 pr-4">crisis-rose-900 on crisis-rose-50</td><td class="py-3 pr-4">10.2:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
-                <tr><td class="py-3 pr-4">white on crisis-rose-400</td><td class="py-3 pr-4">3.6:1</td><td class="py-3 font-medium text-alert-amber-700">AA Large</td></tr>
+                <tr><td class="py-3 pe-4">grey-900 on neutral-50</td><td class="py-3 pe-4">12.6:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">grey-900 on white</td><td class="py-3 pe-4">13.9:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">rapida-blue-50 on rapida-blue-900</td><td class="py-3 pe-4">9.8:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">ground-green-900 on ground-green-50</td><td class="py-3 pe-4">8.4:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">white on ground-green-800</td><td class="py-3 pe-4">5.1:1</td><td class="py-3 font-medium text-ground-green-700">AA</td></tr>
+                <tr><td class="py-3 pe-4">alert-amber-900 on alert-amber-50</td><td class="py-3 pe-4">9.1:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">white on alert-amber-500</td><td class="py-3 pe-4">3.2:1</td><td class="py-3 font-medium text-alert-amber-700">AA Large</td></tr>
+                <tr><td class="py-3 pe-4">crisis-rose-900 on crisis-rose-50</td><td class="py-3 pe-4">10.2:1</td><td class="py-3 font-medium text-ground-green-700">AAA</td></tr>
+                <tr><td class="py-3 pe-4">white on crisis-rose-400</td><td class="py-3 pe-4">3.6:1</td><td class="py-3 font-medium text-alert-amber-700">AA Large</td></tr>
             </tbody>
         </table>
     </div>

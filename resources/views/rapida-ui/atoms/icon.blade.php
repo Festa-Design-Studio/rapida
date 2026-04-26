@@ -150,21 +150,21 @@
     <h2 class="text-h3 font-heading font-semibold mb-element">Variants</h2>
     <div class="rounded-lg bg-surface-form border border-grey-100 p-padding-card">
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Size</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Dimensions</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Size</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Dimensions</th>
                         <th class="py-3 font-medium text-text-secondary">Usage</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
-                    <tr><td class="py-3 pr-4 font-mono text-caption">xs</td><td class="py-3 pr-4">12 x 12px</td><td class="py-3">Inline with caption text, badge icons</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">sm</td><td class="py-3 pr-4">16 x 16px</td><td class="py-3">Inside buttons, form input icons</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">md</td><td class="py-3 pr-4">20 x 20px</td><td class="py-3">Default — navigation, list items</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">lg</td><td class="py-3 pr-4">24 x 24px</td><td class="py-3">Card headers, empty states</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">xl</td><td class="py-3 pr-4">40 x 40px</td><td class="py-3">Hero illustrations, upload zone</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">2xl</td><td class="py-3 pr-4">64 x 64px</td><td class="py-3">Full-page empty states, onboarding</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">xs</td><td class="py-3 pe-4">12 x 12px</td><td class="py-3">Inline with caption text, badge icons</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">sm</td><td class="py-3 pe-4">16 x 16px</td><td class="py-3">Inside buttons, form input icons</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">md</td><td class="py-3 pe-4">20 x 20px</td><td class="py-3">Default — navigation, list items</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">lg</td><td class="py-3 pe-4">24 x 24px</td><td class="py-3">Card headers, empty states</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">xl</td><td class="py-3 pe-4">40 x 40px</td><td class="py-3">Hero illustrations, upload zone</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">2xl</td><td class="py-3 pe-4">64 x 64px</td><td class="py-3">Full-page empty states, onboarding</td></tr>
                 </tbody>
             </table>
         </div>

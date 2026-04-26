@@ -43,18 +43,18 @@
 <section class="mb-gap-section">
     <h2 class="text-h3 font-heading font-semibold mb-element">States</h2>
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">State</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">State</th>
                     <th class="py-3 font-medium text-text-secondary">Description</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4 font-medium">Empty</td><td class="py-3">Dashed border, camera icon, "Take a photo or choose from gallery"</td></tr>
-                <tr><td class="py-3 pr-4 font-medium">Drag over</td><td class="py-3">Border turns rapida-blue, background rapida-blue-50, text changes to "Drop your photo here"</td></tr>
-                <tr><td class="py-3 pr-4 font-medium">Preview</td><td class="py-3">Photo thumbnail with "Change" and "Remove" actions below</td></tr>
-                <tr><td class="py-3 pr-4 font-medium">Error</td><td class="py-3">Red border, error icon, error message, "Tap to try again"</td></tr>
+                <tr><td class="py-3 pe-4 font-medium">Empty</td><td class="py-3">Dashed border, camera icon, "Take a photo or choose from gallery"</td></tr>
+                <tr><td class="py-3 pe-4 font-medium">Drag over</td><td class="py-3">Border turns rapida-blue, background rapida-blue-50, text changes to "Drop your photo here"</td></tr>
+                <tr><td class="py-3 pe-4 font-medium">Preview</td><td class="py-3">Photo thumbnail with "Change" and "Remove" actions below</td></tr>
+                <tr><td class="py-3 pe-4 font-medium">Error</td><td class="py-3">Red border, error icon, error message, "Tap to try again"</td></tr>
             </tbody>
         </table>
     </div>

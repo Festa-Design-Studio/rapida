@@ -31,7 +31,7 @@
         ] as [$name, $value, $widthClass])
             <div class="flex items-center gap-4">
                 <span class="text-caption font-mono text-text-placeholder w-36 shrink-0">{{ $name }}</span>
-                <span class="text-caption text-text-secondary w-12 shrink-0 text-right">{{ $value }}</span>
+                <span class="text-caption text-text-secondary w-12 shrink-0 text-end">{{ $value }}</span>
                 <div class="h-4 {{ $widthClass }} bg-rapida-blue-300 rounded-sm shrink-0"></div>
             </div>
         @endforeach
@@ -130,20 +130,20 @@
     <p class="text-body-sm text-text-secondary mb-element">All motion respects <code class="text-caption font-mono bg-slate-100 px-1 py-0.5 rounded">prefers-reduced-motion</code>. Keep transitions short — users are under time pressure.</p>
 
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Token</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Duration</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Easing</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Token</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Duration</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Easing</th>
                     <th class="py-3 font-medium text-text-secondary">Usage</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4 font-mono text-caption">duration-100</td><td class="py-3 pr-4">100ms</td><td class="py-3 pr-4">ease-out</td><td class="py-3">Button active press</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">duration-150</td><td class="py-3 pr-4">150ms</td><td class="py-3 pr-4">ease-in-out</td><td class="py-3">Color transitions, hover states</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">duration-200</td><td class="py-3 pr-4">200ms</td><td class="py-3 pr-4">ease-in-out</td><td class="py-3">Toggle switch, sidebar slide</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">duration-300</td><td class="py-3 pr-4">300ms</td><td class="py-3 pr-4">ease-out</td><td class="py-3">Progress bar fill, skeleton pulse</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">duration-100</td><td class="py-3 pe-4">100ms</td><td class="py-3 pe-4">ease-out</td><td class="py-3">Button active press</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">duration-150</td><td class="py-3 pe-4">150ms</td><td class="py-3 pe-4">ease-in-out</td><td class="py-3">Color transitions, hover states</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">duration-200</td><td class="py-3 pe-4">200ms</td><td class="py-3 pe-4">ease-in-out</td><td class="py-3">Toggle switch, sidebar slide</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">duration-300</td><td class="py-3 pe-4">300ms</td><td class="py-3 pe-4">ease-out</td><td class="py-3">Progress bar fill, skeleton pulse</td></tr>
             </tbody>
         </table>
     </div>

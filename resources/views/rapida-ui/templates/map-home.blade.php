@@ -34,7 +34,7 @@
         <x-organisms.map-organism height="h-64" />
         <div class="absolute bottom-36 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-10">
             <x-atoms.button variant="primary" size="lg" class="shadow-lg">
-                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <svg class="h-5 w-5 me-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Report Damage
             </x-atoms.button>
         </div>

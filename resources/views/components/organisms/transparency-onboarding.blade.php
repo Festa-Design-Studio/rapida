@@ -36,7 +36,7 @@
         </p>
 
         {{-- Data use explanation --}}
-        <div class="text-left space-y-micro">
+        <div class="text-start space-y-micro">
             @if($conflictContext)
                 {{-- Conflict mode: lead with anonymity, no location mention --}}
                 <div class="flex items-start gap-3">

@@ -94,7 +94,7 @@ new class extends Component
 
     {{-- Verification tab --}}
     <div x-show="activeTab === 'verification'" class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead class="bg-surface-page text-slate-600">
                 <tr>
                     <th class="px-4 py-3 font-medium">ID</th>
@@ -147,7 +147,7 @@ new class extends Component
 
     {{-- Redundancy tab --}}
     <div x-show="activeTab === 'redundancy'" x-cloak class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead class="bg-surface-page text-slate-600">
                 <tr>
                     <th class="px-4 py-3 font-medium">ID</th>

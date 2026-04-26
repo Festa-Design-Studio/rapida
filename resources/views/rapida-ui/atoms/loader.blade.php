@@ -93,20 +93,20 @@
     <h2 class="text-h3 font-heading font-semibold mb-element">States</h2>
     <div class="rounded-lg bg-surface-form border border-grey-100 p-padding-card">
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Variant</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Aria Role</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Variant</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Aria Role</th>
                         <th class="py-3 font-medium text-text-secondary">Reduced Motion</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
-                    <tr><td class="py-3 pr-4">Spinner</td><td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">role="status"</code></td><td class="py-3">Switches to <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">animate-pulse</code></td></tr>
-                    <tr><td class="py-3 pr-4">Skeleton text</td><td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey blocks</td></tr>
-                    <tr><td class="py-3 pr-4">Skeleton card</td><td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey blocks</td></tr>
-                    <tr><td class="py-3 pr-4">Skeleton image</td><td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey block</td></tr>
-                    <tr><td class="py-3 pr-4">Progress ring</td><td class="py-3 pr-4">Percentage text</td><td class="py-3">Static ring, no transition</td></tr>
+                    <tr><td class="py-3 pe-4">Spinner</td><td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">role="status"</code></td><td class="py-3">Switches to <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">animate-pulse</code></td></tr>
+                    <tr><td class="py-3 pe-4">Skeleton text</td><td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey blocks</td></tr>
+                    <tr><td class="py-3 pe-4">Skeleton card</td><td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey blocks</td></tr>
+                    <tr><td class="py-3 pe-4">Skeleton image</td><td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-busy="true"</code></td><td class="py-3">Static grey block</td></tr>
+                    <tr><td class="py-3 pe-4">Progress ring</td><td class="py-3 pe-4">Percentage text</td><td class="py-3">Static ring, no transition</td></tr>
                 </tbody>
             </table>
         </div>

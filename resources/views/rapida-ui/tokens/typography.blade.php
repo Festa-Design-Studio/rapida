@@ -94,21 +94,21 @@
 <section class="mb-gap-section">
     <h2 class="text-h3 font-heading font-semibold mb-element">Responsive Scales</h2>
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Token</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Mobile (&lt;768px)</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Tablet (768px+)</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Token</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Mobile (&lt;768px)</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Tablet (768px+)</th>
                     <th class="py-3 font-medium text-text-secondary">Desktop (1024px+)</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-display</td><td class="py-3 pr-4">30px</td><td class="py-3 pr-4">36px</td><td class="py-3">40px</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-h1</td><td class="py-3 pr-4">24px</td><td class="py-3 pr-4">28px</td><td class="py-3">32px</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-h2</td><td class="py-3 pr-4">20px</td><td class="py-3 pr-4">22px</td><td class="py-3">24px</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-h3</td><td class="py-3 pr-4">18px</td><td class="py-3 pr-4">18px</td><td class="py-3">20px</td></tr>
-                <tr><td class="py-3 pr-4 font-mono text-caption">text-body</td><td class="py-3 pr-4">16px</td><td class="py-3 pr-4">16px</td><td class="py-3">16px</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-display</td><td class="py-3 pe-4">30px</td><td class="py-3 pe-4">36px</td><td class="py-3">40px</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-h1</td><td class="py-3 pe-4">24px</td><td class="py-3 pe-4">28px</td><td class="py-3">32px</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-h2</td><td class="py-3 pe-4">20px</td><td class="py-3 pe-4">22px</td><td class="py-3">24px</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-h3</td><td class="py-3 pe-4">18px</td><td class="py-3 pe-4">18px</td><td class="py-3">20px</td></tr>
+                <tr><td class="py-3 pe-4 font-mono text-caption">text-body</td><td class="py-3 pe-4">16px</td><td class="py-3 pe-4">16px</td><td class="py-3">16px</td></tr>
             </tbody>
         </table>
     </div>
@@ -118,19 +118,19 @@
 <section class="mb-gap-section">
     <h2 class="text-h3 font-heading font-semibold mb-element">Weight Usage Rules</h2>
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Weight</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Value</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Weight</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Value</th>
                     <th class="py-3 font-medium text-text-secondary">Usage</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
-                <tr><td class="py-3 pr-4 font-bold">Bold</td><td class="py-3 pr-4">700</td><td class="py-3">Display, H1 headings only</td></tr>
-                <tr><td class="py-3 pr-4 font-semibold">Semi-bold</td><td class="py-3 pr-4">600</td><td class="py-3">H2, H3, buttons, emphasis</td></tr>
-                <tr><td class="py-3 pr-4 font-medium">Medium</td><td class="py-3 pr-4">500</td><td class="py-3">H4, labels, form field labels</td></tr>
-                <tr><td class="py-3 pr-4">Regular</td><td class="py-3 pr-4">400</td><td class="py-3">Body text, input values, help text</td></tr>
+                <tr><td class="py-3 pe-4 font-bold">Bold</td><td class="py-3 pe-4">700</td><td class="py-3">Display, H1 headings only</td></tr>
+                <tr><td class="py-3 pe-4 font-semibold">Semi-bold</td><td class="py-3 pe-4">600</td><td class="py-3">H2, H3, buttons, emphasis</td></tr>
+                <tr><td class="py-3 pe-4 font-medium">Medium</td><td class="py-3 pe-4">500</td><td class="py-3">H4, labels, form field labels</td></tr>
+                <tr><td class="py-3 pe-4">Regular</td><td class="py-3 pe-4">400</td><td class="py-3">Body text, input values, help text</td></tr>
             </tbody>
         </table>
     </div>

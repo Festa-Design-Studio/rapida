@@ -14,43 +14,43 @@
     <p class="text-body-sm text-text-secondary mb-element">All interactive elements cycle through these states. Each must be visually distinct.</p>
 
     <div class="overflow-x-auto">
-        <table class="w-full text-body-sm text-left">
+        <table class="w-full text-body-sm text-start">
             <thead>
                 <tr class="border-b border-grey-100">
-                    <th class="py-3 pr-4 font-medium text-text-secondary">State</th>
-                    <th class="py-3 pr-4 font-medium text-text-secondary">Visual Treatment</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">State</th>
+                    <th class="py-3 pe-4 font-medium text-text-secondary">Visual Treatment</th>
                     <th class="py-3 font-medium text-text-secondary">Example</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-grey-100">
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Default</td>
-                    <td class="py-3 pr-4">Base styling with clear affordance</td>
+                    <td class="py-3 pe-4 font-medium">Default</td>
+                    <td class="py-3 pe-4">Base styling with clear affordance</td>
                     <td class="py-3"><x-atoms.button variant="primary">Submit</x-atoms.button></td>
                 </tr>
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Hover</td>
-                    <td class="py-3 pr-4">Lightened or darkened background (150ms transition)</td>
+                    <td class="py-3 pe-4 font-medium">Hover</td>
+                    <td class="py-3 pe-4">Lightened or darkened background (150ms transition)</td>
                     <td class="py-3 text-caption text-text-placeholder italic">Hover over the button above</td>
                 </tr>
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Focus</td>
-                    <td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">ring-2 ring-rapida-blue-700 ring-offset-2</code></td>
+                    <td class="py-3 pe-4 font-medium">Focus</td>
+                    <td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">ring-2 ring-rapida-blue-700 ring-offset-2</code></td>
                     <td class="py-3 text-caption text-text-placeholder italic">Tab to the button above</td>
                 </tr>
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Active / Pressed</td>
-                    <td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">scale-[0.98]</code> micro-scale</td>
+                    <td class="py-3 pe-4 font-medium">Active / Pressed</td>
+                    <td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">scale-[0.98]</code> micro-scale</td>
                     <td class="py-3 text-caption text-text-placeholder italic">Click and hold</td>
                 </tr>
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Disabled</td>
-                    <td class="py-3 pr-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">opacity-40 cursor-not-allowed</code></td>
+                    <td class="py-3 pe-4 font-medium">Disabled</td>
+                    <td class="py-3 pe-4"><code class="font-mono bg-slate-100 px-1 py-0.5 rounded">opacity-40 cursor-not-allowed</code></td>
                     <td class="py-3"><x-atoms.button variant="primary" :disabled="true">Disabled</x-atoms.button></td>
                 </tr>
                 <tr>
-                    <td class="py-3 pr-4 font-medium">Loading</td>
-                    <td class="py-3 pr-4">Spinner icon + disabled + <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-live="polite"</code></td>
+                    <td class="py-3 pe-4 font-medium">Loading</td>
+                    <td class="py-3 pe-4">Spinner icon + disabled + <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">aria-live="polite"</code></td>
                     <td class="py-3"><x-atoms.button variant="primary" :loading="true">Submitting...</x-atoms.button></td>
                 </tr>
             </tbody>
@@ -97,20 +97,20 @@
 
         <div class="mt-inner pt-inner border-t border-grey-100">
             <div class="overflow-x-auto">
-                <table class="w-full text-body-sm text-left">
+                <table class="w-full text-body-sm text-start">
                     <thead>
                         <tr class="border-b border-grey-100">
-                            <th class="py-3 pr-4 font-medium text-text-secondary">State</th>
-                            <th class="py-3 pr-4 font-medium text-text-secondary">Color</th>
+                            <th class="py-3 pe-4 font-medium text-text-secondary">State</th>
+                            <th class="py-3 pe-4 font-medium text-text-secondary">Color</th>
                             <th class="py-3 font-medium text-text-secondary">Meaning</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-grey-100">
-                        <tr><td class="py-3 pr-4">Draft</td><td class="py-3 pr-4">Slate</td><td class="py-3">Report saved locally, not submitted</td></tr>
-                        <tr><td class="py-3 pr-4">Synced</td><td class="py-3 pr-4">Green</td><td class="py-3">Successfully uploaded to server</td></tr>
-                        <tr><td class="py-3 pr-4">Pending</td><td class="py-3 pr-4">Amber</td><td class="py-3">Queued for upload, waiting for connection</td></tr>
-                        <tr><td class="py-3 pr-4">Failed</td><td class="py-3 pr-4">Red</td><td class="py-3">Upload failed, will retry automatically</td></tr>
-                        <tr><td class="py-3 pr-4">Verified</td><td class="py-3 pr-4">RAPIDA Blue</td><td class="py-3">Coordinator has reviewed and confirmed</td></tr>
+                        <tr><td class="py-3 pe-4">Draft</td><td class="py-3 pe-4">Slate</td><td class="py-3">Report saved locally, not submitted</td></tr>
+                        <tr><td class="py-3 pe-4">Synced</td><td class="py-3 pe-4">Green</td><td class="py-3">Successfully uploaded to server</td></tr>
+                        <tr><td class="py-3 pe-4">Pending</td><td class="py-3 pe-4">Amber</td><td class="py-3">Queued for upload, waiting for connection</td></tr>
+                        <tr><td class="py-3 pe-4">Failed</td><td class="py-3 pe-4">Red</td><td class="py-3">Upload failed, will retry automatically</td></tr>
+                        <tr><td class="py-3 pe-4">Verified</td><td class="py-3 pe-4">RAPIDA Blue</td><td class="py-3">Coordinator has reviewed and confirmed</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -131,32 +131,32 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Level</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Color</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Dot</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Level</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Color</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Dot</th>
                         <th class="py-3 font-medium text-text-secondary">Meaning</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
                     <tr>
-                        <td class="py-3 pr-4">Minimal</td>
-                        <td class="py-3 pr-4">Green</td>
-                        <td class="py-3 pr-4"><span class="inline-block h-3 w-3 rounded-full bg-green-500"></span></td>
+                        <td class="py-3 pe-4">Minimal</td>
+                        <td class="py-3 pe-4">Green</td>
+                        <td class="py-3 pe-4"><span class="inline-block h-3 w-3 rounded-full bg-green-500"></span></td>
                         <td class="py-3">Infrastructure usable, cosmetic damage only</td>
                     </tr>
                     <tr>
-                        <td class="py-3 pr-4">Partial</td>
-                        <td class="py-3 pr-4">Amber</td>
-                        <td class="py-3 pr-4"><span class="inline-block h-3 w-3 rounded-full bg-amber-500"></span></td>
+                        <td class="py-3 pe-4">Partial</td>
+                        <td class="py-3 pe-4">Amber</td>
+                        <td class="py-3 pe-4"><span class="inline-block h-3 w-3 rounded-full bg-amber-500"></span></td>
                         <td class="py-3">Significant damage, limited functionality</td>
                     </tr>
                     <tr>
-                        <td class="py-3 pr-4">Complete</td>
-                        <td class="py-3 pr-4">Red</td>
-                        <td class="py-3 pr-4"><span class="inline-block h-3 w-3 rounded-full bg-red-600"></span></td>
+                        <td class="py-3 pe-4">Complete</td>
+                        <td class="py-3 pe-4">Red</td>
+                        <td class="py-3 pe-4"><span class="inline-block h-3 w-3 rounded-full bg-red-600"></span></td>
                         <td class="py-3">Fully destroyed or impassable</td>
                     </tr>
                 </tbody>
