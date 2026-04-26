@@ -154,4 +154,12 @@ return [
     'building_id' => 'Building',
     'reports_count' => 'Reports',
     'last_updated' => 'Last Updated',
+
+    // Gap-08: danger-zone banner
+    'danger_zone_caution_label' => 'هذه المنطقة مصنفة للحذر',
+    'danger_zone_warning_label' => 'هذه المنطقة تحمل تحذيرا الآن',
+    'danger_zone_critical_label' => 'هذه المنطقة تحتاج إلى عناية إضافية الآن',
+    'danger_zone_default_body' => 'لقد قامت الفرق الميدانية بتمييز هذه المنطقة. توخ الحذر إذا كان يجب عليك التواجد هنا.',
+    'danger_zone_field_team_note' => 'معلومات مقدمة من فرق الأمم المتحدة الميدانية',
+    'dismiss' => 'إغلاق',
 ];

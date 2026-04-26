@@ -28,6 +28,7 @@ class Crisis extends Model
         'multi_photo_enabled',
         'crisis_type_default',
         'data_retention_days',
+        'danger_zones_enabled',
     ];
 
     protected function casts(): array
@@ -39,6 +40,7 @@ class Crisis extends Model
             'conflict_context' => 'boolean',
             'whatsapp_enabled' => 'boolean',
             'multi_photo_enabled' => 'boolean',
+            'danger_zones_enabled' => 'boolean',
             'data_retention_days' => 'integer',
         ];
     }
@@ -71,5 +73,10 @@ class Crisis extends Model
     public function recoveryOutcomes(): HasMany
     {
         return $this->hasMany(RecoveryOutcome::class);
+    }
+
+    public function dangerZones(): HasMany
+    {
+        return $this->hasMany(DangerZone::class);
     }
 }
