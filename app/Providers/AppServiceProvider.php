@@ -4,8 +4,14 @@ namespace App\Providers;
 
 use App\Models\Crisis;
 use App\Models\DamageReport;
+use App\Models\Landmark;
+use App\Models\RecoveryOutcome;
+use App\Models\UndpUser;
 use App\Policies\CrisisPolicy;
 use App\Policies\DamageReportPolicy;
+use App\Policies\LandmarkPolicy;
+use App\Policies\RecoveryOutcomePolicy;
+use App\Policies\UndpUserPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -27,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(DamageReport::class, DamageReportPolicy::class);
         Gate::policy(Crisis::class, CrisisPolicy::class);
+        Gate::policy(Landmark::class, LandmarkPolicy::class);
+        Gate::policy(RecoveryOutcome::class, RecoveryOutcomePolicy::class);
+        Gate::policy(UndpUser::class, UndpUserPolicy::class);
 
         $this->configureRateLimiting();
         $this->configureHealthChecks();
