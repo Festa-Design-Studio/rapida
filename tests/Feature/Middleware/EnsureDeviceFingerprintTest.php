@@ -96,6 +96,38 @@ it('returns the reporters reports when the cookie matches', function () {
         ->toBe([$mine->id]);
 });
 
+it('persists the cookie value as device_fingerprint_id when a new report is submitted, and re-finds it on /my-reports', function () {
+    $crisis = Crisis::factory()->create(['status' => 'active', 'conflict_context' => false]);
+    $fingerprint = 'browser-cookie-uuid-xyz';
+
+    // Step 1: submit a report with the cookie present (mirrors the wizard
+    // and API submission paths — both read request()->cookie(...)).
+    $submitResponse = $this->withCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
+        ->postJson('/api/v1/reports', [
+            'crisis_slug' => $crisis->slug,
+            'damage_level' => 'partial',
+            'infrastructure_type' => 'commercial',
+            'crisis_type' => 'flood',
+            'latitude' => 5.56,
+            'longitude' => -0.20,
+            'location_method' => 'coordinate_only',
+            'submitted_at' => now()->toIso8601String(),
+            'device_fingerprint_id' => $fingerprint,
+        ]);
+
+    $submitResponse->assertCreated();
+    $reportId = $submitResponse->json('report_id');
+    expect(DamageReport::find($reportId)->device_fingerprint_id)->toBe($fingerprint);
+
+    // Step 2: revisit /my-reports with the same cookie → must include
+    // the just-submitted report.
+    $myReports = $this->withCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
+        ->get('/my-reports');
+
+    $myReports->assertSuccessful();
+    expect($myReports->viewData('reports')->pluck('id')->all())->toContain($reportId);
+});
+
 it('returns the empty state when no cookie is present yet', function () {
     $crisis = Crisis::factory()->create(['status' => 'active', 'conflict_context' => false]);
 
