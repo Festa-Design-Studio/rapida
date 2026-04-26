@@ -25,6 +25,16 @@
         @font-face { font-family: 'Noto Sans'; src: url('/fonts/noto-sans/NotoSans-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
         @font-face { font-family: 'Noto Sans Arabic'; src: url('/fonts/noto-sans-arabic/NotoSansArabic-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
         @font-face { font-family: 'Noto Sans Arabic'; src: url('/fonts/noto-sans-arabic/NotoSansArabic-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+        {{-- Gap-45: explicit Cyrillic subset for Russian. Trusted as bundled in
+             Noto Sans WOFF2 too, but the explicit subset guards against a future
+             rebuild that trims the file to Latin-only. --}}
+        @font-face { font-family: 'Noto Sans Cyrillic'; src: url('/fonts/noto-sans-cyrillic/NotoSans-Cyrillic-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F; }
+        @font-face { font-family: 'Noto Sans Cyrillic'; src: url('/fonts/noto-sans-cyrillic/NotoSans-Cyrillic-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F; }
+        {{-- Gap-45: Noto Sans CJK SC (Simplified Chinese). Full glyph coverage,
+             ~7MB but loaded only when :lang(zh) selector matches via the body
+             font-family cascade — Latin/Arabic/Cyrillic users do not pay the cost. --}}
+        @font-face { font-family: 'Noto Sans SC'; src: url('/fonts/noto-sans-cjk-sc/NotoSansSC-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF; }
+        @font-face { font-family: 'Noto Sans SC'; src: url('/fonts/noto-sans-cjk-sc/NotoSansSC-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; unicode-range: U+4E00-9FFF, U+3000-303F, U+FF00-FFEF; }
     </style>
 
     {{-- Vite assets --}}
