@@ -13,6 +13,10 @@ new class extends Component {
     /** Collected data from previous steps */
     public array $stepData = [];
 
+    /** Photo from parent (file upload binds via $parent.photo on step 1).
+     *  Read-only in this component — exists so the preview can render. */
+    public $photo = null;
+
     /** Error state */
     public ?string $submitError = null;
 
@@ -38,14 +42,14 @@ new class extends Component {
                     default => null,
                 },
                 description: $this->stepData['description'] ?? null,
-                deviceFingerprintId: $this->conflictMode ? null : request()->input('device_fingerprint_id'),
+                deviceFingerprintId: $this->conflictMode ? null : request()->cookie('rapida_device_fingerprint'),
                 accountId: auth()->id(),
                 buildingFootprintId: $this->stepData['buildingFootprintId'] ?? null,
                 locationMethod: $this->stepData['locationMethod'] ?? 'coordinate_only',
                 submittedVia: 'web',
                 photoGuidanceShown: true,
                 moduleResponses: $this->stepData['moduleResponses'] ?? [],
-                photoFile: $this->stepData['photo'] ?? null,
+                photoFile: $this->photo,
             );
 
             $report = app(ReportSubmissionService::class)->submit($dto);
@@ -94,8 +98,8 @@ new class extends Component {
     <div class="rounded-xl border border-slate-200 bg-white overflow-hidden">
         {{-- Photo preview --}}
         <div class="h-48 bg-slate-100 flex items-center justify-center border-b border-slate-200 overflow-hidden">
-            @if(isset($stepData['photo']) && $stepData['photo'])
-                <img src="{{ $stepData['photo']->temporaryUrl() }}" alt="{{ __('wizard.step_1_label') }}" class="w-full h-full object-cover" />
+            @if($photo)
+                <img src="{{ $photo->temporaryUrl() }}" alt="{{ __('wizard.step_1_label') }}" class="w-full h-full object-cover" />
             @else
                 <div class="text-center">
                     <x-atoms.icon name="camera" size="lg" class="text-slate-400 mx-auto" />

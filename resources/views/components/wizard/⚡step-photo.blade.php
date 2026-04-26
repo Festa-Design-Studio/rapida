@@ -1,6 +1,6 @@
 <?php
 
-use Livewire\Attributes\On;
+use Livewire\Attributes\Modelable;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Crisis;
@@ -12,14 +12,24 @@ new class extends Component {
 
     public bool $conflictMode = false;
 
+    /**
+     * #[Modelable] tells Livewire to treat $photo as a child→parent
+     * shared property. The parent uses
+     *     <livewire:wizard.step-photo wire:model.live="photo" ... />
+     * which binds the parent's $photo to the child's $photo. The file
+     * upload itself runs through this child (WithFileUploads on this
+     * class), and the resolved TemporaryUploadedFile then syncs to the
+     * parent so wizard-shell.submit() can read $this->photo and pass
+     * it to ReportSubmissionService.
+     *
+     * History: earlier this component dispatched the photo via a
+     * step-completed event. Livewire serialises file uploads to their
+     * path string at the dispatch boundary, so the parent received
+     * null/string and PhotoStorageService silently fell back to the
+     * placeholder URL.
+     */
+    #[Modelable]
     public $photo = null;
-
-    public function completeStep(): void
-    {
-        $this->dispatch('step-completed', data: [
-            'photo' => $this->photo,
-        ]);
-    }
 };
 ?>
 
@@ -44,7 +54,7 @@ new class extends Component {
                     <span class="text-slate-300">|</span>
                     <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-red-600 hover:text-red-800">{{ __('wizard.step_1_remove') }}</button>
                 </div>
-                <input id="photo-replace" type="file" accept="image/*" capture="environment" wire:model="photo" class="sr-only" />
+                <input id="photo-replace" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
             </div>
         @else
             {{-- Empty upload zone --}}
@@ -60,7 +70,7 @@ new class extends Component {
                         <p class="text-caption text-slate-400 mt-1">{{ __('wizard.step_1_upload_formats') }}</p>
                     </div>
                 </div>
-                <input id="photo-input" type="file" accept="image/*" capture="environment" wire:model="photo" class="sr-only" />
+                <input id="photo-input" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
             </label>
         @endif
 

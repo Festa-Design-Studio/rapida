@@ -162,14 +162,14 @@ new class extends Component {
                 infrastructureName: $this->stepData['infrastructureName'] ?? $this->infrastructureName,
                 debrisRequired: $this->resolveDebrisRequired(),
                 description: $this->stepData['description'] ?? $this->description,
-                deviceFingerprintId: $this->conflictMode ? null : request()->input('device_fingerprint_id'),
+                deviceFingerprintId: $this->conflictMode ? null : request()->cookie('rapida_device_fingerprint'),
                 accountId: auth()->id(),
                 buildingFootprintId: $this->stepData['buildingFootprintId'] ?? $this->buildingFootprintId,
                 locationMethod: $this->stepData['locationMethod'] ?? $this->locationMethod,
                 submittedVia: 'web',
                 photoGuidanceShown: true,
                 moduleResponses: $this->stepData['moduleResponses'] ?? $this->moduleResponses,
-                photoFile: $this->stepData['photo'] ?? $this->photo,
+                photoFile: $this->photo,
             );
 
             $report = app(ReportSubmissionService::class)->submit($dto);
@@ -183,11 +183,12 @@ new class extends Component {
         }
     }
 
-    /** Sync current properties into stepData array */
+    /** Sync current properties into stepData array. Photo lives on
+     * $this->photo directly (bound by step-photo via $parent.photo) and
+     * does not need to traverse stepData. */
     private function syncStepData(): void
     {
         $this->stepData = array_merge($this->stepData, array_filter([
-            'photo' => $this->photo,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'buildingFootprintId' => $this->buildingFootprintId,
@@ -257,11 +258,62 @@ new class extends Component {
     {{-- Step content --}}
     <div class="flex-1 px-6 py-4">
         @if($currentStep === 1)
-            <livewire:wizard.step-photo
-                :crisis="$crisis"
-                :conflictMode="$conflictMode"
-                wire:key="step-photo"
-            />
+            {{-- Photo upload is inlined here (not extracted to a child Livewire
+                 component) because Livewire serialises TemporaryUploadedFile
+                 to a string path when it crosses a component boundary. The
+                 #[Modelable] pattern works for primitives but not for file
+                 uploads, so the file input must live on the same component
+                 (wizard-shell) that has WithFileUploads + $photo. --}}
+            <div class="flex flex-col gap-6">
+                <x-molecules.photo-guidance-drawer :crisisType="$crisis->crisis_type_default ?? 'earthquake'" />
+
+                <div class="flex flex-col gap-2">
+                    <h1 class="text-h1 font-heading font-bold text-slate-900">{{ __('wizard.step_1_title') }}</h1>
+                    <p class="text-body text-slate-600">{{ __('wizard.step_1_desc') }}</p>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-label font-medium text-slate-700">{{ __('wizard.step_1_label') }}</span>
+
+                    @if($photo)
+                        <div class="relative rounded-xl border-2 border-rapida-blue-700 overflow-hidden">
+                            <img src="{{ $photo->temporaryUrl() }}" alt="{{ __('wizard.step_1_label') }}" class="w-full max-h-64 object-cover" />
+                            <div class="flex items-center justify-center gap-4 px-4 py-2 bg-slate-50 border-t border-slate-200">
+                                <label for="photo-replace" class="text-body-sm font-medium text-rapida-blue-700 hover:text-rapida-blue-900 cursor-pointer">{{ __('wizard.step_1_change') }}</label>
+                                <span class="text-slate-300">|</span>
+                                <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-crisis-rose-600 hover:text-crisis-rose-800">{{ __('wizard.step_1_remove') }}</button>
+                            </div>
+                            <input id="photo-replace" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
+                        </div>
+                    @else
+                        <label
+                            for="photo-input"
+                            class="relative flex flex-col items-center justify-center min-h-[160px] rounded-xl border-2 border-dashed border-slate-300 bg-slate-50
+                                   hover:border-rapida-blue-500 hover:bg-rapida-blue-50 cursor-pointer transition-colors duration-150"
+                        >
+                            <div class="flex flex-col items-center gap-3 p-6 text-center">
+                                <x-atoms.icon name="camera" size="xl" class="text-slate-400" />
+                                <div>
+                                    <p class="text-body-sm font-medium text-slate-700">{{ __('wizard.step_1_upload_prompt') }}</p>
+                                    <p class="text-caption text-slate-400 mt-1">{{ __('wizard.step_1_upload_formats') }}</p>
+                                </div>
+                            </div>
+                            <input id="photo-input" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
+                        </label>
+                    @endif
+
+                    <div wire:loading wire:target="photo" class="flex items-center gap-2 text-body-sm text-rapida-blue-700">
+                        <x-atoms.loader size="sm" />
+                        <span>{{ __('wizard.step_1_uploading') }}</span>
+                    </div>
+
+                    @error('photo')
+                        <p class="text-body-sm text-crisis-rose-600" role="alert">{{ $message }}</p>
+                    @enderror
+
+                    <p class="text-body-sm text-slate-500">{{ __('wizard.step_1_help') }}</p>
+                </div>
+            </div>
         @elseif($currentStep === 2)
             <livewire:wizard.step-location
                 :crisis="$crisis"
@@ -294,6 +346,7 @@ new class extends Component {
                 :crisis="$crisis"
                 :conflictMode="$conflictMode"
                 :stepData="$stepData"
+                :photo="$photo"
                 wire:key="step-review"
             />
         @elseif($currentStep === 7)
