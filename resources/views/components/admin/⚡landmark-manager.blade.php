@@ -174,7 +174,12 @@ new class extends Component
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-slate-400">No landmarks added yet.</td>
+                            <x-molecules.empty-state
+                                icon="map-pin"
+                                title="No landmarks added yet"
+                                body="Add reference locations operators can pre-fill in the wizard."
+                                colspan="5"
+                            />
                         </tr>
                     @endforelse
                 </tbody>
