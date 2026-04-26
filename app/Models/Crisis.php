@@ -26,6 +26,7 @@ class Crisis extends Model
         'whatsapp_enabled',
         'wizard_mode',
         'multi_photo_enabled',
+        'multi_photo_max',
         'crisis_type_default',
         'data_retention_days',
     ];
@@ -39,6 +40,7 @@ class Crisis extends Model
             'conflict_context' => 'boolean',
             'whatsapp_enabled' => 'boolean',
             'multi_photo_enabled' => 'boolean',
+            'multi_photo_max' => 'integer',
             'data_retention_days' => 'integer',
         ];
     }

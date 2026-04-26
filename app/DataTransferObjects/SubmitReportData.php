@@ -30,5 +30,11 @@ class SubmitReportData
         public array $moduleResponses = [],
         public mixed $photoFile = null,
         public ?string $photoUrl = null,
+        // Gap-51: optional additional photos when crisis.multi_photo_enabled
+        // is true. Each entry is either a temporary upload (UploadedFile) or
+        // a remote URL string (e.g., from WhatsApp MediaUrl1, MediaUrl2...).
+        // Capped by crisis.multi_photo_max in ReportSubmissionService.
+        public array $additionalPhotoFiles = [],
+        public array $additionalPhotoUrls = [],
     ) {}
 }
