@@ -33,6 +33,8 @@ new class extends Component
 
     public function createCrisis(): void
     {
+        $this->authorize('create', Crisis::class);
+
         $this->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:crises,slug',
@@ -56,6 +58,7 @@ new class extends Component
     public function updateCrisis(string $id): void
     {
         $crisis = Crisis::findOrFail($id);
+        $this->authorize('update', $crisis);
 
         $this->validate([
             'name' => 'required|string|max:255',
@@ -96,6 +99,7 @@ new class extends Component
     public function toggleStatus(string $id): void
     {
         $crisis = Crisis::findOrFail($id);
+        $this->authorize('update', $crisis);
         $newStatus = $crisis->status === 'active' ? 'archived' : 'active';
         $crisis->update(['status' => $newStatus]);
         $this->loadCrises();
@@ -103,7 +107,9 @@ new class extends Component
 
     public function deleteCrisis(string $id): void
     {
-        Crisis::findOrFail($id)->delete();
+        $crisis = Crisis::findOrFail($id);
+        $this->authorize('delete', $crisis);
+        $crisis->delete();
         $this->loadCrises();
     }
 };

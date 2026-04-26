@@ -29,6 +29,8 @@ new class extends Component
 
     public function createUser(): void
     {
+        $this->authorize('create', UndpUser::class);
+
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:undp_users,email',
@@ -51,13 +53,16 @@ new class extends Component
     public function toggleActive(string $id): void
     {
         $user = UndpUser::findOrFail($id);
+        $this->authorize('update', $user);
         $user->update(['is_active' => ! $user->is_active]);
         $this->loadUsers();
     }
 
     public function deleteUser(string $id): void
     {
-        UndpUser::findOrFail($id)->delete();
+        $user = UndpUser::findOrFail($id);
+        $this->authorize('delete', $user);
+        $user->delete();
         $this->loadUsers();
     }
 };
