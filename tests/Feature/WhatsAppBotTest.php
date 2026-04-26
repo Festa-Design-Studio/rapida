@@ -21,6 +21,76 @@ it('starts a WhatsApp session and receives greeting', function () {
     $response->assertSee('Welcome to RAPIDA', false);
 });
 
+it('returns the conflict-mode location prompt after photo upload in a conflict crisis', function () {
+    // PRD V2 Persona E + Hall lesson 8: in a conflict crisis the WhatsApp
+    // bot must not ask for GPS or a WhatsApp location pin — it must ask
+    // for a landmark / street name / three-word code instead. The lang
+    // key whatsapp.location_conflict_mode is the service's response when
+    // session.conflict_context is true.
+    //
+    // NOTE: this test runs in English only because the bot's session
+    // language is detected from the user's message body (see
+    // detectLanguage() in WhatsAppBotService) and never reads
+    // crisis.default_language — that's a separate bug tracked as a
+    // follow-up gap. Lang-key existence in the other 5 locales is
+    // asserted in the next test.
+    Crisis::factory()->create([
+        'slug' => 'aleppo-conflict-test',
+        'status' => 'active',
+        'conflict_context' => true,
+    ]);
+    $from = 'whatsapp:+999000111';
+
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => 'RAPIDA aleppo-conflict-test']);
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => $from,
+        'Body' => '',
+        'MediaUrl0' => 'https://example.com/photo.jpg',
+    ]);
+
+    $expected = trans('whatsapp.location_conflict_mode', [], 'en');
+    $standardPrompt = trans('whatsapp.photo_received_send_location', [], 'en');
+
+    $response->assertOk();
+    $response->assertSeeText($expected);
+    $response->assertDontSeeText($standardPrompt);
+});
+
+it('returns the standard location prompt after photo upload in non-conflict crises', function () {
+    Crisis::factory()->create([
+        'slug' => 'standard-flood-test',
+        'status' => 'active',
+        'conflict_context' => false,
+    ]);
+    $from = 'whatsapp:+233200000000';
+
+    $this->postJson('/api/v1/webhooks/whatsapp', ['From' => $from, 'Body' => 'RAPIDA standard-flood-test']);
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => $from,
+        'Body' => '',
+        'MediaUrl0' => 'https://example.com/photo.jpg',
+    ]);
+
+    $standard = trans('whatsapp.photo_received_send_location', [], 'en');
+    $conflict = trans('whatsapp.location_conflict_mode', [], 'en');
+
+    $response->assertOk();
+    $response->assertSeeText($standard);
+    $response->assertDontSeeText($conflict);
+});
+
+it('has the location_conflict_mode key translated in every UN locale', function (string $locale) {
+    // Lang-key parity check independent of the bot's runtime language
+    // detection. Protects against a future PR dropping the conflict-mode
+    // key from any locale's whatsapp.php file.
+    $value = trans('whatsapp.location_conflict_mode', [], $locale);
+
+    expect($value)->not->toBe('whatsapp.location_conflict_mode')
+        ->and($value)->not->toBeEmpty();
+})->with(['en', 'fr', 'ar', 'es', 'zh', 'ru']);
+
 it('processes photo step', function () {
     Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
 
