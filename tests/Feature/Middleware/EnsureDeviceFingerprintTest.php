@@ -56,7 +56,7 @@ it('issues the device fingerprint cookie on first visit', function () {
 it('preserves an existing cookie instead of issuing a new one', function () {
     Crisis::factory()->create(['status' => 'active', 'conflict_context' => false]);
 
-    $response = $this->withCookie(EnsureDeviceFingerprint::COOKIE, 'existing-uuid-1234')
+    $response = $this->withUnencryptedCookie(EnsureDeviceFingerprint::COOKIE, 'existing-uuid-1234')
         ->get('/my-reports');
 
     $response->assertSuccessful();
@@ -88,7 +88,7 @@ it('returns the reporters reports when the cookie matches', function () {
         'submitted_at' => now(),
     ]);
 
-    $response = $this->withCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
+    $response = $this->withUnencryptedCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
         ->get('/my-reports');
 
     $response->assertSuccessful();
@@ -102,7 +102,7 @@ it('persists the cookie value as device_fingerprint_id when a new report is subm
 
     // Step 1: submit a report with the cookie present (mirrors the wizard
     // and API submission paths — both read request()->cookie(...)).
-    $submitResponse = $this->withCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
+    $submitResponse = $this->withUnencryptedCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
         ->postJson('/api/v1/reports', [
             'crisis_slug' => $crisis->slug,
             'damage_level' => 'partial',
@@ -121,7 +121,7 @@ it('persists the cookie value as device_fingerprint_id when a new report is subm
 
     // Step 2: revisit /my-reports with the same cookie → must include
     // the just-submitted report.
-    $myReports = $this->withCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
+    $myReports = $this->withUnencryptedCookie(EnsureDeviceFingerprint::COOKIE, $fingerprint)
         ->get('/my-reports');
 
     $myReports->assertSuccessful();
