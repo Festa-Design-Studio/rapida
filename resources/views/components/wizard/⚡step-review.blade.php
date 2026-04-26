@@ -38,7 +38,7 @@ new class extends Component {
                     default => null,
                 },
                 description: $this->stepData['description'] ?? null,
-                deviceFingerprintId: $this->conflictMode ? null : request()->input('device_fingerprint_id'),
+                deviceFingerprintId: $this->conflictMode ? null : request()->cookie(\App\Http\Middleware\EnsureDeviceFingerprint::COOKIE),
                 accountId: auth()->id(),
                 buildingFootprintId: $this->stepData['buildingFootprintId'] ?? null,
                 locationMethod: $this->stepData['locationMethod'] ?? 'coordinate_only',

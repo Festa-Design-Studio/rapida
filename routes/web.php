@@ -9,6 +9,7 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ReporterController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\EnsureCrisisIsActive;
+use App\Http\Middleware\EnsureDeviceFingerprint;
 use App\Http\Middleware\EnsureIsOperator;
 use App\Http\Middleware\SetLocaleFromCrisis;
 use App\Models\Crisis;
@@ -45,8 +46,10 @@ Route::middleware(['auth:undp', EnsureIsOperator::class])->prefix('admin')->name
     Route::get('/users', fn () => view('admin.users'))->name('users.index');
 });
 
-// All public routes use SetLocaleFromCrisis to respect session locale
-Route::middleware(SetLocaleFromCrisis::class)->group(function () {
+// All public routes use SetLocaleFromCrisis to respect session locale.
+// EnsureDeviceFingerprint issues a stable UUID cookie so anonymous
+// reporters can re-find their submissions on /my-reports.
+Route::middleware([SetLocaleFromCrisis::class, EnsureDeviceFingerprint::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('map-home');
 
     Route::get('/crisis/{crisis:slug}', [ReporterController::class, 'show'])
@@ -84,7 +87,7 @@ Route::middleware(SetLocaleFromCrisis::class)->group(function () {
 
         // Filter by authenticated account or device fingerprint cookie
         $accountId = auth()->id();
-        $fingerprint = $request->cookie('rapida_device_fingerprint');
+        $fingerprint = $request->cookie(EnsureDeviceFingerprint::COOKIE);
 
         if ($accountId) {
             $query->where('account_id', $accountId);
