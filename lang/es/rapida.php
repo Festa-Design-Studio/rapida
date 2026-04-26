@@ -154,4 +154,12 @@ return [
     'ai_confidence_medium' => 'Confianza media',
     'ai_confidence_low' => 'Confianza baja',
     'ai_suggestion_with_confidence' => 'Creemos que el nivel de daño es :level (:percent de confianza). ¿Te parece correcto?',
+
+    // Gap-08: danger-zone banner
+    'danger_zone_caution_label' => 'Esta area esta senalada con precaucion',
+    'danger_zone_warning_label' => 'Esta area lleva una advertencia ahora',
+    'danger_zone_critical_label' => 'Esta area necesita atencion adicional ahora',
+    'danger_zone_default_body' => 'Los equipos de campo han senalado esta area. Tenga cuidado si debe estar aqui.',
+    'danger_zone_field_team_note' => 'Informacion compartida por los equipos de campo del PNUD',
+    'dismiss' => 'Cerrar',
 ];

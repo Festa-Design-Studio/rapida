@@ -154,4 +154,12 @@ return [
     'ai_confidence_medium' => '中等置信度',
     'ai_confidence_low' => '低置信度',
     'ai_suggestion_with_confidence' => '我们认为损坏程度为 :level（置信度 :percent）。看起来对吗？',
+
+    // Gap-08: danger-zone banner
+    'danger_zone_caution_label' => '此区域已被标记为需注意',
+    'danger_zone_warning_label' => '此区域目前有警告',
+    'danger_zone_critical_label' => '此区域目前需要格外注意',
+    'danger_zone_default_body' => '现场团队已标记此区域。如果您必须在这里，请小心。',
+    'danger_zone_field_team_note' => '由开发计划署现场团队共享的信息',
+    'dismiss' => '关闭',
 ];

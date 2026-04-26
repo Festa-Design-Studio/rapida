@@ -158,4 +158,12 @@ return [
     'sync_synced' => 'Synchronise',
     'sync_pending' => 'En attente de synchronisation',
     'sync_failed' => 'Echec de synchronisation',
+
+    // Gap-08: danger-zone banner
+    'danger_zone_caution_label' => 'Cette zone est signalee, soyez prudent',
+    'danger_zone_warning_label' => 'Cette zone fait l\'objet d\'un avertissement',
+    'danger_zone_critical_label' => 'Cette zone necessite une attention particuliere',
+    'danger_zone_default_body' => 'Les equipes de terrain ont signale cette zone. Soyez prudent si vous devez y aller.',
+    'danger_zone_field_team_note' => 'Information partagee par les equipes de terrain du PNUD',
+    'dismiss' => 'Fermer',
 ];

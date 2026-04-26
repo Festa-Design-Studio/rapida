@@ -83,7 +83,17 @@ Six UN languages (en, fr, ar, es, zh, ru). RTL layout for Arabic via `dir="rtl"`
 
 **Key files:** `app/Http/Middleware/SetLocaleFromCrisis.php`
 
-### 4.4 Resilience
+### 4.4 Danger Zones (information-as-service incentive)
+
+Operators can flag specific H3 cells in a crisis as currently dangerous (post-event flooding still standing, building collapse risk, blocked road) so reporters approaching that area receive a calm, trauma-informed warning before they put themselves further at risk. Implements the "information-as-service" incentive UNDP webinar named: non-monetary value the reporter receives in return for their report.
+
+Two gates protect against misuse: (1) `crises.danger_zones_enabled` (boolean, default false) — operators must opt in per crisis; (2) any crisis with `conflict_context = true` returns no zones regardless of the flag — surfacing operator-flagged cells in a conflict zone would draw exactly the attention conflict mode is designed to avoid. Both gates live in `DangerZoneService::isAvailable()` so the policy is testable in isolation.
+
+Storage: `danger_zones` table with `crisis_id`, `h3_cell_id`, `severity` (caution/warning/critical), optional `note`, `created_by` (UndpUser), `expires_at`. Unique on `(crisis_id, h3_cell_id)` — operators replace by deleting + adding rather than editing in place. Public API at `GET /api/v1/crises/{slug}/danger-zones` returns `{feature_enabled, zones[]}` ready for the PWA service-worker to cache for offline reach. The `<x-molecules.danger-zone-banner>` component carries the trauma-informed copy via `lang/{6}/rapida.php` keys (`danger_zone_caution_label` etc.) — 6-locale parity enforced.
+
+**Key files:** `app/Models/DangerZone.php`, `app/Services/DangerZoneService.php`, `app/Http/Controllers/Api/DangerZoneController.php`, `resources/views/components/molecules/danger-zone-banner.blade.php`
+
+### 4.5 Resilience
 
 `CircuitBreakerService` wraps external calls (AI sidecar, translation) with a 5-failure threshold and 30-second open window, using cache-backed state (closed/open/half-open). `BackpressureThrottle` middleware measures queue depth and signals pressure to clients. `PauseModeService` allows operators to pause an entire crisis's intake via a cache flag, checked before submission processing.
 

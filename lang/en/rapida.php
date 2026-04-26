@@ -158,4 +158,12 @@ return [
     'sync_synced' => 'Synced',
     'sync_pending' => 'Pending sync',
     'sync_failed' => 'Sync failed',
+
+    // Gap-08: danger-zone banner. Trauma-informed copy — calm, never alarming.
+    'danger_zone_caution_label' => 'This area is flagged for caution',
+    'danger_zone_warning_label' => 'This area carries a warning right now',
+    'danger_zone_critical_label' => 'This area needs extra care right now',
+    'danger_zone_default_body' => 'Field teams have flagged this area. Take care if you must be here.',
+    'danger_zone_field_team_note' => 'Information shared by UNDP field teams',
+    'dismiss' => 'Dismiss',
 ];

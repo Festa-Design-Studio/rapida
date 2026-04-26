@@ -154,4 +154,12 @@ return [
     'ai_confidence_medium' => 'Средняя уверенность',
     'ai_confidence_low' => 'Низкая уверенность',
     'ai_suggestion_with_confidence' => 'Мы считаем, что это :level (уверенность: :percent). Похоже на правду?',
+
+    // Gap-08: danger-zone banner
+    'danger_zone_caution_label' => 'Эта зона помечена для осторожности',
+    'danger_zone_warning_label' => 'В настоящее время эта зона несет предупреждение',
+    'danger_zone_critical_label' => 'Эта зона нуждается в дополнительном внимании прямо сейчас',
+    'danger_zone_default_body' => 'Полевые команды отметили эту зону. Будьте осторожны, если вам необходимо здесь находиться.',
+    'danger_zone_field_team_note' => 'Информация, предоставленная полевыми командами ПРООН',
+    'dismiss' => 'Закрыть',
 ];

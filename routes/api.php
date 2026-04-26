@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ApiBuildingController;
 use App\Http\Controllers\Api\ApiHeatmapController;
 use App\Http\Controllers\Api\ApiMapPinsController;
 use App\Http\Controllers\Api\ApiReportController;
+use App\Http\Controllers\Api\DangerZoneController;
 use App\Http\Controllers\Api\RecoveryOutcomeController;
 use App\Http\Controllers\WhatsAppWebhookController;
 use App\Http\Middleware\BackpressureThrottle;
@@ -35,6 +36,10 @@ Route::prefix('v1')->middleware(['throttle:rapida-global', BackpressureThrottle:
 
     Route::get('/crises/{slug}/outcomes', [RecoveryOutcomeController::class, 'index'])
         ->name('api.outcomes.index');
+
+    Route::get('/crises/{slug}/danger-zones', [DangerZoneController::class, 'index'])
+        ->middleware('throttle:rapida-pins')
+        ->name('api.danger-zones');
 
     Route::post('/crises/{slug}/outcomes', [RecoveryOutcomeController::class, 'store'])
         ->middleware('auth:undp')
