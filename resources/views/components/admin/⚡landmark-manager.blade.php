@@ -35,6 +35,8 @@ new class extends Component
 
     public function createLandmark(): void
     {
+        $this->authorize('create', Landmark::class);
+
         $this->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:100',
@@ -58,7 +60,9 @@ new class extends Component
 
     public function deleteLandmark(string $id): void
     {
-        Landmark::findOrFail($id)->delete();
+        $landmark = Landmark::findOrFail($id);
+        $this->authorize('delete', $landmark);
+        $landmark->delete();
         $this->loadLandmarks();
     }
 };
