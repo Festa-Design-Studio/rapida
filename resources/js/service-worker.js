@@ -44,7 +44,7 @@ registerRoute(
     new NetworkFirst({ cacheName: 'rapida-pins-v1', networkTimeoutSeconds: 3 })
 );
 
-// 6. Report submission — Background Sync
+// 6. Report submission — Background Sync (reporter path, /api/v1/reports)
 const bgSyncPlugin = new BackgroundSyncPlugin('rapida-report-queue', {
     maxRetentionTime: 24 * 60,
 });
@@ -53,6 +53,28 @@ registerRoute(
     ({ url, request }) => url.pathname === '/api/v1/reports' && request.method === 'POST',
     new NetworkFirst({ plugins: [bgSyncPlugin] }),
     'POST'
+);
+
+// 6b. Field coordinator writes — Background Sync (gap-33). Field staff in
+// the dashboard hit flag/assign/verify endpoints from a phone with
+// intermittent signal. Without queueing, those writes silently fail when
+// connectivity drops mid-action. Same plugin, separate queue name so the
+// retry budget for staff writes is independent of reporter submissions.
+const staffSyncPlugin = new BackgroundSyncPlugin('rapida-staff-write-queue', {
+    maxRetentionTime: 24 * 60,
+});
+
+const STAFF_WRITE_PATTERN = /^\/dashboard\/reports\/[a-z0-9-]+\/(flag|assign|verify)$/;
+
+registerRoute(
+    ({ url, request }) => STAFF_WRITE_PATTERN.test(url.pathname) && (request.method === 'POST' || request.method === 'PATCH'),
+    new NetworkFirst({ plugins: [staffSyncPlugin] }),
+    'POST'
+);
+registerRoute(
+    ({ url, request }) => STAFF_WRITE_PATTERN.test(url.pathname) && request.method === 'PATCH',
+    new NetworkFirst({ plugins: [staffSyncPlugin] }),
+    'PATCH'
 );
 
 // 7. Offline fallback
