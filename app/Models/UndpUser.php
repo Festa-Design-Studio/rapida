@@ -9,10 +9,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 class UndpUser extends Authenticatable
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, LogsActivity, SoftDeletes;
+
+    /**
+     * Spatie/laravel-activitylog: every operator/staff mutation produces
+     * an audit row. CRITICAL: `password` is excluded — under no
+     * circumstances may bcrypt hashes leak into the activity_log table
+     * (queryable by analyst dashboard). `remember_token` is also out.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'role', 'crisis_id', 'is_active'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges()
+            ->useLogName('undp_user');
+    }
 
     protected $fillable = [
         'name',
