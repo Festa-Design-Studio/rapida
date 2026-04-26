@@ -74,9 +74,16 @@ class WhatsAppBotService
             return ['message' => __('whatsapp.whatsapp_disabled', [], $lang)];
         }
 
+        // Session language priority: explicit body keyword > crisis default > en fallback.
+        // Operators configure default_language on each crisis (e.g., Accra=en, Aleppo=ar);
+        // bot must honour that unless the user's first message body explicitly indicates
+        // a different language via keyword (e.g., "BONJOUR" -> fr).
+        $bodyLang = $this->detectLanguageFromBody($body);
+        $sessionLang = $bodyLang ?? $crisis?->default_language ?? 'en';
+
         $session = [
             'step' => 1,
-            'language' => $lang,
+            'language' => $sessionLang,
             'crisis_slug' => $crisisSlug,
             'conflict_context' => $crisis ? $this->conflictModeService->isConflict($crisis) : false,
             'idempotency_key' => Str::uuid()->toString(),
@@ -84,40 +91,20 @@ class WhatsAppBotService
         ];
         $this->setSession($key, $session);
 
-        // Hall lesson 12 (detect-then-confirm): when the body-keyword detector
-        // chose the language (rather than falling through to the default), prepend
-        // an inline confirmation so the user can correct without restarting.
-        // No confirmation when nothing in the body signalled — silently using the
-        // default is honest there because the bot has no claim to confirm.
-        $welcome = __('whatsapp.welcome_send_photo', [], $lang);
-        if ($this->bodyExplicitlyIndicatesLanguage($body)) {
-            $confirm = __('whatsapp.language_inline_confirm', [], $lang);
+        // Hall lesson 12 (detect-then-confirm): when the body explicitly
+        // signalled a language (rather than falling through to the crisis
+        // default), prepend an inline confirmation so the user can correct
+        // without restarting. No confirmation when nothing in the body
+        // signalled — silently using the crisis default is honest there
+        // because the bot has no claim to confirm.
+        $welcome = __('whatsapp.welcome_send_photo', [], $sessionLang);
+        if ($bodyLang !== null) {
+            $confirm = __('whatsapp.language_inline_confirm', [], $sessionLang);
 
             return ['message' => $confirm."\n\n".$welcome];
         }
 
         return ['message' => $welcome];
-    }
-
-    /**
-     * Did the user's first message body actually carry a language signal,
-     * or did detectLanguage() fall through to its default? Used by stepStart
-     * to decide whether to prepend the inline confirmation per Hall lesson 12.
-     */
-    private function bodyExplicitlyIndicatesLanguage(string $body): bool
-    {
-        $body = strtolower(trim($body));
-
-        return str_starts_with($body, 'fr')
-            || in_array($body, ['bonjour', 'oui'], true)
-            || str_starts_with($body, 'ar')
-            || (bool) preg_match('/[\x{0600}-\x{06FF}]/u', $body)
-            || str_starts_with($body, 'es')
-            || in_array($body, ['hola', 'si'], true)
-            || str_starts_with($body, 'zh')
-            || (bool) preg_match('/[\x{4E00}-\x{9FFF}]/u', $body)
-            || str_starts_with($body, 'ru')
-            || (bool) preg_match('/[\x{0400}-\x{04FF}]/u', $body);
     }
 
     /**
@@ -316,6 +303,17 @@ class WhatsAppBotService
 
     private function detectLanguage(string $body): string
     {
+        return $this->detectLanguageFromBody($body) ?? 'en';
+    }
+
+    /**
+     * Returns the locale code if the body explicitly signals one (a keyword
+     * or a script range), or null when the body offers no signal. Callers
+     * use null to fall back to crisis.default_language rather than silently
+     * defaulting to English.
+     */
+    private function detectLanguageFromBody(string $body): ?string
+    {
         $body = strtolower(trim($body));
 
         return match (true) {
@@ -324,7 +322,7 @@ class WhatsAppBotService
             str_starts_with($body, 'es'), in_array($body, ['hola', 'si']) => 'es',
             str_starts_with($body, 'zh'), (bool) preg_match('/[\x{4E00}-\x{9FFF}]/u', $body) => 'zh',
             str_starts_with($body, 'ru'), (bool) preg_match('/[\x{0400}-\x{04FF}]/u', $body) => 'ru',
-            default => 'en',
+            default => null,
         };
     }
 

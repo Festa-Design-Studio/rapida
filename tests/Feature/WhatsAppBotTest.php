@@ -91,6 +91,52 @@ it('has the location_conflict_mode key translated in every UN locale', function 
         ->and($value)->not->toBeEmpty();
 })->with(['en', 'fr', 'ar', 'es', 'zh', 'ru']);
 
+it('uses crisis.default_language when the body offers no language keyword', function (string $defaultLanguage) {
+    Crisis::factory()->create([
+        'slug' => "test-{$defaultLanguage}-default",
+        'status' => 'active',
+        'default_language' => $defaultLanguage,
+    ]);
+    $from = "whatsapp:+999111{$defaultLanguage}";
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => $from,
+        'Body' => "RAPIDA test-{$defaultLanguage}-default",
+    ]);
+
+    $expected = trans('whatsapp.welcome_send_photo', [], $defaultLanguage);
+    $englishWelcome = trans('whatsapp.welcome_send_photo', [], 'en');
+
+    $response->assertOk();
+    $response->assertSeeText($expected);
+    if ($defaultLanguage !== 'en') {
+        $response->assertDontSeeText($englishWelcome);
+    }
+})->with(['en', 'fr', 'ar', 'es', 'zh', 'ru']);
+
+it('lets explicit body keywords override crisis.default_language', function () {
+    // Crisis default is English, but the user types "BONJOUR" — the body
+    // signal wins, the bot replies in French.
+    Crisis::factory()->create([
+        'slug' => 'fr-override-test',
+        'status' => 'active',
+        'default_language' => 'en',
+    ]);
+    $from = 'whatsapp:+999222000';
+
+    $response = $this->postJson('/api/v1/webhooks/whatsapp', [
+        'From' => $from,
+        'Body' => 'bonjour',
+    ]);
+
+    // bonjour is not a known crisis slug -> the bot still creates a session
+    // (against the default active crisis) but the language is fr from the
+    // body keyword, not en from the crisis default.
+    $french = trans('whatsapp.welcome_send_photo', [], 'fr');
+    $response->assertOk();
+    $response->assertSeeText($french);
+});
+
 it('processes photo step', function () {
     Crisis::factory()->create(['slug' => 'accra-flood-2026', 'status' => 'active']);
 
