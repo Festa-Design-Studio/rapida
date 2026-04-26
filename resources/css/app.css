@@ -18,7 +18,13 @@
   }
 
   html {
-    font-family: 'Noto Sans', system-ui, sans-serif;
+    /* Gap-45: layered cascade — Latin via Noto Sans + Inter, Arabic via Noto
+       Sans Arabic, Cyrillic via Noto Sans Cyrillic subset, CJK via Noto Sans
+       SC, finally system fonts as ultimate fallback. Browsers pick the first
+       font with a glyph for each character. */
+    font-family: 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Cyrillic',
+                 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont,
+                 'PingFang SC', 'Microsoft YaHei', sans-serif;
     font-size: 16px;
     line-height: 1.6;
     color: #333333; /* grey-900 — text-primary */
@@ -27,8 +33,16 @@
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Noto Sans Arabic', 'Noto Sans Cyrillic',
+                 'Noto Sans SC', system-ui, -apple-system, sans-serif;
   }
+
+  /* Gap-45: locale-specific overrides so the script-appropriate font renders
+     first regardless of glyph-fallback order. :lang() selectors honour the
+     <html lang="..."> attribute set by SetLocaleFromCrisis middleware. */
+  :lang(ar) { font-family: 'Noto Sans Arabic', 'Noto Sans', system-ui, sans-serif; }
+  :lang(ru) { font-family: 'Noto Sans Cyrillic', 'Noto Sans', system-ui, sans-serif; }
+  :lang(zh) { font-family: 'Noto Sans SC', 'Noto Sans', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
 
   /* iOS auto-zoom prevention: inputs below 16px trigger zoom on focus */
   input, select, textarea {
