@@ -33,7 +33,7 @@
         <label for="{{ $inputId }}" class="text-label font-medium text-slate-700">
             {{ $label }}
             @if($required)
-                <span class="text-crisis-rose-700 ml-0.5" aria-hidden="true">*</span>
+                <span class="text-crisis-rose-700 ms-0.5" aria-hidden="true">*</span>
             @endif
         </label>
     @endif

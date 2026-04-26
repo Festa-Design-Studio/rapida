@@ -126,7 +126,7 @@ new class extends Component
                     type="file"
                     accept=".csv,text/csv"
                     wire:model="csvFile"
-                    class="text-body-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-rapida-blue-50 file:text-rapida-blue-700 hover:file:bg-rapida-blue-100"
+                    class="text-body-sm text-slate-600 file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-rapida-blue-50 file:text-rapida-blue-700 hover:file:bg-rapida-blue-100"
                 />
                 <x-atoms.button type="submit" variant="primary" size="sm">
                     Import
@@ -239,7 +239,7 @@ new class extends Component
             <h2 class="text-h4 font-heading font-semibold text-slate-900">All Landmarks</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead class="bg-surface-page">
                     <tr class="border-b border-slate-100">
                         <th class="px-4 py-3 font-medium text-slate-600">Name</th>

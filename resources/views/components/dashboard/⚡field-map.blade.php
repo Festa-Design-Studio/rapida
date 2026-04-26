@@ -48,7 +48,7 @@ new class extends Component
                 x-model="damageFilter"
                 @change="applyFilter()"
                 aria-label="{{ __('rapida.damage_level_label') }}"
-                class="h-10 px-3 pr-8 text-body-sm font-sans border border-slate-300 rounded-lg bg-white
+                class="h-10 px-3 pe-8 text-body-sm font-sans border border-slate-300 rounded-lg bg-white
                        focus:outline-none focus:border-rapida-blue-700 focus:ring-1 focus:ring-rapida-blue-700
                        appearance-none cursor-pointer transition-colors duration-fast"
             >
@@ -64,7 +64,7 @@ new class extends Component
                 x-model="infraFilter"
                 @change="applyFilter()"
                 aria-label="{{ __('rapida.infrastructure') }}"
-                class="h-10 px-3 pr-8 text-body-sm font-sans border border-slate-300 rounded-lg bg-white
+                class="h-10 px-3 pe-8 text-body-sm font-sans border border-slate-300 rounded-lg bg-white
                        focus:outline-none focus:border-rapida-blue-700 focus:ring-1 focus:ring-rapida-blue-700
                        appearance-none cursor-pointer transition-colors duration-fast"
             >
@@ -79,7 +79,7 @@ new class extends Component
             </select>
         </div>
 
-        <div class="ml-auto flex items-center gap-2 text-body-sm text-text-secondary">
+        <div class="ms-auto flex items-center gap-2 text-body-sm text-text-secondary">
             <span class="font-semibold text-text-primary">{{ $totalReports }}</span>
             <span>{{ __('rapida.recent_reports') }}</span>
         </div>

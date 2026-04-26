@@ -18,7 +18,7 @@
         {{-- Sidebar --}}
         <aside
             x-bind:class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed lg:sticky lg:translate-x-0 top-0 lg:top-0 left-0 z-40 lg:z-auto
+            class="fixed lg:sticky lg:translate-x-0 top-0 lg:top-0 start-0 z-40 lg:z-auto
                    w-64 h-screen overflow-y-auto
                    bg-surface-page border-r border-grey-100
                    p-padding-card pt-section

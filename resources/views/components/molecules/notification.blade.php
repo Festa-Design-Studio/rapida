@@ -58,7 +58,7 @@
         <x-atoms.button
             variant="ghost"
             size="sm"
-            class="shrink-0 -mt-1 -mr-1"
+            class="shrink-0 -mt-1 -me-1"
             @click="visible = false"
             aria-label="Dismiss notification"
         >

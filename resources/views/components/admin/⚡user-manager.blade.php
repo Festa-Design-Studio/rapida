@@ -128,7 +128,7 @@ new class extends Component
             <h2 class="text-h4 font-heading font-semibold text-slate-900">All Users</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead class="bg-surface-page">
                     <tr class="border-b border-slate-100">
                         <th class="px-4 py-3 font-medium text-slate-600">Name</th>

@@ -45,7 +45,7 @@
     </div>
 
     {{-- Timeline --}}
-    <div class="relative pl-6" role="list" aria-label="Report versions">
+    <div class="relative ps-6" role="list" aria-label="Report versions">
         {{-- Vertical line --}}
         <div class="absolute left-2.5 top-2 bottom-2 w-0.5 bg-slate-200" aria-hidden="true"></div>
 
@@ -72,7 +72,7 @@
                      aria-hidden="true"></div>
 
                 {{-- Version card --}}
-                <div class="ml-4 rounded-lg border {{ $isFirst ? 'border-rapida-blue-100 bg-rapida-blue-50/50' : 'border-slate-200 bg-white' }} p-4">
+                <div class="ms-4 rounded-lg border {{ $isFirst ? 'border-rapida-blue-100 bg-rapida-blue-50/50' : 'border-slate-200 bg-white' }} p-4">
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center gap-2">
                             <span class="text-body font-semibold text-slate-900">v{{ $version['version'] }}</span>

@@ -41,7 +41,7 @@
         <button
             type="button"
             @click="dismiss()"
-            class="shrink-0 p-2 -mt-1 -mr-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/50 transition-colors"
+            class="shrink-0 p-2 -mt-1 -me-1 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/50 transition-colors"
             aria-label="Dismiss"
         >
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">

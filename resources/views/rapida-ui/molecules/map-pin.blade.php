@@ -55,17 +55,17 @@
     <h2 class="text-h3 font-heading font-semibold mb-element">Variants</h2>
     <div class="rounded-lg bg-surface-form border border-grey-100 p-padding-card">
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead>
                     <tr class="border-b border-grey-100">
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Variant</th>
-                        <th class="py-3 pr-4 font-medium text-text-secondary">Damage Level</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Variant</th>
+                        <th class="py-3 pe-4 font-medium text-text-secondary">Damage Level</th>
                         <th class="py-3 font-medium text-text-secondary">Usage</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-grey-100">
-                    <tr><td class="py-3 pr-4 font-mono text-caption">pin</td><td class="py-3 pr-4">minimal/partial/complete</td><td class="py-3">Single report location on map</td></tr>
-                    <tr><td class="py-3 pr-4 font-mono text-caption">cluster</td><td class="py-3 pr-4">minimal/partial/complete</td><td class="py-3">Multiple reports in one area, shows count</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">pin</td><td class="py-3 pe-4">minimal/partial/complete</td><td class="py-3">Single report location on map</td></tr>
+                    <tr><td class="py-3 pe-4 font-mono text-caption">cluster</td><td class="py-3 pe-4">minimal/partial/complete</td><td class="py-3">Multiple reports in one area, shows count</td></tr>
                 </tbody>
             </table>
         </div>

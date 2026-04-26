@@ -124,7 +124,7 @@ new class extends Component {
                     <button
                         type="button"
                         wire:click="selectLandmark('{{ $lm->id }}', {{ $lm->latitude }}, {{ $lm->longitude }}, '{{ addslashes($lm->name) }}')"
-                        class="text-left p-3 rounded-lg border transition-colors duration-150
+                        class="text-start p-3 rounded-lg border transition-colors duration-150
                                {{ $landmarkText === $lm->name ? 'border-rapida-blue-700 bg-rapida-blue-50' : 'border-slate-200 hover:border-rapida-blue-500 hover:bg-rapida-blue-50/50' }}"
                     >
                         <p class="text-body-sm font-medium text-slate-900 truncate">{{ $lm->name }}</p>

@@ -410,7 +410,7 @@ new class extends Component
             <h2 class="text-h4 font-heading font-semibold text-slate-900">All Crises</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-body-sm text-left">
+            <table class="w-full text-body-sm text-start">
                 <thead class="bg-surface-page">
                     <tr class="border-b border-slate-100">
                         <th class="px-4 py-3 font-medium text-slate-600">Name</th>
@@ -500,7 +500,7 @@ new class extends Component
                                                     Sandbox Setup Required
                                                 </p>
                                                 <p class="text-xs text-amber-700 mt-1">Before reporting via WhatsApp, each user must join the Twilio sandbox:</p>
-                                                <ol class="text-xs text-amber-700 mt-2 ml-4 list-decimal space-y-1">
+                                                <ol class="text-xs text-amber-700 mt-2 ms-4 list-decimal space-y-1">
                                                     <li>Open WhatsApp and add <span class="font-mono font-bold">+1 (415) 523-8886</span></li>
                                                     <li>Send: <span class="font-mono font-bold bg-amber-100 px-1 rounded">join {{ config('services.twilio.sandbox_keyword') }}</span></li>
                                                     <li>Wait for confirmation, then scan the QR code above</li>

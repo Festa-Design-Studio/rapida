@@ -19,10 +19,10 @@
         <label for="{{ $inputId }}" class="text-label font-medium text-slate-700">
             {{ $label }}
             @if($required)
-                <span class="text-crisis-rose-700 ml-0.5" aria-hidden="true">*</span>
+                <span class="text-crisis-rose-700 ms-0.5" aria-hidden="true">*</span>
             @endif
             @if($optional)
-                <span class="text-slate-400 text-caption font-normal ml-1">(optional)</span>
+                <span class="text-slate-400 text-caption font-normal ms-1">(optional)</span>
             @endif
         </label>
     @endif

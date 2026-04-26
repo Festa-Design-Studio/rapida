@@ -41,20 +41,20 @@
 
         <div class="mt-inner pt-inner border-t border-grey-100">
             <div class="overflow-x-auto">
-                <table class="w-full text-body-sm text-left">
+                <table class="w-full text-body-sm text-start">
                     <thead>
                         <tr class="border-b border-grey-100">
-                            <th class="py-3 pr-4 font-medium text-text-secondary">Variant</th>
+                            <th class="py-3 pe-4 font-medium text-text-secondary">Variant</th>
                             <th class="py-3 font-medium text-text-secondary">Usage</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-grey-100">
-                        <tr><td class="py-3 pr-4 font-mono text-caption">primary</td><td class="py-3">Submit report, confirm action, main CTA</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">secondary</td><td class="py-3">Secondary actions like "Save draft", "Add another"</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">ghost</td><td class="py-3">Tertiary actions, cancel, back navigation</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">danger</td><td class="py-3">Destructive actions like "Delete report"</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">safe-exit</td><td class="py-3">Always-visible escape from a form or flow</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">icon-only</td><td class="py-3">Map controls, toolbar actions, close dialogs</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">primary</td><td class="py-3">Submit report, confirm action, main CTA</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">secondary</td><td class="py-3">Secondary actions like "Save draft", "Add another"</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">ghost</td><td class="py-3">Tertiary actions, cancel, back navigation</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">danger</td><td class="py-3">Destructive actions like "Delete report"</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">safe-exit</td><td class="py-3">Always-visible escape from a form or flow</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">icon-only</td><td class="py-3">Map controls, toolbar actions, close dialogs</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -73,18 +73,18 @@
         </div>
         <div class="mt-inner pt-inner border-t border-grey-100">
             <div class="overflow-x-auto">
-                <table class="w-full text-body-sm text-left">
+                <table class="w-full text-body-sm text-start">
                     <thead>
                         <tr class="border-b border-grey-100">
-                            <th class="py-3 pr-4 font-medium text-text-secondary">Size</th>
-                            <th class="py-3 pr-4 font-medium text-text-secondary">Height</th>
+                            <th class="py-3 pe-4 font-medium text-text-secondary">Size</th>
+                            <th class="py-3 pe-4 font-medium text-text-secondary">Height</th>
                             <th class="py-3 font-medium text-text-secondary">Usage</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-grey-100">
-                        <tr><td class="py-3 pr-4 font-mono text-caption">sm</td><td class="py-3 pr-4">40px</td><td class="py-3">Inline actions, table rows</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">md</td><td class="py-3 pr-4">48px</td><td class="py-3">Default — forms, dialogs</td></tr>
-                        <tr><td class="py-3 pr-4 font-mono text-caption">lg</td><td class="py-3 pr-4">56px</td><td class="py-3">Primary CTA, mobile full-width</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">sm</td><td class="py-3 pe-4">40px</td><td class="py-3">Inline actions, table rows</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">md</td><td class="py-3 pe-4">48px</td><td class="py-3">Default — forms, dialogs</td></tr>
+                        <tr><td class="py-3 pe-4 font-mono text-caption">lg</td><td class="py-3 pe-4">56px</td><td class="py-3">Primary CTA, mobile full-width</td></tr>
                     </tbody>
                 </table>
             </div>
