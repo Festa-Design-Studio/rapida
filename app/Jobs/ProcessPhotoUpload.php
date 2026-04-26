@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\DamageReport;
+use App\Services\PhotoExifService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,7 @@ class ProcessPhotoUpload implements ShouldQueue
         public DamageReport $report
     ) {}
 
-    public function handle(): void
+    public function handle(PhotoExifService $exifService): void
     {
         if (! $this->report->photo_url || ! str_starts_with($this->report->photo_url, 'photos/')) {
             return;
@@ -26,35 +27,17 @@ class ProcessPhotoUpload implements ShouldQueue
             return;
         }
 
-        // Strip EXIF by re-encoding the image
         $imageInfo = getimagesize($path);
         if (! $imageInfo) {
             return;
         }
 
-        $mime = $imageInfo['mime'];
-        $image = match ($mime) {
-            'image/jpeg' => imagecreatefromjpeg($path),
-            'image/png' => imagecreatefrompng($path),
-            'image/webp' => imagecreatefromwebp($path),
-            default => null,
-        };
-
-        if (! $image) {
-            return;
+        // Strip device-identifying EXIF tags while preserving GPS + DateTimeOriginal.
+        // Only JPEGs carry EXIF; PNG/WebP have no EXIF block to sanitise here.
+        if ($imageInfo['mime'] === 'image/jpeg') {
+            $exifService->sanitize($path);
         }
 
-        // Re-save without EXIF metadata
-        match ($mime) {
-            'image/jpeg' => imagejpeg($image, $path, 85),
-            'image/png' => imagepng($image, $path),
-            'image/webp' => imagewebp($image, $path, 85),
-            default => null,
-        };
-
-        imagedestroy($image);
-
-        // Compute perceptual hash (average hash) for visual duplicate detection
         $pHash = $this->computePerceptualHash($path);
 
         $this->report->update([

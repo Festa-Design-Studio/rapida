@@ -16,6 +16,7 @@
         "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^4.2",
+        "lsolesen/pel": "^0.9",
         "spatie/laravel-health": "^1.39",
         "twilio/sdk": "^8.11"
     },
