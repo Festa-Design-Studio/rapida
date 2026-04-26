@@ -2,10 +2,14 @@
 
 use App\Models\Crisis;
 use App\Models\Landmark;
+use App\Services\LandmarkBulkImportService;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component
 {
+    use WithFileUploads;
+
     /** @var \Illuminate\Database\Eloquent\Collection<int, Landmark> */
     public $landmarks;
 
@@ -21,6 +25,18 @@ new class extends Component
     public ?float $latitude = null;
 
     public ?float $longitude = null;
+
+    /** Bulk import: uploaded CSV. */
+    public $csvFile = null;
+
+    /**
+     * Bulk import result rendered in the post-import panel. The DTO is
+     * flattened to an array because Livewire can't serialise arbitrary
+     * value objects across the wire boundary.
+     *
+     * @var array{imported: int, skipped: int, total: int, errors: array<int, array{row: int, reason: string}>}|null
+     */
+    public ?array $importResult = null;
 
     public function mount(): void
     {
@@ -58,6 +74,33 @@ new class extends Component
         $this->loadLandmarks();
     }
 
+    public function bulkImport(): void
+    {
+        $this->authorize('create', Landmark::class);
+
+        $this->validate([
+            'csvFile' => 'required|file|max:2048|mimes:csv,txt',
+        ]);
+
+        $service = new LandmarkBulkImportService(auth('undp')->id());
+        $result = $service->import($this->csvFile->getRealPath());
+
+        $this->importResult = [
+            'imported' => $result->imported,
+            'skipped' => $result->skipped,
+            'total' => $result->totalRows(),
+            'errors' => $result->errors,
+        ];
+
+        $this->csvFile = null;
+        $this->loadLandmarks();
+    }
+
+    public function dismissImportResult(): void
+    {
+        $this->importResult = null;
+    }
+
     public function deleteLandmark(string $id): void
     {
         $landmark = Landmark::findOrFail($id);
@@ -69,7 +112,59 @@ new class extends Component
 ?>
 
 <div class="space-y-6">
-    {{-- Create form --}}
+    {{-- CSV bulk import --}}
+    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-h3 font-heading font-semibold text-slate-900 mb-1">Bulk import landmarks</h2>
+        <p class="text-body-sm text-slate-600 mb-4">
+            CSV with header row. Required columns:
+            <code class="font-mono text-caption bg-slate-100 px-1 rounded">name, type, latitude, longitude, crisis_slug</code>.
+            Geocoding is not supported — provide numeric coordinates.
+        </p>
+        <form wire:submit="bulkImport" class="space-y-4">
+            <div class="flex items-center gap-3">
+                <input
+                    type="file"
+                    accept=".csv,text/csv"
+                    wire:model="csvFile"
+                    class="text-body-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-rapida-blue-50 file:text-rapida-blue-700 hover:file:bg-rapida-blue-100"
+                />
+                <x-atoms.button type="submit" variant="primary" size="sm">
+                    Import
+                </x-atoms.button>
+            </div>
+            @error('csvFile')
+                <p class="text-body-sm text-crisis-rose-600" role="alert">{{ $message }}</p>
+            @enderror
+        </form>
+
+        @if($importResult)
+            <div class="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-2">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <p class="text-body-sm font-medium text-slate-900">
+                            Imported {{ $importResult['imported'] }} of {{ $importResult['total'] }} rows
+                        </p>
+                        @if($importResult['skipped'] > 0)
+                            <p class="text-caption text-crisis-rose-700">
+                                {{ $importResult['skipped'] }} row(s) skipped — see details below.
+                            </p>
+                        @endif
+                    </div>
+                    <button type="button" wire:click="dismissImportResult"
+                            class="text-caption text-slate-500 hover:text-slate-700">Dismiss</button>
+                </div>
+                @if(! empty($importResult['errors']))
+                    <ul class="text-caption text-crisis-rose-700 space-y-1 mt-2">
+                        @foreach($importResult['errors'] as $err)
+                            <li>Row {{ $err['row'] }}: {{ $err['reason'] }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        @endif
+    </div>
+
+    {{-- Single-landmark create form --}}
     <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 class="text-h3 font-heading font-semibold text-slate-900 mb-4">Add Landmark</h2>
         <form wire:submit="createLandmark" class="space-y-5">
