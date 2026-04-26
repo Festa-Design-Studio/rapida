@@ -17,7 +17,7 @@ class ExportController extends Controller
 {
     public function csv(Request $request): StreamedResponse
     {
-        $crisis = Crisis::where('status', 'active')->firstOrFail();
+        $crisis = $this->resolveCrisis($request);
 
         $job = new ExportReportsCsv(
             crisisId: $crisis->id,
@@ -25,71 +25,84 @@ class ExportController extends Controller
             startDate: $request->query('start_date'),
             endDate: $request->query('end_date'),
         );
-        $filename = $job->handle();
 
-        return response()->streamDownload(function () use ($filename) {
-            echo Storage::get($filename);
-        }, basename($filename), ['Content-Type' => 'text/csv']);
+        return $this->streamFile($job->handle(), 'text/csv');
     }
 
     public function geojson(Request $request): StreamedResponse
     {
-        $crisis = Crisis::where('status', 'active')->firstOrFail();
+        $crisis = $this->resolveCrisis($request);
 
         $job = new ExportReportsGeoJson(
             crisisId: $crisis->id,
             damageFilter: $request->query('damage_level'),
         );
-        $filename = $job->handle();
 
-        return response()->streamDownload(function () use ($filename) {
-            echo Storage::get($filename);
-        }, basename($filename), ['Content-Type' => 'application/geo+json']);
+        return $this->streamFile($job->handle(), 'application/geo+json');
     }
 
     public function kml(Request $request): StreamedResponse
     {
-        $crisis = Crisis::where('status', 'active')->firstOrFail();
+        $crisis = $this->resolveCrisis($request);
 
         $job = new ExportReportsKml(
             crisisId: $crisis->id,
             damageFilter: $request->query('damage_level'),
         );
-        $filename = $job->handle();
 
-        return response()->streamDownload(function () use ($filename) {
-            echo Storage::get($filename);
-        }, basename($filename), ['Content-Type' => 'application/vnd.google-earth.kml+xml']);
+        return $this->streamFile($job->handle(), 'application/vnd.google-earth.kml+xml');
     }
 
     public function shapefile(Request $request): StreamedResponse
     {
-        $crisis = Crisis::where('status', 'active')->firstOrFail();
+        $crisis = $this->resolveCrisis($request);
 
         $job = new ExportReportsShapefile(
             crisisId: $crisis->id,
             damageFilter: $request->query('damage_level'),
         );
-        $filename = $job->handle();
 
-        return response()->streamDownload(function () use ($filename) {
-            echo Storage::get($filename);
-        }, basename($filename), ['Content-Type' => 'application/zip']);
+        return $this->streamFile($job->handle(), 'application/zip');
     }
 
     public function pdf(Request $request): StreamedResponse
     {
-        $crisis = Crisis::where('status', 'active')->firstOrFail();
+        $crisis = $this->resolveCrisis($request);
 
         $job = new ExportReportsPdf(
             crisisId: $crisis->id,
             damageFilter: $request->query('damage_level'),
         );
-        $filename = $job->handle();
 
+        return $this->streamFile($job->handle(), 'application/pdf');
+    }
+
+    /**
+     * Resolve the target crisis from the request: explicit ?crisis_slug= takes
+     * precedence; otherwise fall back to the most recently created active crisis.
+     * 404s if the requested slug does not match an active crisis, or if no
+     * active crisis exists at all.
+     */
+    private function resolveCrisis(Request $request): Crisis
+    {
+        $slug = $request->query('crisis_slug');
+
+        if ($slug !== null) {
+            return Crisis::where('slug', $slug)
+                ->where('status', 'active')
+                ->firstOrFail();
+        }
+
+        return Crisis::where('status', 'active')
+            ->latest('created_at')
+            ->firstOrFail();
+    }
+
+    private function streamFile(string $filename, string $contentType): StreamedResponse
+    {
         return response()->streamDownload(function () use ($filename) {
             echo Storage::get($filename);
-        }, basename($filename), ['Content-Type' => 'application/pdf']);
+        }, basename($filename), ['Content-Type' => $contentType]);
     }
 
     public function gpkg(Request $request): StreamedResponse
