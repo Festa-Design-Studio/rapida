@@ -162,7 +162,7 @@ new class extends Component {
                 infrastructureName: $this->stepData['infrastructureName'] ?? $this->infrastructureName,
                 debrisRequired: $this->resolveDebrisRequired(),
                 description: $this->stepData['description'] ?? $this->description,
-                deviceFingerprintId: $this->conflictMode ? null : request()->input('device_fingerprint_id'),
+                deviceFingerprintId: $this->conflictMode ? null : request()->cookie(\App\Http\Middleware\EnsureDeviceFingerprint::COOKIE),
                 accountId: auth()->id(),
                 buildingFootprintId: $this->stepData['buildingFootprintId'] ?? $this->buildingFootprintId,
                 locationMethod: $this->stepData['locationMethod'] ?? $this->locationMethod,
