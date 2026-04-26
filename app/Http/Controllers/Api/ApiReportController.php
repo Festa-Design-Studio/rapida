@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DataTransferObjects\SubmitReportData;
+use App\Exceptions\ReportRateLimitedException;
 use App\Http\Controllers\Controller;
 use App\Models\Crisis;
 use App\Services\PauseModeService;
@@ -69,7 +70,17 @@ class ApiReportController extends Controller
             photoGuidanceShown: $validated['photo_guidance_shown'] ?? false,
         );
 
-        $report = $this->submissionService->submit($data);
+        try {
+            $report = $this->submissionService->submit($data);
+        } catch (ReportRateLimitedException $e) {
+            // Gap-52: per-building anti-gaming rule fired. Return 429 with the
+            // localised user-facing message so the wizard can show the
+            // "you've already reported this building today" copy.
+            return response()->json([
+                'message' => $e->getMessage(),
+                'reason' => $e->reason,
+            ], 429);
+        }
 
         return response()->json([
             'report_id' => $report->id,
