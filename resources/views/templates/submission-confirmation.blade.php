@@ -15,6 +15,18 @@
         'syncStatus' => 'pending',
         'submittedAt' => now()->format('Y-m-d H:i'),
     ];
+
+    // Gap-49: real impact counter scoped to the just-submitted report's H3 cell
+    // and (for logged-in accounts) the reporter's submission history. Falls
+    // back to zero when no report context is available — e.g., a direct visit
+    // without a ?report= query param.
+    $analytics = app(\App\Services\AnalyticsQueryService::class);
+    $communityCount = $report
+        ? $analytics->reportsInH3Cell((string) $report->crisis_id, $report->h3_cell_id)
+        : 0;
+    $userReportCount = $report && $report->account_id
+        ? $analytics->reportsByAccount((string) $report->crisis_id, (string) $report->account_id)
+        : 0;
 @endphp
 
 <div class="min-h-screen flex flex-col bg-surface-page">
@@ -30,10 +42,10 @@
             :submittedAt="$reportData['submittedAt']"
         />
 
-        {{-- Engagement Panel --}}
+        {{-- Engagement Panel — gap-49 wiring --}}
         <x-organisms.engagement-panel
-            :communityCount="142"
-            :userReportCount="3"
+            :communityCount="$communityCount"
+            :userReportCount="$userReportCount"
         />
     </main>
 </div>
