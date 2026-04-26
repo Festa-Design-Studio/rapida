@@ -72,6 +72,7 @@ class ExportController extends Controller
         $job = new ExportReportsPdf(
             crisisId: $crisis->id,
             damageFilter: $request->query('damage_level'),
+            locale: app()->getLocale(),
         );
 
         return $this->streamFile($job->handle(), 'application/pdf');

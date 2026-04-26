@@ -17,10 +17,20 @@ class ExportReportsPdf implements ShouldQueue
     public function __construct(
         public string $crisisId,
         public ?string $damageFilter = null,
+        public ?string $locale = null,
     ) {}
 
     public function handle(): string
     {
+        // Gap-39: queue workers run in fresh containers with the framework's
+        // fallback locale. PDFs rendered here would silently come out in
+        // English even when the analyst dispatched the export from a French
+        // session. Capture the dispatcher's locale at construct time and
+        // re-set it before any __() calls inside the rendered view.
+        if ($this->locale !== null) {
+            app()->setLocale($this->locale);
+        }
+
         $crisis = Crisis::findOrFail($this->crisisId);
 
         $query = DamageReport::where('crisis_id', $this->crisisId);
