@@ -3,14 +3,15 @@
 @section('title', 'Analyst Dashboard — RAPIDA')
 
 @section('content')
-    {{-- Navigation header --}}
-    <header class="flex items-center justify-between bg-white border-b border-slate-200 px-4 py-3">
-        <div class="flex items-center gap-3">
-            <x-atoms.logo size="sm" variant="full" class="text-rapida-blue-700" />
-            <span class="text-body-sm text-text-secondary">{{ __('rapida.dashboard_analyst') }}</span>
+    {{-- Navigation header. flex-wrap + truncated name on mobile prevents
+         the multi-element jam observed at 375px viewport. --}}
+    <header class="flex flex-wrap items-center justify-between gap-y-2 gap-x-3 bg-white border-b border-slate-200 px-4 py-3">
+        <div class="flex items-center gap-2 min-w-0">
+            <x-atoms.logo size="sm" variant="full" class="text-rapida-blue-700 shrink-0" />
+            <span class="text-body-sm text-text-secondary truncate">{{ __('rapida.dashboard_analyst') }}</span>
         </div>
-        <div class="flex items-center gap-4">
-            <span class="text-body-sm text-slate-600">{{ auth('undp')->user()->name }}</span>
+        <div class="flex items-center gap-2 min-w-0">
+            <span class="hidden sm:inline text-body-sm text-slate-600 truncate max-w-[120px]">{{ auth('undp')->user()->name }}</span>
             <x-atoms.badge variant="{{ match(auth('undp')->user()->role->value) {
                 'superadmin', 'operator' => 'verified',
                 'analyst' => 'synced',
