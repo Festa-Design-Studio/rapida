@@ -7,6 +7,7 @@ return [
     'step_1_help' => 'صورتك تساعد المستجيبين على فهم الوضع على الأرض.',
     'step_1_upload_prompt' => 'التقط صورة أو اختر من المعرض',
     'step_1_upload_formats' => 'JPEG، PNG، WebP — حد أقصى 10 ميغابايت',
+    'step_1_compressing' => 'جاري تحسين الصورة...',
     'step_1_uploading' => 'جاري رفع الصورة...',
     'step_1_change' => 'تغيير',
     'step_1_remove' => 'إزالة',

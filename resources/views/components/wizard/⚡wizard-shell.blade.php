@@ -264,7 +264,29 @@ new class extends Component {
                  #[Modelable] pattern works for primitives but not for file
                  uploads, so the file input must live on the same component
                  (wizard-shell) that has WithFileUploads + $photo. --}}
-            <div class="flex flex-col gap-6">
+            <div
+                class="flex flex-col gap-6"
+                x-data="{
+                    state: 'idle',
+                    error: null,
+                    async handle(event) {
+                        const file = event.target.files && event.target.files[0];
+                        if (!file) return;
+                        this.error = null;
+                        this.state = 'compressing';
+                        const result = await window.rapidaCompressPhoto(file);
+                        if (!result.ok) {
+                            this.state = 'idle';
+                            this.error = result.reason === 'photo_too_large'
+                                ? @js(__('rapida.photo_too_large'))
+                                : @js(__('wizard.submit_error'));
+                            return;
+                        }
+                        this.state = 'uploading';
+                        $wire.upload('photo', result.file, () => { this.state = 'idle'; }, () => { this.state = 'idle'; });
+                    },
+                }"
+            >
                 <x-molecules.photo-guidance-drawer :crisisType="$crisis->crisis_type_default ?? 'earthquake'" />
 
                 <div class="flex flex-col gap-2">
@@ -283,7 +305,7 @@ new class extends Component {
                                 <span class="text-slate-300">|</span>
                                 <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-crisis-rose-600 hover:text-crisis-rose-800">{{ __('wizard.step_1_remove') }}</button>
                             </div>
-                            <input id="photo-replace" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
+                            <input id="photo-replace" type="file" accept="image/*" capture="environment" @change="handle($event)" class="sr-only" />
                         </div>
                     @else
                         <label
@@ -298,14 +320,24 @@ new class extends Component {
                                     <p class="text-caption text-slate-400 mt-1">{{ __('wizard.step_1_upload_formats') }}</p>
                                 </div>
                             </div>
-                            <input id="photo-input" type="file" accept="image/*" capture="environment" wire:model.live="photo" class="sr-only" />
+                            <input id="photo-input" type="file" accept="image/*" capture="environment" @change="handle($event)" class="sr-only" />
                         </label>
                     @endif
 
-                    <div wire:loading wire:target="photo" class="flex items-center gap-2 text-body-sm text-rapida-blue-700">
+                    {{-- Gap-50: client-side compression indicator. Shows
+                         "Optimizing..." while browser-image-compression runs in
+                         a Web Worker, then "Uploading..." while $wire.upload
+                         streams the smaller File to Livewire's temp storage. --}}
+                    <div x-show="state === 'compressing'" class="flex items-center gap-2 text-body-sm text-rapida-blue-700" x-cloak>
+                        <x-atoms.loader size="sm" />
+                        <span>{{ __('wizard.step_1_compressing') }}</span>
+                    </div>
+                    <div x-show="state === 'uploading'" class="flex items-center gap-2 text-body-sm text-rapida-blue-700" x-cloak>
                         <x-atoms.loader size="sm" />
                         <span>{{ __('wizard.step_1_uploading') }}</span>
                     </div>
+
+                    <p x-show="error" x-text="error" class="text-body-sm text-crisis-rose-600" role="alert" x-cloak></p>
 
                     @error('photo')
                         <p class="text-body-sm text-crisis-rose-600" role="alert">{{ $message }}</p>

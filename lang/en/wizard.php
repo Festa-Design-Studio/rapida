@@ -7,6 +7,7 @@ return [
     'step_1_help' => 'Your photo helps responders understand the situation on the ground.',
     'step_1_upload_prompt' => 'Take a photo or choose from gallery',
     'step_1_upload_formats' => 'JPEG, PNG, WebP — max 10 MB',
+    'step_1_compressing' => 'Optimizing photo for upload...',
     'step_1_uploading' => 'Uploading photo...',
     'step_1_change' => 'Change',
     'step_1_remove' => 'Remove',
