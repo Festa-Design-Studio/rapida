@@ -7,6 +7,7 @@ return [
     'step_1_help' => '您的照片有助于救援人员了解现场情况。',
     'step_1_upload_prompt' => '拍摄照片或从相册选择',
     'step_1_upload_formats' => 'JPEG、PNG、WebP — 最大 10 MB',
+    'step_1_compressing' => '正在优化照片...',
     'step_1_uploading' => '正在上传照片...',
     'step_1_change' => '更换',
     'step_1_remove' => '移除',

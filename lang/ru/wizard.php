@@ -7,6 +7,7 @@ return [
     'step_1_help' => 'Ваше фото помогает спасателям понять ситуацию на месте.',
     'step_1_upload_prompt' => 'Сделать фото или выбрать из галереи',
     'step_1_upload_formats' => 'JPEG, PNG, WebP — макс. 10 МБ',
+    'step_1_compressing' => 'Оптимизация фото...',
     'step_1_uploading' => 'Загрузка фото...',
     'step_1_change' => 'Изменить',
     'step_1_remove' => 'Удалить',
