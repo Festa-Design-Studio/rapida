@@ -35,6 +35,15 @@ export async function initHeatmapLayer(map, heatmapUrl) {
         }
         const data = await res.json();
 
+        // Race guard: a parallel init (e.g. MapLibre fires `load` again
+        // after setTerrain in some versions, or Livewire re-mounts the
+        // Alpine component) may have already added the source while we
+        // were awaiting the fetch. Bail out instead of throwing
+        // "Source 'heatmap-cells' already exists".
+        if (map.getSource('heatmap-cells')) {
+            return true;
+        }
+
         const features = (data.cells || []).map((cell) => {
             // Convert H3 cell ID to polygon boundary using h3-js
             const boundary = cellToBoundary(cell.cell_id, true); // true = GeoJSON [lng, lat] order
