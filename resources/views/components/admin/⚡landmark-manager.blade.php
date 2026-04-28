@@ -121,12 +121,14 @@ new class extends Component
             Geocoding is not supported — provide numeric coordinates.
         </p>
         <form wire:submit="bulkImport" class="space-y-4">
-            <div class="flex items-center gap-3">
+            {{-- flex-wrap + min-w-0 prevent the long-filename-after-selection
+                 from pushing the Import button off-screen on mobile. --}}
+            <div class="flex flex-wrap items-center gap-3">
                 <input
                     type="file"
                     accept=".csv,text/csv"
                     wire:model="csvFile"
-                    class="text-body-sm text-slate-600 file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-rapida-blue-50 file:text-rapida-blue-700 hover:file:bg-rapida-blue-100"
+                    class="text-body-sm text-slate-600 file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-rapida-blue-50 file:text-rapida-blue-700 hover:file:bg-rapida-blue-100 min-w-0 max-w-full"
                 />
                 <x-atoms.button type="submit" variant="primary" size="sm">
                     Import

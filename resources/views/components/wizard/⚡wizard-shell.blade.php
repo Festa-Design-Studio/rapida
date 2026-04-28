@@ -300,10 +300,10 @@ new class extends Component {
                     @if($photo)
                         <div class="relative rounded-xl border-2 border-rapida-blue-700 overflow-hidden">
                             <img src="{{ $photo->temporaryUrl() }}" alt="{{ __('wizard.step_1_label') }}" class="w-full max-h-64 object-cover" />
-                            <div class="flex items-center justify-center gap-4 px-4 py-2 bg-slate-50 border-t border-slate-200">
-                                <label for="photo-replace" class="text-body-sm font-medium text-rapida-blue-700 hover:text-rapida-blue-900 cursor-pointer">{{ __('wizard.step_1_change') }}</label>
-                                <span class="text-slate-300">|</span>
-                                <button type="button" wire:click="$set('photo', null)" class="text-body-sm font-medium text-crisis-rose-600 hover:text-crisis-rose-800">{{ __('wizard.step_1_remove') }}</button>
+                            <div class="flex items-center justify-center gap-2 px-4 bg-slate-50 border-t border-slate-200">
+                                <label for="photo-replace" class="inline-flex items-center px-3 py-3 min-h-[44px] text-body-sm font-medium text-rapida-blue-700 hover:text-rapida-blue-900 cursor-pointer">{{ __('wizard.step_1_change') }}</label>
+                                <span class="text-slate-300" aria-hidden="true">|</span>
+                                <button type="button" wire:click="$set('photo', null)" class="inline-flex items-center px-3 py-3 min-h-[44px] text-body-sm font-medium text-crisis-rose-600 hover:text-crisis-rose-800">{{ __('wizard.step_1_remove') }}</button>
                             </div>
                             <input id="photo-replace" type="file" accept="image/*" capture="environment" @change="handle($event)" class="sr-only" />
                         </div>

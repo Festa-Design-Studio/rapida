@@ -9,9 +9,14 @@
     ]) }}
     role="banner"
 >
-    <div class="h-16 px-4 md:px-6 flex items-center justify-between max-w-7xl mx-auto">
+    {{-- flex-wrap + min-w-0 prevents the right-actions cluster
+         (sync indicator, language, logout, Safe Exit) from overflowing
+         at 375px viewport. Without it, Safe Exit is pushed off-screen
+         on mobile — a visible failure of the trauma-informed signature
+         element. --}}
+    <div class="min-h-16 px-3 md:px-6 py-2 flex flex-wrap items-center justify-between gap-y-2 gap-x-3 max-w-7xl mx-auto">
         {{-- Logo / Brand --}}
-        <div class="flex items-center">
+        <div class="flex items-center min-w-0">
             <a href="{{ route('map-home') }}" class="flex items-center min-h-[48px] min-w-[48px]" aria-label="RAPIDA home">
                 <x-atoms.logo size="md" variant="responsive" class="text-rapida-blue-700" />
             </a>
