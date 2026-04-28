@@ -235,12 +235,13 @@ new class extends Component
                 />
             </div>
 
-            {{-- Available languages (multi) --}}
+            {{-- Available languages (multi). min-h-[44px] on each label
+                 ensures WCAG 2.5.5 enhanced tap-target size on mobile. --}}
             <fieldset class="border border-slate-200 rounded-lg p-4">
                 <legend class="text-label font-medium text-slate-700 px-2">Available languages</legend>
-                <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mt-2">
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-2">
                     @foreach(['en' => 'EN', 'fr' => 'FR', 'ar' => 'AR', 'es' => 'ES', 'ru' => 'RU', 'zh' => 'ZH'] as $code => $label)
-                        <label class="flex items-center gap-2 cursor-pointer">
+                        <label class="flex items-center gap-2 px-2 py-2 min-h-[44px] rounded hover:bg-slate-50 cursor-pointer">
                             <input
                                 type="checkbox"
                                 value="{{ $code }}"
@@ -291,11 +292,14 @@ new class extends Component
             <fieldset class="border border-slate-200 rounded-lg p-4 space-y-3">
                 <legend class="text-label font-medium text-slate-700 px-2">Privacy &amp; safety</legend>
 
-                {{-- Conflict context (gated by modal) --}}
+                {{-- Conflict context (gated by modal). Visual checked state
+                     comes from Blade — the `:checked="..."` Alpine binding
+                     was previously here and Alpine treated $conflictContext
+                     as a magic, throwing "$conflictContext is not defined"
+                     on every page render. --}}
                 <label class="flex items-start gap-3 cursor-pointer">
                     <input
                         type="checkbox"
-                        :checked="$conflictContext"
                         wire:click="requestConflictContextEnable"
                         @if($conflictContext) checked @endif
                         class="mt-1 rounded border-slate-300 text-crisis-rose-600 focus:ring-crisis-rose-500"
