@@ -6,10 +6,21 @@
 @php
     $reportCards = $reports->map(fn ($r) => [
         'id' => $r->id,
-        'photo' => $r->photo_url,
-        'damageLevel' => $r->damage_level instanceof \App\Enums\DamageLevel ? $r->damage_level->value : $r->damage_level,
+        // Photo is gated: surface only on cards an analyst has verified.
+        // The molecule's existing fallback icon renders when $photo is null.
+        // Trauma-informed: never publicly surface unmoderated user photos
+        // that may include faces, license plates, or identifying landmarks.
+        // verification.status is cast to VerificationStatus enum, so we
+        // compare values rather than strict-equal an enum to a string.
+        'photo' => $r->verification?->status?->value === 'verified' ? $r->photo_url : null,
+        'damageLevel' => $r->damage_level instanceof \App\Enums\DamageLevel
+            ? $r->damage_level->value
+            : $r->damage_level,
         'infrastructureType' => $r->infrastructure_type,
-        'location' => $r->landmark_text ?? ($r->latitude ? number_format($r->latitude, 4) . ', ' . number_format($r->longitude, 4) : 'Location pending'),
+        'location' => $r->landmark_text
+            ?? ($r->latitude
+                ? number_format($r->latitude, 4) . ', ' . number_format($r->longitude, 4)
+                : __('rapida.location_pending') ?? 'Location pending'),
         'description' => $r->description ?? '',
         'reporterName' => 'Community Reporter',
         'submittedAt' => $r->submitted_at?->format('M d, Y') ?? '',
@@ -18,14 +29,16 @@
     ])->all();
 @endphp
 
-<div x-data="{ feedOpen: true }" class="h-screen flex flex-col bg-surface-page">
+<div class="min-h-screen flex flex-col bg-surface-page">
     {{-- Navigation Header --}}
     <x-organisms.navigation-header currentRoute="map" :crisis="$crisis" />
 
-    {{-- Map (fills remaining height) --}}
-    <div class="flex-1 relative">
+    {{-- Map (~60vh mobile / 70vh desktop). fullscreen=true removes the
+         organism's default rounded-xl card chrome so the map sits flush
+         with the section dividers above and below it. --}}
+    <div class="relative">
         <x-organisms.map-organism
-            height="h-full"
+            height="h-[60vh] sm:h-[70vh]"
             :reports="$reportCards"
             :crisisSlug="$crisis?->slug"
             :centerLat="5.56"
@@ -34,84 +47,61 @@
             mode="reporter"
             :fullscreen="true"
         />
+    </div>
 
-        {{-- Floating Report Button — bottom-center. On mobile stacks above the legend; on sm+ aligns with the legend/MapLibre baseline. --}}
-        <div class="absolute bottom-36 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20">
-            <a href="{{ $crisis ? route('crisis.show', $crisis->slug) : route('onboarding') }}">
-                <x-atoms.button variant="primary" size="lg" class="shadow-lg rounded-full px-8 gap-3">
+    {{-- Submit a Report — full-width section, primary action --}}
+    <section class="bg-white border-t border-slate-200 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-h4 font-heading font-semibold text-slate-900 mb-3">
+                {{ __('rapida.submit_a_report') }}
+            </h2>
+            <a
+                href="{{ $crisis ? route('crisis.show', $crisis->slug) : route('onboarding') }}"
+                class="block"
+            >
+                <x-atoms.button variant="primary" size="lg" class="w-full gap-3">
                     <x-atoms.icon name="camera" size="sm" />
                     <span>{{ __('rapida.report_damage') }}</span>
                 </x-atoms.button>
             </a>
         </div>
+    </section>
 
-    </div>
+    {{-- Recent Reports — uses the molecule. Photo appears only when verified. --}}
+    <section class="px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-h4 font-heading font-semibold text-slate-900 mb-3">
+                {{ __('rapida.recent_reports') }}
+                @if($reports->isNotEmpty())
+                    <span class="text-body-sm font-normal text-slate-500">({{ $reports->count() }})</span>
+                @endif
+            </h2>
 
-    {{-- Bottom sheet toggle (outside map container to avoid MapLibre event capture) --}}
-    <button
-        @click="feedOpen = !feedOpen"
-        class="relative z-20 bg-white border-t border-slate-200 px-4 py-3 flex items-center justify-between shrink-0"
-        :class="feedOpen ? 'rounded-t-2xl' : ''"
-        aria-label="Toggle report feed"
-    >
-        <span class="text-h4 font-heading font-semibold text-slate-900">
-            {{ __('rapida.recent_reports') }}
-            @if($reports->isNotEmpty())
-                <span class="text-body-sm font-normal text-slate-500">({{ $reports->count() }})</span>
+            @if($reports->isEmpty())
+                <div class="text-center py-8">
+                    <x-atoms.icon name="pin" size="lg" class="text-slate-300 mx-auto mb-2" />
+                    <p class="text-body text-slate-500">{{ __('rapida.no_reports_community') }}</p>
+                    <p class="text-body-sm text-slate-400 mt-1">{{ __('rapida.be_first') }}</p>
+                </div>
+            @else
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach($reportCards as $card)
+                        <x-molecules.damage-report-card
+                            :photo="$card['photo']"
+                            :damageLevel="$card['damageLevel']"
+                            :infrastructureType="$card['infrastructureType']"
+                            :location="$card['location']"
+                            :description="$card['description']"
+                            :reporterName="$card['reporterName']"
+                            :submittedAt="$card['submittedAt']"
+                            :syncStatus="$card['syncStatus']"
+                            :crisisType="$card['crisisType']"
+                            :href="route('report-detail', $card['id'])"
+                        />
+                    @endforeach
+                </div>
             @endif
-        </span>
-        <span class="transition-transform duration-200" :class="feedOpen ? 'rotate-180' : ''">
-            <x-atoms.icon name="chevron-down" size="md" class="text-slate-400" />
-        </span>
-    </button>
-
-    {{-- Community Report Feed (bottom sheet) --}}
-    <div
-        x-show="feedOpen"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="translate-y-full"
-        x-transition:enter-end="translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="translate-y-0"
-        x-transition:leave-end="translate-y-full"
-        class="bg-white max-h-80 overflow-y-auto px-4 pb-4 md:px-6"
-    >
-        @if($reports->isEmpty())
-            <div class="text-center py-8">
-                <x-atoms.icon name="pin" size="lg" class="text-slate-300 mx-auto mb-2" />
-                <p class="text-body text-slate-500">{{ __('rapida.no_reports_community') }}</p>
-                <p class="text-body-sm text-slate-400 mt-1">{{ __('rapida.be_first') }}</p>
-            </div>
-        @else
-            <div class="space-y-3 pt-2">
-                @foreach($reportCards as $report)
-                    <a href="{{ route('report-detail', $report['id']) }}" class="block">
-                        <div class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:border-rapida-blue-300 hover:bg-rapida-blue-50/30 transition-colors duration-150">
-                            {{-- Damage indicator --}}
-                            <div class="shrink-0 mt-1">
-                                <x-atoms.badge variant="{{ $report['damageLevel'] }}" size="default">
-                                    {{ ucfirst($report['damageLevel']) }}
-                                </x-atoms.badge>
-                            </div>
-                            {{-- Details --}}
-                            <div class="flex-1 min-w-0">
-                                <p class="text-body-sm font-medium text-slate-900 truncate">
-                                    {{ $report['infrastructureType'] ? ucfirst(str_replace('_', ' ', $report['infrastructureType'])) : 'Infrastructure' }}
-                                </p>
-                                <p class="text-caption text-slate-500 truncate">{{ $report['location'] }}</p>
-                                <p class="text-caption text-slate-400">{{ $report['submittedAt'] }}</p>
-                            </div>
-                            {{-- Sync status --}}
-                            <div class="shrink-0">
-                                <x-atoms.badge variant="{{ $report['syncStatus'] }}">
-                                    {{ ucfirst($report['syncStatus']) }}
-                                </x-atoms.badge>
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        @endif
-    </div>
+        </div>
+    </section>
 </div>
 @endsection

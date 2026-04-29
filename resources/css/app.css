@@ -130,3 +130,50 @@
     background: linear-gradient(180deg, rgba(26,58,74,0.92) 0%, rgba(26,58,74,0.65) 50%, rgba(26,58,74,0.00) 100%);
   }
 }
+
+/* ============================================================
+   MapLibre control overrides — mobile-first thumb reach.
+   MapLibre's defaults render zoom/compass at ~29px which fails
+   the 44x44 px touch target rule on mobile and is nearly
+   invisible against bright satellite tiles. We move the control
+   group to bottom-right (right-thumb reach) and enlarge it.
+   ============================================================ */
+
+@layer components {
+  /* Add breathing room from the viewport edge + the attribution badge. */
+  .maplibregl-ctrl-bottom-right {
+    margin: 12px;
+  }
+
+  /* Each control button: 44x44 minimum, white background, dark icon. */
+  .maplibregl-ctrl-group > button {
+    width: 44px;
+    height: 44px;
+    background-color: #ffffff;
+  }
+
+  /* Card-like grouping with the project's blue accent on focus. */
+  .maplibregl-ctrl-group {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+  }
+
+  .maplibregl-ctrl-group > button:hover {
+    background-color: #f1f5f9; /* slate-100 */
+  }
+
+  .maplibregl-ctrl-group > button:focus-visible {
+    outline: 2px solid #2e6689; /* rapida-blue-700 */
+    outline-offset: -2px;
+  }
+
+  /* MapLibre paints icons as inline SVG with a CSS filter; bumping
+     contrast brings them up to AA against the white button. */
+  .maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+  .maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon,
+  .maplibregl-ctrl-compass .maplibregl-ctrl-icon,
+  .maplibregl-ctrl-geolocate .maplibregl-ctrl-icon {
+    filter: brightness(0.45) saturate(1.2);
+  }
+}

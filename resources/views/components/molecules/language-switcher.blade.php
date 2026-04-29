@@ -37,7 +37,7 @@
             >
                 @foreach($languages as $code => $name)
                     <option value="{{ $code }}" {{ $code === $current ? 'selected' : '' }}>
-                        {{ strtoupper($code) }} — {{ $name }}
+                        {{ $name }}
                     </option>
                 @endforeach
             </select>

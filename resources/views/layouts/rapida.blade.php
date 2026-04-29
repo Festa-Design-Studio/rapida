@@ -44,6 +44,16 @@
     @yield('content')
 
     {{--
+        Global UNDP / Festa attribution footer. Hidden on the chromeless
+        crisis report wizard ('crisis.show') to preserve its single-purpose
+        framing — see the language-switcher block below for the same allowlist
+        approach.
+    --}}
+    @unless(request()->routeIs('crisis.show'))
+        <x-organisms.footer />
+    @endunless
+
+    {{--
         Floating language switcher for the crisis report wizard.
 
         The wizard is deliberately chromeless — no <x-organisms.navigation-header>

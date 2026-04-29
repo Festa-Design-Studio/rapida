@@ -121,6 +121,9 @@ return [
 
     'report_damage' => 'Reportar daños',
     'recent_reports' => 'Reportes recientes',
+    'submit_a_report' => 'Enviar un reporte',
+    'undp_crisis_mapping_tool' => 'Herramienta de Mapeo de Crisis del PNUD',
+    'interface_designed_by_festa' => 'Interfaz diseñada por Festa.',
     'no_reports_community' => 'Aún no se han enviado reportes.',
     'be_first' => 'Sé el primero en ayudar a tu comunidad.',
 

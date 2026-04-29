@@ -121,6 +121,9 @@ return [
 
     'report_damage' => 'Сообщить о повреждениях',
     'recent_reports' => 'Последние сообщения',
+    'submit_a_report' => 'Отправить сообщение',
+    'undp_crisis_mapping_tool' => 'Инструмент картографирования кризисов ПРООН',
+    'interface_designed_by_festa' => 'Интерфейс разработан Festa.',
     'no_reports_community' => 'Сообщений пока нет.',
     'be_first' => 'Станьте первым, кто поможет своему сообществу.',
 

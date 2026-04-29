@@ -9,12 +9,11 @@
     ]) }}
     role="banner"
 >
-    {{-- flex-wrap + min-w-0 prevents the right-actions cluster
-         (sync indicator, language, logout, Safe Exit) from overflowing
-         at 375px viewport. Without it, Safe Exit is pushed off-screen
-         on mobile — a visible failure of the trauma-informed signature
-         element. --}}
-    <div class="min-h-16 px-3 md:px-6 py-2 flex flex-wrap items-center justify-between gap-y-2 gap-x-3 max-w-7xl mx-auto">
+    {{-- flex-nowrap keeps the row single-line. Fits at 375px because the
+         language switcher shows just the language name (no "EN — " prefix)
+         and the Safe Exit button is icon-less and label-only. min-w-0 on
+         children lets the logo cluster compress when needed. --}}
+    <div class="min-h-16 px-3 md:px-6 py-2 flex flex-nowrap items-center justify-between gap-x-3 max-w-7xl mx-auto">
         {{-- Logo / Brand --}}
         <div class="flex items-center min-w-0">
             <a href="{{ route('map-home') }}" class="flex items-center min-h-[48px] min-w-[48px]" aria-label="RAPIDA home">
@@ -118,14 +117,15 @@
                 </form>
             @endauth
 
-            {{-- Safe Exit --}}
+            {{-- Safe Exit — label-only, no leading icon. The button keeps its
+                 ARIA label so assistive tech still announces the destructive
+                 escape semantic. --}}
             <x-atoms.button
                 variant="safe-exit"
                 size="md"
                 aria-label="Safe exit — quickly leave this page"
                 onclick="window.location.href='https://www.google.com'"
             >
-                <x-atoms.icon name="shield-exit" size="sm" />
                 {{ __('rapida.safe_exit') }}
             </x-atoms.button>
         </div>

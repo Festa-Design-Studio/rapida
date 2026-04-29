@@ -134,7 +134,10 @@ function rapidaMap(config = {}) {
                 attributionControl: true,
             });
 
-            this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+            // Bottom-right places +/- and compass within right-thumb reach on
+            // mobile (top-right is the hardest corner to thumb-tap one-handed).
+            // CSS overrides in app.css enforce 44x44 px touch targets.
+            this.map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
             this.map.on('load', () => {
                 const tokens = this.config.tokens;

@@ -9,8 +9,8 @@ it('renders dropdown variant by default with all languages', function () {
     ');
 
     $view->assertSee('select', false);
-    $view->assertSee('EN — English');
-    $view->assertSee('FR — Français');
+    $view->assertSee('English');
+    $view->assertSee('Français');
 });
 
 it('marks current language as selected in dropdown', function () {
@@ -65,8 +65,8 @@ it('renders all 6 UN languages in dropdown', function () {
         />
     ');
 
-    $view->assertSee('EN — English');
-    $view->assertSee('ZH — 中文');
-    $view->assertSee('RU — Русский');
-    $view->assertSee('ES — Español');
+    $view->assertSee('English');
+    $view->assertSee('中文');
+    $view->assertSee('Русский');
+    $view->assertSee('Español');
 });

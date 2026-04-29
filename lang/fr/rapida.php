@@ -125,6 +125,9 @@ return [
     // UI — Map home
     'report_damage' => 'Signaler des degats',
     'recent_reports' => 'Signalements recents',
+    'submit_a_report' => 'Envoyer un signalement',
+    'undp_crisis_mapping_tool' => 'Outil de cartographie des crises du PNUD',
+    'interface_designed_by_festa' => 'Interface conçue par Festa.',
     'no_reports_community' => 'Aucun signalement soumis.',
     'be_first' => 'Soyez le premier a aider votre communaute.',
 

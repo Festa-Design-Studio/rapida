@@ -121,6 +121,9 @@ return [
 
     'report_damage' => '报告损害',
     'recent_reports' => '最新报告',
+    'submit_a_report' => '提交报告',
+    'undp_crisis_mapping_tool' => '联合国开发计划署危机制图工具',
+    'interface_designed_by_festa' => '界面由 Festa 设计。',
     'no_reports_community' => '尚无报告提交。',
     'be_first' => '成为第一个帮助社区的人。',
 

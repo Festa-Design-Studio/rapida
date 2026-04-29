@@ -125,6 +125,9 @@ return [
     // UI — Map home
     'report_damage' => 'Report Damage',
     'recent_reports' => 'Recent Reports',
+    'submit_a_report' => 'Submit a Report',
+    'undp_crisis_mapping_tool' => 'UNDP Crisis Mapping Tool',
+    'interface_designed_by_festa' => 'Interface designed by Festa.',
     'no_reports_community' => 'No reports submitted yet.',
     'be_first' => 'Be the first to help your community.',
 

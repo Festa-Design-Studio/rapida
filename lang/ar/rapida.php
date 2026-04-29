@@ -121,6 +121,9 @@ return [
 
     'report_damage' => 'الإبلاغ عن أضرار',
     'recent_reports' => 'التقارير الأخيرة',
+    'submit_a_report' => 'تقديم بلاغ',
+    'undp_crisis_mapping_tool' => 'أداة برنامج الأمم المتحدة الإنمائي لرسم خرائط الأزمات',
+    'interface_designed_by_festa' => 'تصميم الواجهة من قبل Festa.',
     'no_reports_community' => 'لا توجد تقارير بعد.',
     'be_first' => 'كن أول من يساعد مجتمعك.',
 
